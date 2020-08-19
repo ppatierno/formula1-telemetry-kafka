@@ -18,6 +18,8 @@
       <maven.compiler.release>11</maven.compiler.release>
       <junit.version>4.13</junit.version>
       <formula1-telemetry.version>1.0-SNAPSHOT</formula1-telemetry.version>
+      <camel.version>3.4.3</camel.version>
+      <slf4j.version>1.7.25</slf4j.version>
   </properties>
 
   <dependencyManagement>
@@ -32,6 +34,31 @@
               <groupId>io.ppatierno</groupId>
               <artifactId>f1-telemetry</artifactId>
               <version>${formula1-telemetry.version}</version>
+          </dependency>
+          <dependency>
+              <groupId>org.apache.camel</groupId>
+              <artifactId>camel-core</artifactId>
+              <version>${camel.version}</version>
+          </dependency>
+          <dependency>
+              <groupId>org.apache.camel</groupId>
+              <artifactId>camel-netty</artifactId>
+              <version>${camel.version}</version>
+          </dependency>
+          <dependency>
+              <groupId>org.apache.camel</groupId>
+              <artifactId>camel-kafka</artifactId>
+              <version>${camel.version}</version>
+          </dependency>
+          <dependency>
+              <groupId>org.slf4j</groupId>
+              <artifactId>slf4j-api</artifactId>
+              <version>${slf4j.version}</version>
+          </dependency>
+          <dependency>
+              <groupId>org.slf4j</groupId>
+              <artifactId>slf4j-log4j12</artifactId>
+              <version>${slf4j.version}</version>
           </dependency>
       </dependencies>
   </dependencyManagement>
