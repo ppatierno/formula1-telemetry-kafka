@@ -28,6 +28,7 @@ public class Application {
                     Packet packet = (Packet) exchange.getIn().getBody();
                     System.out.println("PacketId=" + packet.getHeader().getPacketId());
                 })
+                .to("kafka:f1-telemetry?brokers=localhost:9092")
                 .routeId("upd-kafka")
                 .log("${body}");
             }
