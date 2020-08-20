@@ -29,7 +29,7 @@ public class Application {
                     System.out.println("PacketId=" + packet.getHeader().getPacketId());
                 })
                 .to("kafka:f1-telemetry?brokers=localhost:9092")
-                .routeId("upd-kafka")
+                .routeId("udp-kafka")
                 .log("${body}");
             }
             
