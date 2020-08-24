@@ -4,6 +4,8 @@
  */
 package io.ppatierno.formula1;
 
+import io.ppatierno.formula1.packets.PacketCarSetupData;
+import io.ppatierno.formula1.packets.PacketLapData;
 import io.ppatierno.formula1.packets.PacketMotionData;
 import io.ppatierno.formula1.packets.PacketParticipantsData;
 
@@ -33,6 +35,22 @@ public class Race {
         if (this.drivers != null && !this.drivers.isEmpty()) {
             for (int i = 0; i < this.drivers.size(); i++) {
                 this.drivers.get(i).setCarMotionData(packetMotionData.getCarMotionData().get(i));
+            }
+        }
+    }
+
+    public void updateLapData(PacketLapData packetLapData) {
+        if (this.drivers != null && !this.drivers.isEmpty()) {
+            for (int i = 0; i < this.drivers.size(); i++) {
+                this.drivers.get(i).setLapData(packetLapData.getLapData().get(i));
+            }
+        }
+    }
+
+    public void updateCarSetup(PacketCarSetupData packetCarSetupData) {
+        if (this.drivers != null && !this.drivers.isEmpty()) {
+            for (int i = 0; i < this.drivers.size(); i++) {
+                this.drivers.get(i).setCarSetupData(packetCarSetupData.getCarSetupData().get(i));
             }
         }
     }

@@ -6,6 +6,8 @@ package io.ppatierno.formula1;
 
 import io.ppatierno.formula1.enums.Driver;
 import io.ppatierno.formula1.enums.PacketId;
+import io.ppatierno.formula1.packets.PacketCarSetupData;
+import io.ppatierno.formula1.packets.PacketLapData;
 import io.ppatierno.formula1.packets.PacketMotionData;
 import io.ppatierno.formula1.packets.PacketParticipantsData;
 import org.apache.camel.CamelContext;
@@ -42,6 +44,8 @@ public class Application {
                         case SESSION:
                             break;
                         case LAP_DATA:
+                            race.updateLapData((PacketLapData) packet);
+                            System.out.println(race);
                             break;
                         case EVENT:
                             break;
@@ -50,6 +54,8 @@ public class Application {
                             System.out.println(race);
                             break;
                         case CAR_SETUPS:
+                            race.updateCarSetup((PacketCarSetupData) packet);
+                            System.out.println(race);
                             break;
                         case CAR_TELEMETRY:
                             break;
