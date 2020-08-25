@@ -91,6 +91,10 @@ public class Session {
         }
     }
 
+    public List<Driver> getDrivers() {
+        return drivers;
+    }
+
     public Driver getDriver(io.ppatierno.formula1.enums.Driver driverId) {
         return this.drivers.stream().filter(d -> d.getParticipantData().getDriverId() == driverId).findFirst().get();
     }
