@@ -5,19 +5,31 @@
 package io.ppatierno.formula1;
 
 import io.ppatierno.formula1.packets.PacketCarSetupData;
+import io.ppatierno.formula1.packets.PacketCarStatusData;
+import io.ppatierno.formula1.packets.PacketCarTelemetryData;
+import io.ppatierno.formula1.packets.PacketFinalClassificationData;
 import io.ppatierno.formula1.packets.PacketLapData;
 import io.ppatierno.formula1.packets.PacketMotionData;
 import io.ppatierno.formula1.packets.PacketParticipantsData;
+import io.ppatierno.formula1.packets.PacketSessionData;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Race {
+/**
+ * Represent a session (i.e. free practice, qualifying, race and so on) with all the drivers related data
+ */
+public class Session {
 
+    private PacketSessionData sessionData;
     private List<Driver> drivers;
 
-    public Race() {
+    public Session() {
 
+    }
+
+    public void updateSession(PacketSessionData packetSessionData) {
+        this.sessionData = packetSessionData;
     }
 
     public void updateDrivers(PacketParticipantsData packetParticipantsData) {
@@ -55,13 +67,37 @@ public class Race {
         }
     }
 
+    public void updateCarTelemetry(PacketCarTelemetryData packetCarTelemetryData) {
+        if (this.drivers != null && !this.drivers.isEmpty()) {
+            for (int i = 0; i < this.drivers.size(); i++) {
+                this.drivers.get(i).setCarTelemetryData(packetCarTelemetryData.getCarTelemetryData().get(i));
+            }
+        }
+    }
+
+    public void updateCarStatus(PacketCarStatusData packetCarStatusData) {
+        if (this.drivers != null && !this.drivers.isEmpty()) {
+            for (int i = 0; i < this.drivers.size(); i++) {
+                this.drivers.get(i).setCarStatusData(packetCarStatusData.getCarStatusData().get(i));
+            }
+        }
+    }
+
+    public void updateFinalClassification(PacketFinalClassificationData packetFinalClassificationData) {
+        if (this.drivers != null && !this.drivers.isEmpty()) {
+            for (int i = 0; i < this.drivers.size(); i++) {
+                this.drivers.get(i).setFinalClassificationData(packetFinalClassificationData.getFinalClassificationData().get(i));
+            }
+        }
+    }
+
     public Driver getDriver(io.ppatierno.formula1.enums.Driver driverId) {
         return this.drivers.stream().filter(d -> d.getParticipantData().getDriverId() == driverId).findFirst().get();
     }
 
     @Override
     public String toString() {
-        return "Race[drivers=" + this.drivers +
+        return "Session[drivers=" + this.drivers +
                 "]";
     }
 }

@@ -4,12 +4,14 @@
  */
 package io.ppatierno.formula1;
 
-import io.ppatierno.formula1.enums.Driver;
-import io.ppatierno.formula1.enums.PacketId;
 import io.ppatierno.formula1.packets.PacketCarSetupData;
+import io.ppatierno.formula1.packets.PacketCarStatusData;
+import io.ppatierno.formula1.packets.PacketCarTelemetryData;
+import io.ppatierno.formula1.packets.PacketFinalClassificationData;
 import io.ppatierno.formula1.packets.PacketLapData;
 import io.ppatierno.formula1.packets.PacketMotionData;
 import io.ppatierno.formula1.packets.PacketParticipantsData;
+import io.ppatierno.formula1.packets.PacketSessionData;
 import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
@@ -19,7 +21,7 @@ import io.ppatierno.formula1.packets.Packet;
 public class Application {
 
     public static void main(String[] args) throws Exception {
-        Race race = new Race();
+        Session session = new Session();
 
         CamelContext camelContext = new DefaultCamelContext();
 
@@ -38,30 +40,38 @@ public class Application {
 
                     switch (packet.getHeader().getPacketId()) {
                         case MOTION:
-                            race.updateMotion((PacketMotionData) packet);
-                            System.out.println(race);
+                            session.updateMotion((PacketMotionData) packet);
+                            System.out.println(session);
                             break;
                         case SESSION:
+                            session.updateSession((PacketSessionData) packet);
+                            System.out.println(session);
                             break;
                         case LAP_DATA:
-                            race.updateLapData((PacketLapData) packet);
-                            System.out.println(race);
+                            session.updateLapData((PacketLapData) packet);
+                            System.out.println(session);
                             break;
                         case EVENT:
                             break;
                         case PARTICIPANTS:
-                            race.updateDrivers((PacketParticipantsData) packet);
-                            System.out.println(race);
+                            session.updateDrivers((PacketParticipantsData) packet);
+                            System.out.println(session);
                             break;
                         case CAR_SETUPS:
-                            race.updateCarSetup((PacketCarSetupData) packet);
-                            System.out.println(race);
+                            session.updateCarSetup((PacketCarSetupData) packet);
+                            System.out.println(session);
                             break;
                         case CAR_TELEMETRY:
+                            session.updateCarTelemetry((PacketCarTelemetryData) packet);
+                            System.out.println(session);
                             break;
                         case CAR_STATUS:
+                            session.updateCarStatus((PacketCarStatusData) packet);
+                            System.out.println(session);
                             break;
                         case FINAL_CLASSIFICATION:
+                            session.updateFinalClassification((PacketFinalClassificationData) packet);
+                            System.out.println(session);
                             break;
                         case LOBBY_INFO:
                             break;
