@@ -11,7 +11,7 @@ public class RawPacketsRouteBuilder extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        from("netty:udp://0.0.0.0:20777?decoders=#packet-decoder&sync=false")
+        from("direct:raw-packets")
         .process(exchange -> {
             // useless Processor, temporary used to check that decoding is working fine
             Packet packet = (Packet) exchange.getIn().getBody();
