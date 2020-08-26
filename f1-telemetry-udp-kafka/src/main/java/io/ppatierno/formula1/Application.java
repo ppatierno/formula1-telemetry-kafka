@@ -18,7 +18,7 @@ public class Application {
         camelContext.getRegistry().bind("drivers-splitter", new DriversSplitter(session));
 
         camelContext.addRoutes(new RawPacketsRouteBuilder());
-        camelContext.addRoutes(new DriversRouteBuilder(session));
+        camelContext.addRoutes(new DriversRouteBuilder());
 
         camelContext.start();
 

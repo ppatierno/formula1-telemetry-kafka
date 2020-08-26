@@ -9,13 +9,7 @@ import org.apache.camel.component.kafka.KafkaConstants;
 
 public class DriversRouteBuilder extends RouteBuilder {
 
-    private Session session;
-
-    public DriversRouteBuilder(Session session) {
-        this.session = session;
-    }
-
-    @Override
+   @Override
     public void configure() throws Exception {
         from("netty:udp://0.0.0.0:20777?decoders=#packet-decoder&sync=false")
                 .wireTap("direct:raw-packets")
