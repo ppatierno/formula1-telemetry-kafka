@@ -24,44 +24,40 @@ public class DriversSplitter {
         this.session = session;
     }
 
-    public List<Driver> splitDrivers(Packet packet) {
-        switch (packet.getHeader().getPacketId()) {
-            case MOTION:
-                this.session.updateMotion((PacketMotionData) packet);
-                System.out.println(session);
-                break;
-            case SESSION:
-                this.session.updateSession((PacketSessionData) packet);
-                System.out.println(session);
-                break;
-            case LAP_DATA:
-                this.session.updateLapData((PacketLapData) packet);
-                System.out.println(session);
-                break;
-            case EVENT:
-                break;
-            case PARTICIPANTS:
-                this.session.updateDrivers((PacketParticipantsData) packet);
-                System.out.println(session);
-                break;
-            case CAR_SETUPS:
-                this.session.updateCarSetup((PacketCarSetupData) packet);
-                System.out.println(session);
-                break;
-            case CAR_TELEMETRY:
-                this.session.updateCarTelemetry((PacketCarTelemetryData) packet);
-                System.out.println(session);
-                break;
-            case CAR_STATUS:
-                this.session.updateCarStatus((PacketCarStatusData) packet);
-                System.out.println(session);
-                break;
-            case FINAL_CLASSIFICATION:
-                this.session.updateFinalClassification((PacketFinalClassificationData) packet);
-                System.out.println(session);
-                break;
-            case LOBBY_INFO:
-                break;
+    public List<Driver> splitDrivers(List<Packet> packets) {
+        // gets the all packets within same frame (same frame id)
+        // so that we can update all drivers info (motion, lap, ...) in one step
+        for (Packet packet : packets) {
+            switch (packet.getHeader().getPacketId()) {
+                case MOTION:
+                    this.session.updateMotion((PacketMotionData) packet);
+                    break;
+                case SESSION:
+                    this.session.updateSession((PacketSessionData) packet);
+                    break;
+                case LAP_DATA:
+                    this.session.updateLapData((PacketLapData) packet);
+                    break;
+                case EVENT:
+                    break;
+                case PARTICIPANTS:
+                    this.session.updateDrivers((PacketParticipantsData) packet);
+                    break;
+                case CAR_SETUPS:
+                    this.session.updateCarSetup((PacketCarSetupData) packet);
+                    break;
+                case CAR_TELEMETRY:
+                    this.session.updateCarTelemetry((PacketCarTelemetryData) packet);
+                    break;
+                case CAR_STATUS:
+                    this.session.updateCarStatus((PacketCarStatusData) packet);
+                    break;
+                case FINAL_CLASSIFICATION:
+                    this.session.updateFinalClassification((PacketFinalClassificationData) packet);
+                    break;
+                case LOBBY_INFO:
+                    break;
+            }
         }
 
         return this.session.getDrivers();

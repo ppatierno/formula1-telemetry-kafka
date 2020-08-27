@@ -4,8 +4,14 @@
  */
 package io.ppatierno.formula1;
 
+import io.ppatierno.formula1.packets.Packet;
+import org.apache.camel.Exchange;
+import org.apache.camel.Expression;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.kafka.KafkaConstants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DriversRouteBuilder extends RouteBuilder {
 
@@ -13,6 +19,33 @@ public class DriversRouteBuilder extends RouteBuilder {
     public void configure() throws Exception {
         from("netty:udp://0.0.0.0:20777?decoders=#packet-decoder&sync=false")
                 .wireTap("direct:raw-packets")
+                // going to group all packets by frameId (it's the correlation key) so that
+                // we can update the drivers info (lap, motion, ...) in one step and sending
+                // driver messages with all data
+                .aggregate(new Expression() {
+                    @Override
+                    public <Long> Long evaluate(Exchange exchange, Class<Long> type) {
+                        Packet packet = (Packet) exchange.getIn().getBody();
+                        Long fid = exchange.getContext().getTypeConverter().convertTo(type, packet.getHeader().getFrameIdentifier());
+                        System.out.println("frameid = " + fid);
+                        return fid;
+                    }
+                }, (oldExchange, newExchange) -> {
+                    // a new group is started
+                    if (oldExchange == null) {
+                        List<Packet> list = new ArrayList<>();
+                        list.add((Packet) newExchange.getIn().getBody());
+                        newExchange.getIn().setBody(list);
+                        return newExchange;
+                    } else {
+                        List<Packet> list = (List<Packet>) oldExchange.getIn().getBody();
+                        list.add((Packet) newExchange.getIn().getBody());
+                        oldExchange.getIn().setBody(list);
+                    }
+                    return oldExchange;
+                })
+                .completionOnNewCorrelationGroup()
+                .completionTimeout(10000)
                 .split().method("drivers-splitter", "splitDrivers")
                 .process(exchange -> {
                     Driver driver = (Driver) exchange.getIn().getBody();
