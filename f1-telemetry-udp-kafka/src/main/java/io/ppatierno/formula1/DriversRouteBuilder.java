@@ -9,11 +9,15 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Expression;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.kafka.KafkaConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DriversRouteBuilder extends RouteBuilder {
+
+    private static Logger log = LoggerFactory.getLogger(DriversRouteBuilder.class);
 
    @Override
     public void configure() throws Exception {
@@ -26,9 +30,9 @@ public class DriversRouteBuilder extends RouteBuilder {
                     @Override
                     public <Long> Long evaluate(Exchange exchange, Class<Long> type) {
                         Packet packet = (Packet) exchange.getIn().getBody();
-                        Long fid = exchange.getContext().getTypeConverter().convertTo(type, packet.getHeader().getFrameIdentifier());
-                        System.out.println("frameid = " + fid);
-                        return fid;
+                        Long frameId = exchange.getContext().getTypeConverter().convertTo(type, packet.getHeader().getFrameIdentifier());
+                        log.debug("Packet FrameId = {}", frameId);
+                        return frameId;
                     }
                 }, (oldExchange, newExchange) -> {
                     // a new group is started

@@ -6,8 +6,12 @@ package io.ppatierno.formula1;
 
 import io.ppatierno.formula1.packets.Packet;
 import org.apache.camel.builder.RouteBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RawPacketsRouteBuilder extends RouteBuilder {
+
+    private static Logger log = LoggerFactory.getLogger(RawPacketsRouteBuilder.class);
 
     @Override
     public void configure() throws Exception {
@@ -15,7 +19,7 @@ public class RawPacketsRouteBuilder extends RouteBuilder {
         .process(exchange -> {
             // useless Processor, temporary used to check that decoding is working fine
             Packet packet = (Packet) exchange.getIn().getBody();
-            System.out.println("PacketId=" + packet.getHeader().getPacketId());
+            log.debug("PacketId = {}", packet.getHeader().getPacketId());
         })
         .to("kafka:f1-telemetry?brokers=localhost:9092")
         .routeId("udp-kafka-raw-packets")
