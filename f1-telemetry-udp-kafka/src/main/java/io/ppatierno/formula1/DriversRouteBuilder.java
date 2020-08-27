@@ -19,6 +19,8 @@ public class DriversRouteBuilder extends RouteBuilder {
 
     private static Logger log = LoggerFactory.getLogger(DriversRouteBuilder.class);
 
+    private static int AGGREGATION_COMPLETION_TIMEOUT = 10000;
+
    @Override
     public void configure() throws Exception {
         from("netty:udp://0.0.0.0:20777?decoders=#packet-decoder&sync=false")
@@ -49,13 +51,13 @@ public class DriversRouteBuilder extends RouteBuilder {
                     return oldExchange;
                 })
                 .completionOnNewCorrelationGroup()
-                .completionTimeout(10000)
+                .completionTimeout(AGGREGATION_COMPLETION_TIMEOUT)
                 .split().method("drivers-splitter", "splitDrivers")
                 .process(exchange -> {
                     Driver driver = (Driver) exchange.getIn().getBody();
                     exchange.getIn().setHeader(KafkaConstants.KEY, driver.getParticipantData().getDriverId().name());
                 })
-                .to("kafka:f1-telemetry-drivers?brokers=localhost:9092")
+                .to("kafka:f1-telemetry-drivers?brokers=localhost:9092&clientId=drivers")
                 .routeId("udp-kafka-drivers")
                 .log("${body}");
     }

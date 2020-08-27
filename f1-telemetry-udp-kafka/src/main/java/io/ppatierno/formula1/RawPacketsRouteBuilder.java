@@ -21,7 +21,7 @@ public class RawPacketsRouteBuilder extends RouteBuilder {
             Packet packet = (Packet) exchange.getIn().getBody();
             log.debug("PacketId = {}", packet.getHeader().getPacketId());
         })
-        .to("kafka:f1-telemetry?brokers=localhost:9092")
+        .to("kafka:f1-telemetry?brokers=localhost:9092&clientId=raw-packets")
         .routeId("udp-kafka-raw-packets")
         .log("${body}");
     }
