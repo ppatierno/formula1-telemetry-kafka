@@ -16,6 +16,10 @@ import io.ppatierno.formula1.packets.PacketSessionData;
 
 import java.util.List;
 
+/**
+ * Get aggregated raw Packet instances as part of the same frame (same frameId)
+ * and use them to update all the drivers data in the session to send
+ */
 public class DriversSplitter {
 
     private Session session;

@@ -101,7 +101,8 @@ public class Session {
 
     @Override
     public String toString() {
-        return "Session[drivers=" + this.drivers +
+        return "Session[sessionData=" + this.sessionData +
+                "drivers=" + this.drivers +
                 "]";
     }
 }
