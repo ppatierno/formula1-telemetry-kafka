@@ -7,6 +7,7 @@ package io.ppatierno.formula1;
 import io.ppatierno.formula1.packets.Packet;
 import org.apache.camel.Exchange;
 import org.apache.camel.Expression;
+import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.kafka.KafkaConstants;
 import org.slf4j.Logger;
@@ -15,6 +16,10 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Route getting raw packets from UDP decoding them as Packet instances.
+ * It aggregates the packets with same frameId (as correlation key) and uses them to update drivers data to send to Kafka.
+ */
 public class DriversRouteBuilder extends RouteBuilder {
 
     private static Logger log = LoggerFactory.getLogger(DriversRouteBuilder.class);
@@ -40,11 +45,13 @@ public class DriversRouteBuilder extends RouteBuilder {
                     // a new group is started
                     if (oldExchange == null) {
                         List<Packet> list = new ArrayList<>();
+                        // grouping packets within same frame (same frameId) as a list
                         list.add((Packet) newExchange.getIn().getBody());
                         newExchange.getIn().setBody(list);
                         return newExchange;
                     } else {
                         List<Packet> list = (List<Packet>) oldExchange.getIn().getBody();
+                        // adding new packet as part of the same frame to the current list
                         list.add((Packet) newExchange.getIn().getBody());
                         oldExchange.getIn().setBody(list);
                     }
@@ -59,6 +66,7 @@ public class DriversRouteBuilder extends RouteBuilder {
                 })
                 .to("kafka:f1-telemetry-drivers?brokers=localhost:9092&clientId=drivers")
                 .routeId("udp-kafka-drivers")
-                .log("${body}");
+                .log(LoggingLevel.DEBUG, "${body}")
+                .log(LoggingLevel.INFO, "Driver[id = ${body.participantData.driverId.value}, name = ${body.participantData.name}]");
     }
 }

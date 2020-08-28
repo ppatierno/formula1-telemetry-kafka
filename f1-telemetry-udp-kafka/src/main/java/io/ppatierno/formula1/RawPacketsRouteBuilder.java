@@ -4,25 +4,26 @@
  */
 package io.ppatierno.formula1;
 
-import io.ppatierno.formula1.packets.Packet;
+import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Route getting raw Packet instances (as body) from the "udp-kafka-drivers" route thanks to wiretap
+ * and sending them to Kafka
+ */
 public class RawPacketsRouteBuilder extends RouteBuilder {
 
     private static Logger log = LoggerFactory.getLogger(RawPacketsRouteBuilder.class);
 
     @Override
     public void configure() throws Exception {
+        // get raw Packet instances (as body) from the "udp-kafka-drivers" route thanks to wiretap
         from("direct:raw-packets")
-        .process(exchange -> {
-            // useless Processor, temporary used to check that decoding is working fine
-            Packet packet = (Packet) exchange.getIn().getBody();
-            log.debug("PacketId = {}", packet.getHeader().getPacketId());
-        })
         .to("kafka:f1-telemetry?brokers=localhost:9092&clientId=raw-packets")
         .routeId("udp-kafka-raw-packets")
-        .log("${body}");
+        .log(LoggingLevel.DEBUG, "${body}")
+        .log(LoggingLevel.INFO, "Packet[frameId = ${body.header.frameIdentifier}, packetId = ${body.header.packetId}]");
     }
 }
