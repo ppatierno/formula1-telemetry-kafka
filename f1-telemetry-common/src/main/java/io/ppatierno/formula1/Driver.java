@@ -4,84 +4,84 @@
  */
 package io.ppatierno.formula1;
 
-import io.ppatierno.formula1.packets.PacketCarSetupData;
-import io.ppatierno.formula1.packets.PacketCarStatusData;
-import io.ppatierno.formula1.packets.PacketCarTelemetryData;
-import io.ppatierno.formula1.packets.PacketFinalClassificationData;
-import io.ppatierno.formula1.packets.PacketLapData;
-import io.ppatierno.formula1.packets.PacketMotionData;
-import io.ppatierno.formula1.packets.PacketParticipantsData;
+import io.ppatierno.formula1.data.CarMotionData;
+import io.ppatierno.formula1.data.CarSetupData;
+import io.ppatierno.formula1.data.CarStatusData;
+import io.ppatierno.formula1.data.CarTelemetryData;
+import io.ppatierno.formula1.data.FinalClassificationData;
+import io.ppatierno.formula1.data.LapData;
+import io.ppatierno.formula1.data.ParticipantData;
 
 /**
  * Represents a single driver with all related data during a session
  */
 public class Driver {
 
-    private PacketParticipantsData.ParticipantData participantData;
-    private PacketMotionData.CarMotionData carMotionData;
-    private PacketLapData.LapData lapData;
-    private PacketCarSetupData.CarSetupData carSetupData;
-    private PacketCarTelemetryData.CarTelemetryData carTelemetryData;
-    private PacketCarStatusData.CarStatusData carStatusData;
-    private PacketFinalClassificationData.FinalClassificationData finalClassificationData;
+    private ParticipantData participantData;
+    private CarMotionData carMotionData;
+    private LapData lapData;
+    private CarSetupData carSetupData;
+    private CarTelemetryData carTelemetryData;
+    private CarStatusData carStatusData;
+    private FinalClassificationData finalClassificationData;
 
-    public Driver(PacketParticipantsData.ParticipantData participantData) {
+    public Driver(ParticipantData participantData) {
         this.participantData = participantData;
     }
 
-    public PacketParticipantsData.ParticipantData getParticipantData() {
+    public ParticipantData getParticipantData() {
         return participantData;
     }
 
-    public void setParticipantData(PacketParticipantsData.ParticipantData participantData) {
+    public void setParticipantData(ParticipantData participantData) {
         this.participantData = participantData;
     }
 
-    public PacketMotionData.CarMotionData getCarMotionData() {
+    public CarMotionData getCarMotionData() {
         return carMotionData;
     }
 
-    public void setCarMotionData(PacketMotionData.CarMotionData carMotionData) {
+    public void setCarMotionData(CarMotionData carMotionData) {
         this.carMotionData = carMotionData;
     }
 
-    public PacketLapData.LapData getLapData() {
+    public LapData getLapData() {
         return lapData;
     }
 
-    public void setLapData(PacketLapData.LapData lapData) {
+    public void setLapData(LapData lapData) {
         this.lapData = lapData;
     }
 
-    public PacketCarSetupData.CarSetupData getCarSetupData() {
+    public CarSetupData getCarSetupData() {
         return carSetupData;
     }
 
-    public void setCarSetupData(PacketCarSetupData.CarSetupData carSetupData) {
+    public void setCarSetupData(CarSetupData carSetupData) {
         this.carSetupData = carSetupData;
     }
 
-    public PacketCarTelemetryData.CarTelemetryData getCarTelemetryData() {
+    public CarTelemetryData getCarTelemetryData() {
         return carTelemetryData;
     }
 
-    public void setCarTelemetryData(PacketCarTelemetryData.CarTelemetryData carTelemetryData) {
+    public void setCarTelemetryData(CarTelemetryData carTelemetryData) {
         this.carTelemetryData = carTelemetryData;
     }
 
-    public PacketCarStatusData.CarStatusData getCarStatusData() {
+    public CarStatusData getCarStatusData() {
         return carStatusData;
     }
 
-    public void setCarStatusData(PacketCarStatusData.CarStatusData carStatusData) {
+    public void setCarStatusData(CarStatusData carStatusData) {
         this.carStatusData = carStatusData;
     }
 
-    public PacketFinalClassificationData.FinalClassificationData getFinalClassificationData() {
+    public FinalClassificationData getFinalClassificationData() {
         return finalClassificationData;
     }
 
-    public void setFinalClassificationData(PacketFinalClassificationData.FinalClassificationData finalClassificationData) {
+    public void setFinalClassificationData(FinalClassificationData finalClassificationData) {
         this.finalClassificationData = finalClassificationData;
     }
 

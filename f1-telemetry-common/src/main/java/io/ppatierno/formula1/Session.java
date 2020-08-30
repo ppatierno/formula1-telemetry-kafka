@@ -4,6 +4,7 @@
  */
 package io.ppatierno.formula1;
 
+import io.ppatierno.formula1.data.ParticipantData;
 import io.ppatierno.formula1.packets.PacketCarSetupData;
 import io.ppatierno.formula1.packets.PacketCarStatusData;
 import io.ppatierno.formula1.packets.PacketCarTelemetryData;
@@ -35,7 +36,7 @@ public class Session {
     public void updateDrivers(PacketParticipantsData packetParticipantsData) {
         if (this.drivers == null) {
             this.drivers = new ArrayList<>(packetParticipantsData.getNumActiveCars());
-            for (PacketParticipantsData.ParticipantData pd : packetParticipantsData.getParticipants()) {
+            for (ParticipantData pd : packetParticipantsData.getParticipants()) {
                 Driver driver = new Driver(pd);
                 this.drivers.add(driver);
             }
