@@ -6,16 +6,12 @@ package io.ppatierno.formula1;
 
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Route getting raw Packet instances (as body) from the "udp-kafka-drivers" route thanks to wiretap
  * and sending them to Kafka
  */
 public class RawPacketsRouteBuilder extends RouteBuilder {
-
-    private static Logger log = LoggerFactory.getLogger(RawPacketsRouteBuilder.class);
 
     @Override
     public void configure() throws Exception {
