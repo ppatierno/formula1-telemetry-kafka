@@ -11,6 +11,7 @@
 
   <modules>
       <module>f1-telemetry-udp-kafka</module>
+      <module>f1-telemetry-common</module>
   </modules>
 
   <properties>
@@ -18,6 +19,7 @@
       <maven.compiler.release>11</maven.compiler.release>
       <junit.version>4.13</junit.version>
       <formula1-telemetry.version>1.0-SNAPSHOT</formula1-telemetry.version>
+      <formula1-telemetry-common.version>1.0-SNAPSHOT</formula1-telemetry-common.version>
       <camel.version>3.4.3</camel.version>
       <slf4j.version>1.7.25</slf4j.version>
   </properties>
@@ -34,6 +36,11 @@
               <groupId>io.ppatierno</groupId>
               <artifactId>f1-telemetry</artifactId>
               <version>${formula1-telemetry.version}</version>
+          </dependency>
+          <dependency>
+              <groupId>io.ppatierno</groupId>
+              <artifactId>f1-telemetry-common</artifactId>
+              <version>${formula1-telemetry-common.version}</version>
           </dependency>
           <dependency>
               <groupId>org.apache.camel</groupId>
