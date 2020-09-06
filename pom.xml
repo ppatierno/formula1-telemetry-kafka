@@ -12,6 +12,7 @@
   <modules>
       <module>f1-telemetry-udp-kafka</module>
       <module>f1-telemetry-common</module>
+      <module>f1-telemetry-consumer</module>
   </modules>
 
   <properties>
