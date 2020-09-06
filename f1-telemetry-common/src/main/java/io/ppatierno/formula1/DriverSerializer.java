@@ -6,6 +6,12 @@ package io.ppatierno.formula1;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.ppatierno.formula1.data.CarMotionData;
+import io.ppatierno.formula1.data.CarSetupData;
+import io.ppatierno.formula1.data.CarStatusData;
+import io.ppatierno.formula1.data.CarTelemetryData;
+import io.ppatierno.formula1.data.FinalClassificationData;
+import io.ppatierno.formula1.data.LapData;
 import io.ppatierno.formula1.data.ParticipantData;
 import org.apache.kafka.common.header.Headers;
 import org.apache.kafka.common.serialization.Serializer;
@@ -25,14 +31,39 @@ public class DriverSerializer implements Serializer<Driver> {
 
     @Override
     public byte[] serialize(String topic, Headers headers, Driver driver) {
-        ByteBuf bb = Unpooled.buffer(ParticipantData.SIZE);
+        ByteBuf bb = Unpooled.buffer(this.rawBytesSize(driver));
         driver.getParticipantData().fillBuffer(bb);
-        // TODO: serialize other fields
+        driver.getCarMotionData().fillBuffer(bb);
+        driver.getLapData().fillBuffer(bb);
+        driver.getCarSetupData().fillBuffer(bb);
+        driver.getCarTelemetryData().fillBuffer(bb);
+        driver.getCarStatusData().fillBuffer(bb);
+        if (bb.isWritable()) {
+            driver.getFinalClassificationData().fillBuffer(bb);
+        }
         return bb.array();
     }
 
     @Override
     public void close() {
 
+    }
+
+    /**
+     * Get the raw size in bytes of a Driver with the related non-null serialized field
+     *
+     * @param driver Driver instance to determinate the size in bytes
+     * @return the raw size in bytes of the Driver instance
+     */
+    public int rawBytesSize(Driver driver) {
+        int size = 0;
+        size += driver.getParticipantData() != null ? ParticipantData.SIZE : 0;
+        size += driver.getCarMotionData() != null ? CarMotionData.SIZE : 0;
+        size += driver.getLapData() != null ? LapData.SIZE : 0;
+        size += driver.getCarSetupData() != null ? CarSetupData.SIZE : 0;
+        size += driver.getCarTelemetryData() != null ? CarTelemetryData.SIZE : 0;
+        size += driver.getCarStatusData() != null ? CarStatusData.SIZE : 0;
+        size += driver.getFinalClassificationData() != null ? FinalClassificationData.SIZE : 0;
+        return size;
     }
 }

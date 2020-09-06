@@ -6,6 +6,12 @@ package io.ppatierno.formula1;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.ppatierno.formula1.data.CarMotionData;
+import io.ppatierno.formula1.data.CarSetupData;
+import io.ppatierno.formula1.data.CarStatusData;
+import io.ppatierno.formula1.data.CarTelemetryData;
+import io.ppatierno.formula1.data.FinalClassificationData;
+import io.ppatierno.formula1.data.LapData;
 import io.ppatierno.formula1.data.ParticipantData;
 import org.apache.kafka.common.header.Headers;
 import org.apache.kafka.common.serialization.Deserializer;
@@ -26,10 +32,15 @@ public class DriverDeserializer implements Deserializer<Driver> {
     @Override
     public Driver deserialize(String topic, Headers headers, byte[] bytes) {
         ByteBuf bb = Unpooled.wrappedBuffer(bytes);
-        ParticipantData participantData = new ParticipantData();
-        participantData.fill(bb);
-        Driver driver = new Driver(participantData);
-        // TODO: deserialize other fields
+        Driver driver = new Driver(new ParticipantData().fill(bb));
+        driver.setCarMotionData(new CarMotionData().fill(bb));
+        driver.setLapData(new LapData().fill(bb));
+        driver.setCarSetupData(new CarSetupData().fill(bb));
+        driver.setCarTelemetryData(new CarTelemetryData().fill(bb));
+        driver.setCarStatusData(new CarStatusData().fill(bb));
+        if (bb.isReadable()) {
+            driver.setFinalClassificationData(new FinalClassificationData().fill(bb));
+        }
         return driver;
     }
 
