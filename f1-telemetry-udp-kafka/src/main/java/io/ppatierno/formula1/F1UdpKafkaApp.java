@@ -7,7 +7,7 @@ package io.ppatierno.formula1;
 import org.apache.camel.CamelContext;
 import org.apache.camel.impl.DefaultCamelContext;
 
-public class Application {
+public class F1UdpKafkaApp {
 
     public static void main(String[] args) throws Exception {
         Session session = new Session();
