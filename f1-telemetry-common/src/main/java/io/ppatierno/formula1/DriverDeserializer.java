@@ -20,17 +20,17 @@ public class DriverDeserializer implements Deserializer<Driver> {
 
     @Override
     public Driver deserialize(String topic, byte[] bytes) {
+        return deserialize(topic, null, bytes);
+    }
+
+    @Override
+    public Driver deserialize(String topic, Headers headers, byte[] bytes) {
         ByteBuf bb = Unpooled.wrappedBuffer(bytes);
         ParticipantData participantData = new ParticipantData();
         participantData.fill(bb);
         Driver driver = new Driver(participantData);
         // TODO: deserialize other fields
         return driver;
-    }
-
-    @Override
-    public Driver deserialize(String topic, Headers headers, byte[] data) {
-        return null;
     }
 
     @Override

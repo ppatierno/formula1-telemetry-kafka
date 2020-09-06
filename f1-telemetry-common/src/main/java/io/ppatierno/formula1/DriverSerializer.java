@@ -20,15 +20,15 @@ public class DriverSerializer implements Serializer<Driver> {
 
     @Override
     public byte[] serialize(String topic, Driver driver) {
+        return serialize(topic, null, driver);
+    }
+
+    @Override
+    public byte[] serialize(String topic, Headers headers, Driver driver) {
         ByteBuf bb = Unpooled.buffer(ParticipantData.SIZE);
         driver.getParticipantData().fillBuffer(bb);
         // TODO: serialize other fields
         return bb.array();
-    }
-
-    @Override
-    public byte[] serialize(String topic, Headers headers, Driver data) {
-        return new byte[0];
     }
 
     @Override
