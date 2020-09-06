@@ -8,6 +8,8 @@ import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.util.Collections;
@@ -18,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class F1ConsumerApp {
+
     private AtomicBoolean consuming = new AtomicBoolean(true);
     private ExecutorService executorService;
 
@@ -43,6 +46,8 @@ public class F1ConsumerApp {
 
     private class F1Consumer implements Runnable {
 
+        private Logger log = LoggerFactory.getLogger(F1Consumer.class);
+
         @Override
         public void run() {
             Properties props = new Properties();
@@ -60,9 +65,8 @@ public class F1ConsumerApp {
                 while (consuming.get()) {
                     ConsumerRecords<String, Driver> records = consumer.poll(Duration.ofMillis(100));
                     for (ConsumerRecord<String, Driver> record : records) {
-                        System.out.println("F1Consumer: record key = " + record.key() + " value = " + record.value() +
-                                " on topic = " + record.topic() +
-                                " partition = " + record.partition());
+                        log.info("Driver record topic = {}, partition = {}, key = {}, value = {}",
+                                record.topic(), record.partition(), record.key(), record.value());
                     }
                 }
             } catch (Exception e) {
