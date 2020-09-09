@@ -61,6 +61,11 @@
               <version>${camel.version}</version>
           </dependency>
           <dependency>
+              <groupId>org.apache.camel</groupId>
+              <artifactId>camel-influxdb</artifactId>
+              <version>${camel.version}</version>
+          </dependency>
+          <dependency>
               <groupId>org.apache.kafka</groupId>
               <artifactId>kafka-clients</artifactId>
               <version>${kafka.version}</version>

@@ -4,9 +4,26 @@
  */
 package io.ppatierno.formula1;
 
+import org.apache.camel.CamelContext;
+import org.apache.camel.impl.DefaultCamelContext;
+import org.influxdb.InfluxDB;
+import org.influxdb.InfluxDBFactory;
+import org.influxdb.dto.Query;
+
 public class F1KafkaInfluxDBApp {
 
-    public static void main(String[] args) {
-        // TODO
+    public static void main(String[] args) throws Exception {
+
+        InfluxDB influxDB = InfluxDBFactory.connect("http://localhost:8086");
+        influxDB.query(new Query("CREATE DATABASE " + "drivers", "drivers"));
+
+        CamelContext camelContext = new DefaultCamelContext();
+        camelContext.getRegistry().bind("connectionBean", influxDB);
+
+        camelContext.addRoutes(new DriversPointRouteBuilder());
+
+        camelContext.start();
+
+        Thread.sleep(Long.MAX_VALUE);
     }
 }
