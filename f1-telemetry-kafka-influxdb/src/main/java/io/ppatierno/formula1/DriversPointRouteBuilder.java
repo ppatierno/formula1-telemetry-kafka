@@ -4,6 +4,7 @@
  */
 package io.ppatierno.formula1;
 
+import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 
 /**
@@ -14,6 +15,16 @@ public class DriversPointRouteBuilder extends RouteBuilder {
     @Override
     public void configure() throws Exception {
 
-        // TODO: create route from Kafka to InfluxDB
+        from("kafka:f1-telemetry-drivers?" +
+                "brokers=localhost:9092" +
+                "&valueDeserializer=io.ppatierno.formula1.DriverSerializer")
+        .process(exchange -> {
+
+            // TODO: process each Driver into a Point
+
+        })
+        .to("influxdb://connectionBean?databaseName=drivers&retentionPolicy=autogen")
+        .routeId("kafka-influxdb-drivers")
+        .log(LoggingLevel.INFO, "${body}");
     }
 }
