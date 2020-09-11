@@ -6,6 +6,9 @@ package io.ppatierno.formula1;
 
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
+import org.influxdb.dto.Point;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Route getting Driver message from Apache Kafka and writing them to InfluxDB as data point
@@ -20,8 +23,15 @@ public class DriversPointRouteBuilder extends RouteBuilder {
                 "&valueDeserializer=io.ppatierno.formula1.DriverDeserializer")
         .process(exchange -> {
 
-            // TODO: process each Driver into a Point
+            Driver driver = (Driver) exchange.getIn().getBody();
 
+            Point point = Point.measurement("drivers-telemetry")
+                    .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
+                    .tag("driverId", driver.getParticipantData().getDriverId().name())
+                    .addField("enginerpm", driver.getCarTelemetryData().getEngineRPM())
+                    .build();
+
+            exchange.getIn().setBody(point);
         })
         .to("influxdb://connectionBean?databaseName=drivers&retentionPolicy=autogen")
         .routeId("kafka-influxdb-drivers")
