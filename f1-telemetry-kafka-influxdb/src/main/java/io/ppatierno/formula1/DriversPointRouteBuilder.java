@@ -17,7 +17,7 @@ public class DriversPointRouteBuilder extends RouteBuilder {
 
         from("kafka:f1-telemetry-drivers?" +
                 "brokers=localhost:9092" +
-                "&valueDeserializer=io.ppatierno.formula1.DriverSerializer")
+                "&valueDeserializer=io.ppatierno.formula1.DriverDeserializer")
         .process(exchange -> {
 
             // TODO: process each Driver into a Point
