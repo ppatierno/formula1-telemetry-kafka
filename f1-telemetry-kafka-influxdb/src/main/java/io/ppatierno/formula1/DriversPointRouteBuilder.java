@@ -6,6 +6,7 @@ package io.ppatierno.formula1;
 
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
+import org.influxdb.dto.BatchPoints;
 import org.influxdb.dto.Point;
 
 import java.util.concurrent.TimeUnit;
@@ -25,7 +26,11 @@ public class DriversPointRouteBuilder extends RouteBuilder {
 
             Driver driver = (Driver) exchange.getIn().getBody();
 
-            Point point = Point.measurement("telemetry")
+            BatchPoints batchPoints = BatchPoints
+                    .database("drivers")
+                    .build();
+
+            Point telemetryPoint = Point.measurement("telemetry")
                     .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
                     .tag("driverId", driver.getParticipantData().getDriverId().name())
                     .addField("enginerpm", driver.getCarTelemetryData().getEngineRPM())
@@ -34,9 +39,20 @@ public class DriversPointRouteBuilder extends RouteBuilder {
                     .addField("brake", driver.getCarTelemetryData().getBrake())
                     .build();
 
-            exchange.getIn().setBody(point);
+            Point motionPoint = Point.measurement("motion")
+                    .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
+                    .tag("driverId", driver.getParticipantData().getDriverId().name())
+                    .addField("glateral", driver.getCarMotionData().getgForceLateral())
+                    .addField("glongitudinal", driver.getCarMotionData().getgForceLongitudinal())
+                    .addField("gvertical", driver.getCarMotionData().getgForceVertical())
+                    .build();
+
+            batchPoints.point(telemetryPoint);
+            batchPoints.point(motionPoint);
+
+            exchange.getIn().setBody(batchPoints);
         })
-        .to("influxdb://connectionBean?databaseName=drivers&retentionPolicy=autogen")
+        .to("influxdb://connectionBean?databaseName=drivers&retentionPolicy=autogen&batch=true")
         .routeId("kafka-influxdb-drivers")
         .log(LoggingLevel.INFO, "${body}");
     }
