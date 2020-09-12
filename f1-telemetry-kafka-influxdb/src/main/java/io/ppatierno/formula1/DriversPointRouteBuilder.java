@@ -25,10 +25,13 @@ public class DriversPointRouteBuilder extends RouteBuilder {
 
             Driver driver = (Driver) exchange.getIn().getBody();
 
-            Point point = Point.measurement("drivers-telemetry")
+            Point point = Point.measurement("telemetry")
                     .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
                     .tag("driverId", driver.getParticipantData().getDriverId().name())
                     .addField("enginerpm", driver.getCarTelemetryData().getEngineRPM())
+                    .addField("speed", driver.getCarTelemetryData().getSpeed())
+                    .addField("throttle", driver.getCarTelemetryData().getThrottle())
+                    .addField("brake", driver.getCarTelemetryData().getBrake())
                     .build();
 
             exchange.getIn().setBody(point);
