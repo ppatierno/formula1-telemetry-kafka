@@ -47,8 +47,18 @@ public class DriversPointRouteBuilder extends RouteBuilder {
                     .addField("gvertical", driver.getCarMotionData().getgForceVertical())
                     .build();
 
+            Point carStatusPoint =  Point.measurement("carstatus")
+                    .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
+                    .tag("driverId", driver.getParticipantData().getDriverId().name())
+                    .addField("fuelintank", driver.getCarStatusData().getFuelInTank())
+                    .addField("frontLeftWingDamage", driver.getCarStatusData().getFrontLeftWingDamage())
+                    .addField("frontRightWingDamage", driver.getCarStatusData().getFrontRightWingDamage())
+                    .addField("rearWingDamage", driver.getCarStatusData().getRearWingDamage())
+                    .build();
+
             batchPoints.point(telemetryPoint);
             batchPoints.point(motionPoint);
+            batchPoints.point(carStatusPoint);
 
             exchange.getIn().setBody(batchPoints);
         })
