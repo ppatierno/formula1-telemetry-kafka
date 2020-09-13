@@ -140,11 +140,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "$tag_driverId",
+          "alias": "$tag_driverHashTag",
           "groupBy": [
             {
               "params": [
-                "driverId"
+                "driverHashTag"
               ],
               "type": "tag"
             }
@@ -277,11 +277,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "$tag_driverId",
+          "alias": "$tag_driverHashTag",
           "groupBy": [
             {
               "params": [
-                "driverId"
+                "driverHashTag"
               ],
               "type": "tag"
             }
@@ -414,11 +414,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "$tag_driverId",
+          "alias": "$tag_driverHashTag",
           "groupBy": [
             {
               "params": [
-                "driverId"
+                "driverHashTag"
               ],
               "type": "tag"
             }
@@ -551,11 +551,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "$tag_driverId",
+          "alias": "$tag_driverHashTag",
           "groupBy": [
             {
               "params": [
-                "driverId"
+                "driverHashTag"
               ],
               "type": "tag"
             }
@@ -703,11 +703,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "$tag_driverId",
+          "alias": "$tag_driverHashTag",
           "groupBy": [
             {
               "params": [
-                "driverId"
+                "driverHashTag"
               ],
               "type": "tag"
             }
@@ -842,11 +842,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "$tag_driverId",
+          "alias": "$tag_driverHashTag",
           "groupBy": [
             {
               "params": [
-                "driverId"
+                "driverHashTag"
               ],
               "type": "tag"
             }
@@ -995,11 +995,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "$tag_driverId",
+          "alias": "$tag_driverHashTag",
           "groupBy": [
             {
               "params": [
-                "driverId"
+                "driverHashTag"
               ],
               "type": "tag"
             }
@@ -1134,11 +1134,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "$tag_driverId",
+          "alias": "$tag_driverHashTag",
           "groupBy": [
             {
               "params": [
-                "driverId"
+                "driverHashTag"
               ],
               "type": "tag"
             }
@@ -1273,11 +1273,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "$tag_driverId",
+          "alias": "$tag_driverHashTag",
           "groupBy": [
             {
               "params": [
-                "driverId"
+                "driverHashTag"
               ],
               "type": "tag"
             }
@@ -1412,11 +1412,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "$tag_driverId",
+          "alias": "$tag_driverHashTag",
           "groupBy": [
             {
               "params": [
-                "driverId"
+                "driverHashTag"
               ],
               "type": "tag"
             }
@@ -1515,5 +1515,5 @@
   "timezone": "",
   "title": "Formula 1",
   "uid": "R-MtWMOGz",
-  "version": 2
+  "version": 3
 }

@@ -25,8 +25,12 @@ public class Driver {
     private CarStatusData carStatusData;
     private FinalClassificationData finalClassificationData;
 
+    private String hashtag;
+
     public Driver(ParticipantData participantData) {
         this.participantData = participantData;
+        String driverId = participantData.getDriverId().name();
+        this.hashtag = "#" + driverId.charAt(0) + driverId.charAt(driverId.indexOf("_") + 1) + participantData.getRaceNumber();
     }
 
     public ParticipantData getParticipantData() {
@@ -83,6 +87,10 @@ public class Driver {
 
     public void setFinalClassificationData(FinalClassificationData finalClassificationData) {
         this.finalClassificationData = finalClassificationData;
+    }
+
+    public String getHashtag() {
+        return hashtag;
     }
 
     @Override
