@@ -28,12 +28,14 @@ public class DriversPointRouteBuilder extends RouteBuilder {
 
             BatchPoints batchPoints = BatchPoints
                     .database("drivers")
+                    .tag("driverid", driver.getParticipantData().getDriverId().name())
+                    .tag("driverhashtag", driver.getHashtag())
                     .build();
 
             Point telemetryPoint = Point.measurement("telemetry")
                     .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
-                    .tag("driverId", driver.getParticipantData().getDriverId().name())
-                    .tag("driverHashTag", driver.getHashtag())
+                    .tag("driverid", driver.getParticipantData().getDriverId().name())
+                    .tag("driverhashtag", driver.getHashtag())
                     .addField("enginerpm", driver.getCarTelemetryData().getEngineRPM())
                     .addField("speed", driver.getCarTelemetryData().getSpeed())
                     .addField("throttle", driver.getCarTelemetryData().getThrottle())
@@ -42,8 +44,8 @@ public class DriversPointRouteBuilder extends RouteBuilder {
 
             Point motionPoint = Point.measurement("motion")
                     .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
-                    .tag("driverId", driver.getParticipantData().getDriverId().name())
-                    .tag("driverHashTag", driver.getHashtag())
+                    .tag("driverid", driver.getParticipantData().getDriverId().name())
+                    .tag("driverhashtag", driver.getHashtag())
                     .addField("glateral", driver.getCarMotionData().getgForceLateral())
                     .addField("glongitudinal", driver.getCarMotionData().getgForceLongitudinal())
                     .addField("gvertical", driver.getCarMotionData().getgForceVertical())
@@ -51,8 +53,8 @@ public class DriversPointRouteBuilder extends RouteBuilder {
 
             Point carStatusPoint =  Point.measurement("carstatus")
                     .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
-                    .tag("driverId", driver.getParticipantData().getDriverId().name())
-                    .tag("driverHashTag", driver.getHashtag())
+                    .tag("driverid", driver.getParticipantData().getDriverId().name())
+                    .tag("driverhashtag", driver.getHashtag())
                     .addField("fuelintank", driver.getCarStatusData().getFuelInTank())
                     .addField("frontLeftWingDamage", driver.getCarStatusData().getFrontLeftWingDamage())
                     .addField("frontRightWingDamage", driver.getCarStatusData().getFrontRightWingDamage())
@@ -67,6 +69,7 @@ public class DriversPointRouteBuilder extends RouteBuilder {
         })
         .to("influxdb://connectionBean?databaseName=drivers&retentionPolicy=autogen&batch=true")
         .routeId("kafka-influxdb-drivers")
-        .log(LoggingLevel.INFO, "${body}");
+        .log(LoggingLevel.DEBUG, "${body}")
+        .log(LoggingLevel.INFO, "Driver[${body.tags}]");
     }
 }

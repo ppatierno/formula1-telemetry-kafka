@@ -70,6 +70,6 @@ public class DriversRouteBuilder extends RouteBuilder {
                         "&serializerClass=io.ppatierno.formula1.DriverSerializer")
                 .routeId("udp-kafka-drivers")
                 .log(LoggingLevel.DEBUG, "${body}")
-                .log(LoggingLevel.INFO, "Driver[id = ${body.participantData.driverId.value}, name = ${body.participantData.name}]");
+                .log(LoggingLevel.INFO, "Driver[id = ${body.participantData.driverId}, name = ${body.hashtag}]");
     }
 }
