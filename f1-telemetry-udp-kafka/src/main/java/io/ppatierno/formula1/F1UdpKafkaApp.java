@@ -17,7 +17,9 @@ public class F1UdpKafkaApp {
         camelContext.getRegistry().bind("packet-decoder", new PacketEventDecoder());
         camelContext.getRegistry().bind("drivers-splitter", new DriversSplitter(session));
 
+        camelContext.addRoutes(new DispatchRouteBuilder());
         camelContext.addRoutes(new RawPacketsRouteBuilder());
+        camelContext.addRoutes(new EventsRouteBuilder());
         camelContext.addRoutes(new DriversRouteBuilder());
 
         camelContext.start();

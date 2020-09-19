@@ -8,16 +8,16 @@ import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 
 /**
- * Route getting raw Packet instances (as body) from the "udp-kafka-drivers" route thanks to wiretap
+ * Route getting raw Packet instances (as body) from the "udp-multicast-dispatcher" route thanks to multicast
  * and sending them to Kafka
  */
 public class RawPacketsRouteBuilder extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        // get raw Packet instances (as body) from the "udp-kafka-drivers" route thanks to wiretap
+        // get raw Packet instances (as body) from the "udp-multicast-dispatcher" route thanks to multicast
         from("direct:raw-packets")
-        .to("kafka:f1-telemetry?brokers=localhost:9092&clientId=raw-packets")
+        .to("kafka:f1-telemetry-packets?brokers=localhost:9092&clientId=raw-packets")
         .routeId("udp-kafka-raw-packets")
         .log(LoggingLevel.DEBUG, "${body}")
         .log(LoggingLevel.INFO, "Packet[frameId = ${body.header.frameIdentifier}, packetId = ${body.header.packetId}]");
