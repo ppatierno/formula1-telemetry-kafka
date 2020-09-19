@@ -1,5 +1,7 @@
 # Formula 1 - Telemetry with Apache Kafka and Apache Camel
 
+## Components
+
 Contains different components for ingesting and handling Formula 1 2020 game (by CodeMasters) telemetry data through Apache Kafka.
 
 * **f1-telemetry-udp-kafka**: Apache Camel application bridging the telemetry packets got on UDP from the Formula 1 2020 game to Apache Kafka to different topics:
@@ -12,3 +14,12 @@ Contains different components for ingesting and handling Formula 1 2020 game (by
 * **dashboard**: folder containing Grafana dashboard showing driver/car's telemetry data;
 
 The Formula 1 2020 game UDP packets specification is [here](https://forums.codemasters.com/topic/50942-f1-2020-udp-specification/).
+The library used for deconding the packets is [here](https://github.com/ppatierno/formula1-telemetry).
+
+## Dashboard
+
+![Telemetry](./images/01-telemetry.png)
+
+![Motion](./images/02-motion.png)
+
+![Car Status](./images/03-carstatus.png)
