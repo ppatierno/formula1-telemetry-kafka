@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Route getting raw packets from UDP decoding them as Packet instances.
- * It aggregates the packets with same frameId (as correlation key) and uses them to update drivers data to send to Kafka.
+ * Route getting raw Packet instances (as body) from the "udp-multicast-dispatcher" route thanks to multicast.
+ * It aggregates the packets with the same frameId (as correlation key) and uses them to update drivers data to send to Kafka.
  */
 public class DriversRouteBuilder extends RouteBuilder {
 
@@ -28,8 +28,8 @@ public class DriversRouteBuilder extends RouteBuilder {
 
    @Override
     public void configure() throws Exception {
-        from("netty:udp://0.0.0.0:20777?decoders=#packet-decoder&sync=false")
-                .wireTap("direct:raw-packets")
+        // get raw Packet instances (as body) from the "udp-multicast-dispatcher" route thanks to multicast
+        from("direct:drivers")
                 // going to group all packets by frameId (it's the correlation key) so that
                 // we can update the drivers info (lap, motion, ...) in one step and sending
                 // driver messages with all data
