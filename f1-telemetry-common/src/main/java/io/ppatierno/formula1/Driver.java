@@ -26,11 +26,13 @@ public class Driver {
     private FinalClassificationData finalClassificationData;
 
     private String hashtag;
+    private String shortName;
 
     public Driver(ParticipantData participantData) {
         this.participantData = participantData;
         String driverId = participantData.getDriverId().name();
         this.hashtag = "#" + driverId.charAt(0) + driverId.charAt(driverId.indexOf("_") + 1) + participantData.getRaceNumber();
+        this.shortName = driverId.substring(driverId.indexOf("_") + 1, driverId.indexOf("_") + 4);
     }
 
     public ParticipantData getParticipantData() {
@@ -91,6 +93,10 @@ public class Driver {
 
     public String getHashtag() {
         return hashtag;
+    }
+
+    public String getShortName() {
+        return shortName;
     }
 
     @Override
