@@ -19,7 +19,7 @@ public class F1UdpKafkaApp {
 
         camelContext.addRoutes(new DispatchRouteBuilder());
         camelContext.addRoutes(new RawPacketsRouteBuilder());
-        camelContext.addRoutes(new EventsRouteBuilder());
+        camelContext.addRoutes(new EventsRouteBuilder(session));
         camelContext.addRoutes(new DriversRouteBuilder());
 
         camelContext.start();

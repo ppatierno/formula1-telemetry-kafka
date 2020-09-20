@@ -4,7 +4,9 @@
  */
 package io.ppatierno.formula1;
 
+import io.ppatierno.formula1.data.FastestLap;
 import io.ppatierno.formula1.data.ParticipantData;
+import io.ppatierno.formula1.data.SpeedTrap;
 import io.ppatierno.formula1.packets.PacketCarSetupData;
 import io.ppatierno.formula1.packets.PacketCarStatusData;
 import io.ppatierno.formula1.packets.PacketCarTelemetryData;
@@ -13,6 +15,7 @@ import io.ppatierno.formula1.packets.PacketLapData;
 import io.ppatierno.formula1.packets.PacketMotionData;
 import io.ppatierno.formula1.packets.PacketParticipantsData;
 import io.ppatierno.formula1.packets.PacketSessionData;
+import io.ppatierno.formula1.packets.PacketEventData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +27,8 @@ public class Session {
 
     private PacketSessionData sessionData;
     private List<Driver> drivers;
+    private FastestLap fastestLap;
+    private SpeedTrap speedTrap;
 
     public Session() {
 
@@ -92,6 +97,17 @@ public class Session {
         }
     }
 
+    public void updateEventData(PacketEventData packetEventData) {
+        switch (packetEventData.getEventCode()) {
+            case FASTEST_LAP:
+                this.fastestLap = packetEventData.getEventDataDetails().getFastestLap();
+                break;
+            case SPEED_TRAP_TRIGGERED:
+                this.speedTrap = packetEventData.getEventDataDetails().getSpeedTrap();
+                break;
+        }
+    }
+
     public List<Driver> getDrivers() {
         return drivers;
     }
@@ -104,6 +120,8 @@ public class Session {
     public String toString() {
         return "Session[sessionData=" + this.sessionData +
                 "drivers=" + this.drivers +
+                "fastestLap=" + this.fastestLap +
+                "speedTrap=" + this.speedTrap +
                 "]";
     }
 }
