@@ -31,7 +31,9 @@ public class Driver {
     public Driver(ParticipantData participantData) {
         this.participantData = participantData;
         String driverId = participantData.getDriverId().name();
+        // build an hashtag as #<first_char_firstname><first_char_lastname><race_number>
         this.hashtag = "#" + driverId.charAt(0) + driverId.charAt(driverId.indexOf("_") + 1) + participantData.getRaceNumber();
+        // build a short name using first 3 chars of lastname
         this.shortName = driverId.substring(driverId.indexOf("_") + 1, driverId.indexOf("_") + 4);
     }
 
@@ -108,6 +110,8 @@ public class Driver {
                 ",catTelemetryData=" + this.carTelemetryData +
                 ",carStatusData=" + this.carStatusData +
                 ",finalClassificationData=" + this.finalClassificationData +
+                ",hashtag=" + this.hashtag +
+                ",shortName=" + this.shortName +
                 "]";
     }
 }
