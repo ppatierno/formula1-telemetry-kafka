@@ -15,12 +15,13 @@ public class F1KafkaInfluxDBApp {
     public static void main(String[] args) throws Exception {
 
         InfluxDB influxDB = InfluxDBFactory.connect("http://localhost:8086");
-        influxDB.query(new Query("CREATE DATABASE " + "drivers", "drivers"));
+        influxDB.query(new Query("CREATE DATABASE " + "formula1", "formula1"));
 
         CamelContext camelContext = new DefaultCamelContext();
         camelContext.getRegistry().bind("connectionBean", influxDB);
 
         camelContext.addRoutes(new DriversPointRouteBuilder());
+        camelContext.addRoutes(new EventsPointRouteBuilder());
 
         camelContext.start();
 

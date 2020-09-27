@@ -17,7 +17,7 @@ public class DispatchRouteBuilder extends RouteBuilder {
         from("netty:udp://0.0.0.0:20777?decoders=#packet-decoder&sync=false")
                 .multicast()
                 .parallelProcessing()
-                .to("direct:raw-packets", "direct:raw-events", "direct:drivers")
+                .to("direct:raw-packets", "direct:events", "direct:drivers")
                 .routeId("udp-multicast-dispatcher");
     }
 }

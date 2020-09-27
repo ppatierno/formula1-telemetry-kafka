@@ -27,7 +27,7 @@ public class DriversPointRouteBuilder extends RouteBuilder {
             Driver driver = (Driver) exchange.getIn().getBody();
 
             BatchPoints batchPoints = BatchPoints
-                    .database("drivers")
+                    .database("formula1")
                     .tag("driverid", driver.getParticipantData().getDriverId().name())
                     .tag("driverhashtag", driver.getHashtag())
                     .build();
@@ -67,7 +67,7 @@ public class DriversPointRouteBuilder extends RouteBuilder {
 
             exchange.getIn().setBody(batchPoints);
         })
-        .to("influxdb://connectionBean?databaseName=drivers&retentionPolicy=autogen&batch=true")
+        .to("influxdb://connectionBean?databaseName=formula1&retentionPolicy=autogen&batch=true")
         .routeId("kafka-influxdb-drivers")
         .log(LoggingLevel.DEBUG, "${body}")
         .log(LoggingLevel.INFO, "Driver[${body.tags}]");

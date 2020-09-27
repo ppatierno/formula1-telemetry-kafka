@@ -27,8 +27,8 @@ public class Session {
 
     private PacketSessionData sessionData;
     private List<Driver> drivers;
-    private FastestLap fastestLap;
-    private SpeedTrap speedTrap;
+    private Event fastestLap;
+    private Event speedTrap;
 
     public Session() {
 
@@ -100,10 +100,12 @@ public class Session {
     public void updateEventData(PacketEventData packetEventData) {
         switch (packetEventData.getEventCode()) {
             case FASTEST_LAP:
-                this.fastestLap = packetEventData.getEventDataDetails().getFastestLap();
+                FastestLap fastestLap = packetEventData.getEventDataDetails().getFastestLap();
+                this.fastestLap = new Event(this.drivers.get(fastestLap.getVehicleIdx()).getParticipantData(), packetEventData);
                 break;
             case SPEED_TRAP_TRIGGERED:
-                this.speedTrap = packetEventData.getEventDataDetails().getSpeedTrap();
+                SpeedTrap speedTrap = packetEventData.getEventDataDetails().getSpeedTrap();
+                this.speedTrap = new Event(this.drivers.get(speedTrap.getVehicleIdx()).getParticipantData(), packetEventData);
                 break;
         }
     }
@@ -114,6 +116,14 @@ public class Session {
 
     public Driver getDriver(io.ppatierno.formula1.enums.Driver driverId) {
         return this.drivers.stream().filter(d -> d.getParticipantData().getDriverId() == driverId).findFirst().get();
+    }
+
+    public Event getFastestLap() {
+        return fastestLap;
+    }
+
+    public Event getSpeedTrap() {
+        return speedTrap;
     }
 
     @Override
