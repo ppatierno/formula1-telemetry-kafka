@@ -34,8 +34,9 @@ public class F1ConsumerApp {
     }
 
     public void start() {
-        this.executorService = Executors.newFixedThreadPool(1);
-        this.executorService.submit(new F1Consumer());
+        this.executorService = Executors.newFixedThreadPool(2);
+        this.executorService.submit(new F1DriverConsumer());
+        this.executorService.submit(new F1EventConsumer());
     }
 
     public void stop() throws InterruptedException {
@@ -44,9 +45,9 @@ public class F1ConsumerApp {
         this.executorService.shutdownNow();
     }
 
-    private class F1Consumer implements Runnable {
+    private class F1DriverConsumer implements Runnable {
 
-        private Logger log = LoggerFactory.getLogger(F1Consumer.class);
+        private Logger log = LoggerFactory.getLogger(F1DriverConsumer.class);
 
         @Override
         public void run() {
@@ -66,6 +67,40 @@ public class F1ConsumerApp {
                     ConsumerRecords<String, Driver> records = consumer.poll(Duration.ofMillis(100));
                     for (ConsumerRecord<String, Driver> record : records) {
                         log.info("Driver record topic = {}, partition = {}, key = {}, value = {}",
+                                record.topic(), record.partition(), record.key(), record.value());
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (consumer != null)
+                    consumer.close();
+            }
+        }
+    }
+
+    private class F1EventConsumer implements Runnable {
+
+        private Logger log = LoggerFactory.getLogger(F1EventConsumer.class);
+
+        @Override
+        public void run() {
+            Properties props = new Properties();
+            props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+            props.put(ConsumerConfig.GROUP_ID_CONFIG, "f1-events-group");
+            props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
+            props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "io.ppatierno.formula1.EventDeserializer");
+
+            KafkaConsumer<String, Event> consumer = null;
+
+            try {
+                consumer = new KafkaConsumer<>(props);
+                consumer.subscribe(Collections.singleton("f1-telemetry-events"));
+
+                while (consuming.get()) {
+                    ConsumerRecords<String, Event> records = consumer.poll(Duration.ofMillis(100));
+                    for (ConsumerRecord<String, Event> record : records) {
+                        log.info("Event record topic = {}, partition = {}, key = {}, value = {}",
                                 record.topic(), record.partition(), record.key(), record.value());
                     }
                 }
