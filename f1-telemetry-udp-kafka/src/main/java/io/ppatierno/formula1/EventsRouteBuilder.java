@@ -10,6 +10,7 @@ import io.ppatierno.formula1.packets.Packet;
 import io.ppatierno.formula1.packets.PacketEventData;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.component.kafka.KafkaConstants;
 
 /**
  * Route getting raw Packet instances (as body) from the "udp-multicast-dispatcher" route thanks to multicast,
@@ -34,6 +35,7 @@ public class EventsRouteBuilder extends RouteBuilder  {
         .process(exchange -> {
             PacketEventData packetEventData = (PacketEventData) exchange.getIn().getBody();
             this.session.updateEventData(packetEventData);
+            exchange.getIn().setHeader(KafkaConstants.KEY, packetEventData.getEventCode().name());
             exchange.getIn().setBody(this.buildEvent(packetEventData));
         })
         .to("kafka:f1-telemetry-events?" +
