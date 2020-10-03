@@ -14,6 +14,7 @@
       <module>f1-telemetry-common</module>
       <module>f1-telemetry-consumer</module>
       <module>f1-telemetry-kafka-influxdb</module>
+      <module>f1-telemetry-streams</module>
   </modules>
 
   <properties>
