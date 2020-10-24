@@ -14,11 +14,17 @@ import java.util.concurrent.TimeUnit;
 
 public class EventsPointRouteBuilder extends RouteBuilder {
 
+    private final F1KafkaInfluxDBAppConfig config;
+
+    public EventsPointRouteBuilder(F1KafkaInfluxDBAppConfig config) {
+        this.config = config;
+    }
+
     @Override
     public void configure() throws Exception {
 
         from("kafka:f1-telemetry-events?" +
-                "brokers=localhost:9092" +
+                "brokers=" + this.config.getKafkaBootstrapServers() +
                 "&valueDeserializer=io.ppatierno.formula1.EventDeserializer")
         .process(exchange -> {
 

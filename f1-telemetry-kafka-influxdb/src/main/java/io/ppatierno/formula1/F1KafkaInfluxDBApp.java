@@ -9,19 +9,26 @@ import org.apache.camel.impl.DefaultCamelContext;
 import org.influxdb.InfluxDB;
 import org.influxdb.InfluxDBFactory;
 import org.influxdb.dto.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class F1KafkaInfluxDBApp {
 
-    public static void main(String[] args) throws Exception {
+    private static Logger log = LoggerFactory.getLogger(F1KafkaInfluxDBApp.class);
 
-        InfluxDB influxDB = InfluxDBFactory.connect("http://localhost:8086");
+    public static void main(String[] args) throws Exception {
+        F1KafkaInfluxDBAppConfig config = F1KafkaInfluxDBAppConfig.fromEnv();
+
+        log.info("Config: {}", config);
+
+        InfluxDB influxDB = InfluxDBFactory.connect(config.getInfluxDbUrl());
         influxDB.query(new Query("CREATE DATABASE " + "formula1", "formula1"));
 
         CamelContext camelContext = new DefaultCamelContext();
         camelContext.getRegistry().bind("connectionBean", influxDB);
 
-        camelContext.addRoutes(new DriversPointRouteBuilder());
-        camelContext.addRoutes(new EventsPointRouteBuilder());
+        camelContext.addRoutes(new DriversPointRouteBuilder(config));
+        camelContext.addRoutes(new EventsPointRouteBuilder(config));
 
         camelContext.start();
 

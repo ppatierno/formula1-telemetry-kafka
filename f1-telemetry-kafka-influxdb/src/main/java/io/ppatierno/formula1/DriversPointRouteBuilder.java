@@ -16,11 +16,17 @@ import java.util.concurrent.TimeUnit;
  */
 public class DriversPointRouteBuilder extends RouteBuilder {
 
+    private final F1KafkaInfluxDBAppConfig config;
+
+    public DriversPointRouteBuilder(F1KafkaInfluxDBAppConfig config) {
+        this.config = config;
+    }
+
     @Override
     public void configure() throws Exception {
 
         from("kafka:f1-telemetry-drivers?" +
-                "brokers=localhost:9092" +
+                "brokers=" + this.config.getKafkaBootstrapServers() +
                 "&valueDeserializer=io.ppatierno.formula1.DriverDeserializer")
         .process(exchange -> {
 
