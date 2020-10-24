@@ -21,12 +21,21 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class F1ConsumerApp {
 
+    private static Logger log = LoggerFactory.getLogger(F1ConsumerApp.class);
+
     private AtomicBoolean consuming = new AtomicBoolean(true);
     private ExecutorService executorService;
+    private F1ConsumerAppConfig config;
+
+    public F1ConsumerApp(F1ConsumerAppConfig config) {
+        this.config = config;
+    }
 
     public static void main(String[] args) throws Exception {
+        F1ConsumerAppConfig config = F1ConsumerAppConfig.fromEnv();
+        F1ConsumerApp f1ConsumerApp = new F1ConsumerApp(config);
 
-        F1ConsumerApp f1ConsumerApp = new F1ConsumerApp();
+        log.info("Config: {}", config);
 
         f1ConsumerApp.start();
         System.in.read();
@@ -35,8 +44,8 @@ public class F1ConsumerApp {
 
     public void start() {
         this.executorService = Executors.newFixedThreadPool(2);
-        this.executorService.submit(new F1DriverConsumer());
-        this.executorService.submit(new F1EventConsumer());
+        this.executorService.submit(new F1DriverConsumer(this.config));
+        this.executorService.submit(new F1EventConsumer(this.config));
     }
 
     public void stop() throws InterruptedException {
@@ -49,10 +58,16 @@ public class F1ConsumerApp {
 
         private Logger log = LoggerFactory.getLogger(F1DriverConsumer.class);
 
+        private F1ConsumerAppConfig config;
+
+        public F1DriverConsumer(F1ConsumerAppConfig config) {
+            this.config = config;
+        }
+
         @Override
         public void run() {
             Properties props = new Properties();
-            props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+            props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, config.getKafkaBootstrapServers());
             props.put(ConsumerConfig.GROUP_ID_CONFIG, "f1-drivers-group");
             props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
             props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "io.ppatierno.formula1.DriverDeserializer");
@@ -83,10 +98,16 @@ public class F1ConsumerApp {
 
         private Logger log = LoggerFactory.getLogger(F1EventConsumer.class);
 
+        private F1ConsumerAppConfig config;
+
+        public F1EventConsumer(F1ConsumerAppConfig config) {
+            this.config = config;
+        }
+
         @Override
         public void run() {
             Properties props = new Properties();
-            props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+            props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, config.getKafkaBootstrapServers());
             props.put(ConsumerConfig.GROUP_ID_CONFIG, "f1-events-group");
             props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
             props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "io.ppatierno.formula1.EventDeserializer");
