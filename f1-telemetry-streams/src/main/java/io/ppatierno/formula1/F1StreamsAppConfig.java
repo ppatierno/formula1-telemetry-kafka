@@ -4,7 +4,7 @@
  */
 package io.ppatierno.formula1;
 
-public class F1ConsumerAppConfig {
+public class F1StreamsAppConfig {
 
     private static final String KAFKA_BOOTSTRAP_SERVERS_ENV = "KAFKA_BOOTSTRAP_SERVERS";
 
@@ -12,13 +12,13 @@ public class F1ConsumerAppConfig {
 
     private final String kafkaBootstrapServers;
 
-    private F1ConsumerAppConfig(String kafkaBootstrapServers) {
+    private F1StreamsAppConfig(String kafkaBootstrapServers) {
         this.kafkaBootstrapServers = kafkaBootstrapServers;
     }
 
-    public static F1ConsumerAppConfig fromEnv() {
+    public static F1StreamsAppConfig fromEnv() {
         String kafkaBootstrapServers = System.getenv(KAFKA_BOOTSTRAP_SERVERS_ENV) == null ? DEFAULT_KAFKA_BOOTSTRAP_SERVERS : System.getenv(KAFKA_BOOTSTRAP_SERVERS_ENV);
-        return new F1ConsumerAppConfig(kafkaBootstrapServers);
+        return new F1StreamsAppConfig(kafkaBootstrapServers);
     }
 
     public String getKafkaBootstrapServers() {
@@ -27,8 +27,9 @@ public class F1ConsumerAppConfig {
 
     @Override
     public String toString() {
-        return "F1ConsumerAppConfig[" +
+        return "F1StreamsAppConfig[" +
                 "kafkaBootstrapServers=" + this.kafkaBootstrapServers +
                 "]";
     }
 }
+

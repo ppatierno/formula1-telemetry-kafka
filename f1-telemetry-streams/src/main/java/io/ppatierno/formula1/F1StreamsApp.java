@@ -8,19 +8,24 @@ import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.Topology;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
 
 public class F1StreamsApp {
 
-
+    private static Logger log = LoggerFactory.getLogger(F1StreamsApp.class);
 
     public static void main(String[] args) {
+        F1StreamsAppConfig config = F1StreamsAppConfig.fromEnv();
+
+        log.info("Config: {}", config);
 
         Properties props = new Properties();
         props.setProperty(StreamsConfig.APPLICATION_ID_CONFIG, "f1-telemetry-streams");
-        props.setProperty(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.setProperty(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, config.getKafkaBootstrapServers());
 
         StreamsBuilder streamsBuilder = new StreamsBuilder();
 
