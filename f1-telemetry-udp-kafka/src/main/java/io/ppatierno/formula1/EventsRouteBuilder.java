@@ -18,9 +18,11 @@ import org.apache.camel.component.kafka.KafkaConstants;
  */
 public class EventsRouteBuilder extends RouteBuilder  {
 
-    private Session session;
+    private final F1UdpKafkaAppConfig config;
+    private final Session session;
 
-    public EventsRouteBuilder(Session session) {
+    public EventsRouteBuilder(F1UdpKafkaAppConfig config, Session session) {
+        this.config = config;
         this.session = session;
     }
 
@@ -39,7 +41,7 @@ public class EventsRouteBuilder extends RouteBuilder  {
             exchange.getIn().setBody(this.buildEvent(packetEventData));
         })
         .to("kafka:f1-telemetry-events?" +
-                "brokers=localhost:9092" +
+                "brokers=" + this.config.getKafkaBootstrapServers() +
                 "&clientId=events" +
                 "&serializerClass=io.ppatierno.formula1.EventSerializer")
         .routeId("udp-kafka-events")

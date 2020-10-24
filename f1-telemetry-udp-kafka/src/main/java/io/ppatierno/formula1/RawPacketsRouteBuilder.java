@@ -13,11 +13,17 @@ import org.apache.camel.builder.RouteBuilder;
  */
 public class RawPacketsRouteBuilder extends RouteBuilder {
 
+    private final F1UdpKafkaAppConfig config;
+
+    public RawPacketsRouteBuilder(F1UdpKafkaAppConfig config) {
+        this.config = config;
+    }
+
     @Override
     public void configure() throws Exception {
         // get raw Packet instances (as body) from the "udp-multicast-dispatcher" route thanks to multicast
         from("direct:raw-packets")
-        .to("kafka:f1-telemetry-packets?brokers=localhost:9092&clientId=raw-packets")
+        .to("kafka:f1-telemetry-packets?brokers=" + this.config.getKafkaBootstrapServers() + "&clientId=raw-packets")
         .routeId("udp-kafka-raw-packets")
         .log(LoggingLevel.DEBUG, "${body}")
         .log(LoggingLevel.INFO, "Packet[frameId = ${body.header.frameIdentifier}, packetId = ${body.header.packetId}]");

@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class DriversSplitter {
 
-    private Session session;
+    private final Session session;
 
     public DriversSplitter(Session session) {
         this.session = session;

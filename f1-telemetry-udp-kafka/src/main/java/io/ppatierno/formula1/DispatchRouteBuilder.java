@@ -12,9 +12,15 @@ import org.apache.camel.builder.RouteBuilder;
  */
 public class DispatchRouteBuilder extends RouteBuilder {
 
+    private final F1UdpKafkaAppConfig config;
+
+    public DispatchRouteBuilder(F1UdpKafkaAppConfig config) {
+        this.config = config;
+    }
+
     @Override
     public void configure() throws Exception {
-        from("netty:udp://0.0.0.0:20777?decoders=#packet-decoder&sync=false")
+        from("netty:udp://0.0.0.0:" + this.config.getUdpPort() + "?decoders=#packet-decoder&sync=false")
                 .multicast()
                 .parallelProcessing()
                 .to("direct:raw-packets", "direct:events", "direct:drivers")

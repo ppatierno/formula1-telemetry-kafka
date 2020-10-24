@@ -10,6 +10,7 @@ import org.apache.camel.impl.DefaultCamelContext;
 public class F1UdpKafkaApp {
 
     public static void main(String[] args) throws Exception {
+        F1UdpKafkaAppConfig config = F1UdpKafkaAppConfig.fromEnv();
         Session session = new Session();
 
         CamelContext camelContext = new DefaultCamelContext();
@@ -17,10 +18,10 @@ public class F1UdpKafkaApp {
         camelContext.getRegistry().bind("packet-decoder", new PacketEventDecoder());
         camelContext.getRegistry().bind("drivers-splitter", new DriversSplitter(session));
 
-        camelContext.addRoutes(new DispatchRouteBuilder());
-        camelContext.addRoutes(new RawPacketsRouteBuilder());
-        camelContext.addRoutes(new EventsRouteBuilder(session));
-        camelContext.addRoutes(new DriversRouteBuilder());
+        camelContext.addRoutes(new DispatchRouteBuilder(config));
+        camelContext.addRoutes(new RawPacketsRouteBuilder(config));
+        camelContext.addRoutes(new EventsRouteBuilder(config, session));
+        camelContext.addRoutes(new DriversRouteBuilder(config));
 
         camelContext.start();
 

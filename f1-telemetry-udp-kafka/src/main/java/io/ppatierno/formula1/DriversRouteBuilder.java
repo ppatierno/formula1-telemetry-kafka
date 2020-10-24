@@ -26,7 +26,13 @@ public class DriversRouteBuilder extends RouteBuilder {
 
     private static int AGGREGATION_COMPLETION_TIMEOUT = 10000;
 
-   @Override
+    private final F1UdpKafkaAppConfig config;
+
+    public DriversRouteBuilder(F1UdpKafkaAppConfig config) {
+        this.config = config;
+    }
+
+    @Override
     public void configure() throws Exception {
         // get raw Packet instances (as body) from the "udp-multicast-dispatcher" route thanks to multicast
         from("direct:drivers")
@@ -65,7 +71,7 @@ public class DriversRouteBuilder extends RouteBuilder {
                     exchange.getIn().setHeader(KafkaConstants.KEY, driver.getParticipantData().getDriverId().name());
                 })
                 .to("kafka:f1-telemetry-drivers?" +
-                        "brokers=localhost:9092" +
+                        "brokers=" + this.config.getKafkaBootstrapServers() +
                         "&clientId=drivers" +
                         "&serializerClass=io.ppatierno.formula1.DriverSerializer")
                 .routeId("udp-kafka-drivers")
