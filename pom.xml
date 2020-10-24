@@ -23,9 +23,9 @@
       <junit.version>4.13</junit.version>
       <formula1-telemetry.version>1.0-SNAPSHOT</formula1-telemetry.version>
       <formula1-telemetry-common.version>1.0-SNAPSHOT</formula1-telemetry-common.version>
-      <camel.version>3.4.4-SNAPSHOT</camel.version>
+      <camel.version>3.4.4</camel.version>
       <slf4j.version>1.7.25</slf4j.version>
-      <kafka.version>2.6.0</kafka.version>
+      <kafka.version>2.5.0</kafka.version>
   </properties>
 
   <dependencyManagement>
@@ -88,14 +88,6 @@
           </dependency>
       </dependencies>
   </dependencyManagement>
-
-
-  <repositories>
-      <repository>
-          <id>apache.snapshots</id>
-          <url>https://repository.apache.org/content/repositories/snapshots/</url>
-      </repository>
-  </repositories>
 
   <build>
       <pluginManagement>
