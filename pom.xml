@@ -26,6 +26,8 @@
       <camel.version>3.4.4</camel.version>
       <slf4j.version>1.7.25</slf4j.version>
       <kafka.version>2.5.0</kafka.version>
+      <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+      <jib-maven-plugin.version>2.6.0</jib-maven-plugin.version>
   </properties>
 
   <dependencyManagement>
@@ -95,7 +97,17 @@
               <plugin>
                   <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-compiler-plugin</artifactId>
-                  <version>3.8.1</version>
+                  <version>${maven-compiler-plugin.version}</version>
+              </plugin>
+              <plugin>
+                  <groupId>com.google.cloud.tools</groupId>
+                  <artifactId>jib-maven-plugin</artifactId>
+                  <version>${jib-maven-plugin.version}</version>
+                  <configuration>
+                      <container>
+                          <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+                      </container>
+                  </configuration>
               </plugin>
           </plugins>
       </pluginManagement>
