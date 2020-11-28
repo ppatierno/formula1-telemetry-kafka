@@ -1,5 +1,9 @@
 # Formula 1 - Telemetry with Apache Kafka and Apache Camel
 
+## Overview
+
+![Overview](./images/overview.png)
+
 ## Components
 
 Contains different components for ingesting and handling Formula 1 2020 game (by CodeMasters) telemetry data through Apache Kafka.
