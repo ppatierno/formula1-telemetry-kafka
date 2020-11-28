@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: f1-telemetry-kafka-influxdb
+  labels:
+    app: f1-telemetry
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: f1-telemetry-kafka-influxdb
+      labels:
+        app: f1-telemetry-kafka-influxdb
+    spec:
+      containers:
+        - name: f1-telemetry-kafka-influxdb
+          image: ppatierno/f1-telemetry-kafka-influxdb:1.0-SNAPSHOT
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: my-cluster-kafka-bootstrap:9092
+            - name: INFLUXDB_URL
+              value: http://influxdb:8086
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: f1-telemetry-kafka-influxdb
