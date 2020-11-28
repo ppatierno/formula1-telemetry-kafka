@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: f1-telemetry-streams
+  labels:
+    app: f1-telemetry
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: f1-telemetry-streams
+      labels:
+        app: f1-telemetry-streams
+    spec:
+      containers:
+        - name: f1-telemetry-streams
+          image: ppatierno/f1-telemetry-streams:1.0-SNAPSHOT
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: my-cluster-kafka-bootstrap:9092
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: f1-telemetry-streams

@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: f1-telemetry-udp-kafka
+  labels:
+    app: f1-telemetry
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: f1-telemetry-udp-kafka
+      labels:
+        app: f1-telemetry-udp-kafka
+    spec:
+      containers:
+        - name: f1-telemetry-udp-kafka
+          image: ppatierno/f1-telemetry-udp-kafka:1.0-SNAPSHOT
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: my-cluster-kafka-bootstrap:9092
+            - name: UDP_PORT
+              value: "20777"
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: f1-telemetry-udp-kafka
