@@ -4,6 +4,14 @@
 
 ![Overview](./images/overview.png)
 
+### F1 2020 Xbox UDP to Kafka
+
+![UDP to Kafka](./images/f1-telemetry-udp-kafka.png)
+
+### Kafka to InfluxDB
+
+![Kafka to InfluxDB](./images/f1-telemetry-kafka-influxdb.png)
+
 ## Components
 
 Contains different components for ingesting and handling Formula 1 2020 game (by CodeMasters) telemetry data through Apache Kafka.
