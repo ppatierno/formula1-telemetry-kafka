@@ -15,6 +15,7 @@
       <module>f1-telemetry-consumer</module>
       <module>f1-telemetry-kafka-influxdb</module>
       <module>f1-telemetry-streams</module>
+      <module>f1-telemetry-webui</module>
   </modules>
 
   <properties>
@@ -28,6 +29,7 @@
       <kafka.version>2.5.0</kafka.version>
       <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
       <jib-maven-plugin.version>2.6.0</jib-maven-plugin.version>
+      <vertx.version>4.0.0.CR2</vertx.version>
   </properties>
 
   <dependencyManagement>
@@ -77,6 +79,11 @@
               <groupId>org.apache.kafka</groupId>
               <artifactId>kafka-streams</artifactId>
               <version>${kafka.version}</version>
+          </dependency>
+          <dependency>
+              <groupId>io.vertx</groupId>
+              <artifactId>vertx-web</artifactId>
+              <version>${vertx.version}</version>
           </dependency>
           <dependency>
               <groupId>org.slf4j</groupId>
