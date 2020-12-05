@@ -37,13 +37,9 @@ public class F1WebServer extends AbstractVerticle {
                 .listen(8080, done -> {
                     if (done.succeeded()) {
                         log.info("F1 Telemetry Web Server started successfully");
-                        // TODO: start the Vert.x Kafka client consumer to consume real drivers data
-                        JsonObject driver = new JsonObject();
-                        driver.put("number", 16);
-                        driver.put("hashtag", "#CL16");
-                        driver.put("shortName", "Charles Leclerc");
-                        driver.put("position", 1);
-                        vertx.setPeriodic(1000, t -> vertx.eventBus().publish("formula1", driver));
+                        // create and start the consumer for Drivers
+                        F1WebConsumer consumer = new F1WebConsumer(vertx);
+                        consumer.start();
                         startPromise.complete();
                     } else {
                         log.error("F1 Telemetry Web Server failed to start", done.cause());
