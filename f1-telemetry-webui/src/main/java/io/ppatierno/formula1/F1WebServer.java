@@ -6,8 +6,12 @@ package io.ppatierno.formula1;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
+import io.vertx.core.json.JsonObject;
+import io.vertx.ext.bridge.PermittedOptions;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.StaticHandler;
+import io.vertx.ext.web.handler.sockjs.SockJSBridgeOptions;
+import io.vertx.ext.web.handler.sockjs.SockJSHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,17 +22,28 @@ public class F1WebServer extends AbstractVerticle {
     @Override
     public void start(Promise<Void> startPromise) throws Exception {
         log.info("Starting F1 Telemetry Web Server");
-        Router router = Router.router(vertx);
-        router.route().handler(StaticHandler.create());
 
-        // TODO: configure the SockJSHandler for bridging through the eventbus to JavaScript
+        Router router = Router.router(vertx);
+
+        SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
+        SockJSBridgeOptions options = new SockJSBridgeOptions();
+        options.addOutboundPermitted(new PermittedOptions().setAddress("formula1"));
+        router.mountSubRouter("/eventbus", sockJSHandler.bridge(options));
+
+        router.route().handler(StaticHandler.create());
 
         vertx.createHttpServer()
                 .requestHandler(router)
                 .listen(8080, done -> {
                     if (done.succeeded()) {
                         log.info("F1 Telemetry Web Server started successfully");
-                        // TODO: start the Vert.x Kafka client consumer
+                        // TODO: start the Vert.x Kafka client consumer to consume real drivers data
+                        JsonObject driver = new JsonObject();
+                        driver.put("number", 16);
+                        driver.put("hashtag", "#CL16");
+                        driver.put("shortName", "Charles Leclerc");
+                        driver.put("position", 1);
+                        vertx.setPeriodic(1000, t -> vertx.eventBus().publish("formula1", driver));
                         startPromise.complete();
                     } else {
                         log.error("F1 Telemetry Web Server failed to start", done.cause());
