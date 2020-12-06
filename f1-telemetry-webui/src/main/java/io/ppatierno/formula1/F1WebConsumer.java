@@ -48,7 +48,7 @@ public class F1WebConsumer {
         JsonObject json = new JsonObject();
         json.put("position", driver.getLapData().getCarPosition());
         json.put("hashtag", driver.getHashtag());
-        json.put("driverid", driver.getParticipantData().getDriverId().name());
+        json.put("name", driver.getParticipantData().getDriverId().name().replace("_", " "));
         json.put("positiongain", driver.getLapData().getGridPosition() - driver.getLapData().getCarPosition());
         return json;
     }
