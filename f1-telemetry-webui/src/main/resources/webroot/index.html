@@ -51,7 +51,8 @@
                 positionGain = '='
             }
             var positionGainRow = '<td style="color:' + color + ';text-align: center">' + positionGain + '</td>'
-            var row = '<td>' + driver.position + '</td><td>' + driver.hashtag + '</td><td>' + driver.name + '</td>' + positionGainRow
+            // on tyre, remove the "F1_" prefix
+            var row = '<td>' + driver.position + '</td><td>' + driver.hashtag + '</td><td>' + driver.name + '</td>' + positionGainRow + '<td>(' + driver.tyre.substring(3).toLowerCase() + ')</td>'
             $('table#ranking tr[id="pos_' + driver.position + '"]').html(row)
         });
     }
