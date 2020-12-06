@@ -24,6 +24,7 @@ Contains different components for ingesting and handling Formula 1 2020 game (by
 * **f1-telemetry-streams**: Apache Kafka Streams API based application getting raw `Packet`(s) and processing in real time;
 * **f1-telemetry-common**: common library providing model classes and related Apache Kafka serializer/deserializer;
 * **f1-telemetry-kafka-influxdb**: Apache Camel application writing driver/car's telemetry data  to InfluxDB as time series; 
+* **f1-telemetry-webui**: A sample Web application showing the race ranking in real time getting `Driver`(s) from Apache Kafka;
 * **dashboard**: folder containing Grafana dashboard showing driver/car's telemetry data;
 * **deployment**: folder containing Kubernetes deployments for all the provided applications;
 

@@ -6,7 +6,6 @@ package io.ppatierno.formula1;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
-import io.vertx.core.json.JsonObject;
 import io.vertx.ext.bridge.PermittedOptions;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.StaticHandler;
@@ -27,7 +26,7 @@ public class F1WebServer extends AbstractVerticle {
 
         SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
         SockJSBridgeOptions options = new SockJSBridgeOptions();
-        options.addOutboundPermitted(new PermittedOptions().setAddress("formula1"));
+        options.addOutboundPermitted(new PermittedOptions().setAddress("f1-race-ranking"));
         router.mountSubRouter("/eventbus", sockJSHandler.bridge(options));
 
         router.route().handler(StaticHandler.create());
