@@ -50,6 +50,7 @@ public class F1WebConsumer {
         json.put("hashtag", driver.getHashtag());
         json.put("name", driver.getParticipantData().getDriverId().name().replace("_", " "));
         json.put("positiongain", driver.getLapData().getGridPosition() - driver.getLapData().getCarPosition());
+        json.put("tyre", driver.getCarStatusData().getVisualTyreCompound());
         return json;
     }
 }
