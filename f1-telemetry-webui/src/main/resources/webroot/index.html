@@ -3,17 +3,42 @@
     <title>F1 Telemetry Web UI</title>
     <script src="https://unpkg.io/sockjs-client@1.5.0/dist/sockjs.min.js"></script>
     <script src='https://unpkg.io/@vertx/eventbus-bridge-client.js@1.0.0-1/vertx-eventbus.js'></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
-<h1>F1 Telemetry Web UI</h1>
-Test
+<h1>F1 Race Ranking</h1>
+<div id="driver"></div>
+<div id="pos_1"></div>
+<div id="pos_2"></div>
+<div id="pos_3"></div>
+<div id="pos_4"></div>
+<div id="pos_5"></div>
+<div id="pos_6"></div>
+<div id="pos_7"></div>
+<div id="pos_8"></div>
+<div id="pos_9"></div>
+<div id="pos_10"></div>
+<div id="pos_11"></div>
+<div id="pos_12"></div>
+<div id="pos_13"></div>
+<div id="pos_14"></div>
+<div id="pos_15"></div>
+<div id="pos_16"></div>
+<div id="pos_17"></div>
+<div id="pos_18"></div>
+<div id="pos_19"></div>
+<div id="pos_20"></div>
+<div id="pos_21"></div>
+<div id="pos_22"></div>
 <script>
     var eb = new EventBus('http://localhost:8080/eventbus');
 
     eb.onopen = () => {
         // set a handler to receive a message
-        eb.registerHandler('formula1', (error, message) => {
-            console.log('received a message: ' + JSON.stringify(message.body));
+        eb.registerHandler('f1-race-ranking', (error, message) => {
+            var driver = message.body
+            console.log('received a message: ' + JSON.stringify(driver));
+            $('#pos_' + driver.position).text(driver.position + "]\t" + driver.hashtag + "\t" + driver.driverid + "\t[" + driver.positiongain + "]");
         });
     }
 </script>

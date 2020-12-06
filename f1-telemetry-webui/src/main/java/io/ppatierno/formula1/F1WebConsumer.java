@@ -5,6 +5,7 @@
 package io.ppatierno.formula1;
 
 import io.vertx.core.Vertx;
+import io.vertx.core.json.JsonObject;
 import io.vertx.kafka.client.consumer.KafkaConsumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -32,6 +33,7 @@ public class F1WebConsumer {
         this.consumer.handler(record -> {
             // TODO: write to the eventbus for the Web UI
             log.info("record = {}", record);
+            this.vertx.eventBus().publish("f1-race-ranking", driverToJson(record.value()));
         });
         this.consumer.subscribe("f1-telemetry-drivers", done -> {
             if (done.succeeded()) {
@@ -40,5 +42,14 @@ public class F1WebConsumer {
                 log.error("Error subscribing to the f1-telemetry-drivers topic", done.cause());
             }
         });
+    }
+
+    private JsonObject driverToJson(Driver driver) {
+        JsonObject json = new JsonObject();
+        json.put("position", driver.getLapData().getCarPosition());
+        json.put("hashtag", driver.getHashtag());
+        json.put("driverid", driver.getParticipantData().getDriverId().name());
+        json.put("positiongain", driver.getLapData().getGridPosition() - driver.getLapData().getCarPosition());
+        return json;
     }
 }
