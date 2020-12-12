@@ -1,5 +1,7 @@
 # Formula 1 - Telemetry with Apache Kafka and Apache Camel
 
+![Logo](./images/f1-telemetry-kafka-logo.png)
+
 ## Overview
 
 ![Overview](./images/overview.png)
