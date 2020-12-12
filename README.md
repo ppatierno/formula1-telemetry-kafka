@@ -3,19 +3,20 @@
 This project aims to use Apache Kafka in order to ingest Formula 1 telemetry data from the F1 2020 game (by CodeMasters) running on Microsoft Xbox.
 It uses different products, projects and technologies:
 
-* F1 2020 game (by CodeMasters) for getting the telemetry data via UDP;
-* Apache Camel project for routing telemetry events from UDP to Apache Kafka and to InfluxDB;
-* Apache Kafka as the core project for ingesting the telemetry events on different topics;
-* Kubernetes for deploying most of the components to run in the cloud;
-* Strimzi for deploying easily the Apache Kafka on Kubernetes;
-* InfluxDB for storing the telemetry time series as data source for dashboards;
-* Grafana for providing dashboards showing the real time telemetry data;  
+* **[F1 2020 game (by CodeMasters)](https://www.codemasters.com/game/f1-2020/)** for getting the telemetry data via UDP;
+* **[Apache Camel](https://camel.apache.org/)** project for routing telemetry events from UDP to Apache Kafka and to InfluxDB;
+* **[Apache Kafka](https://kafka.apache.org/)** as the core project for ingesting the telemetry events on different topics;
+* **[Kubernetes](https://kubernetes.io/)** for deploying most of the components to run in the cloud;
+* **[Strimzi](https://strimzi.io/)** for deploying easily the Apache Kafka on Kubernetes;
+* **[InfluxDB](https://www.influxdata.com/)** for storing the telemetry time series as data source for dashboards;
+* **[Grafana](https://grafana.com/)** for providing dashboards showing the real time telemetry data;  
 
 ![Logo](./images/f1-telemetry-kafka-logo.png)
 
 ## Overview
 
 Following an overall picture of how these technologies are used together.
+A short introduction video is available [here](https://youtu.be/Re9LOAYZi2A). 
 
 ![Overview](./images/overview.png)
 
@@ -60,10 +61,18 @@ The library used for decoding the packets is [here](https://github.com/ppatierno
 
 ## Dashboards
 
+The telemetry dashboard shows information like speed, engine (rpm), throttle and brake.
+
 ![Telemetry](./images/01-telemetry.png)
+
+The motion dashboard shows information about the car in motion like the G-force.
 
 ![Motion](./images/02-motion.png)
 
+The car status dashboard shows information mostly related to the status of each car, for example wings damages and fuel in tank.
+
 ![Car Status](./images/03-carstatus.png)
+
+The events dashboard shows race events like max speed trap and fastest lap.
 
 ![Events](./images/04-events.png)
