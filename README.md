@@ -1,20 +1,45 @@
-# Formula 1 - Telemetry with Apache Kafka and Apache Camel
+# Formula 1 - Telemetry with Apache Kafka
+
+This project aims to use Apache Kafka in order to ingest Formula 1 telemetry data from the F1 2020 game (by CodeMasters) running on Microsoft Xbox.
+It uses different products, projects and technologies:
+
+* F1 2020 game (by CodeMasters) for getting the telemetry data via UDP;
+* Apache Camel project for routing telemetry events from UDP to Apache Kafka and to InfluxDB;
+* Apache Kafka as the core project for ingesting the telemetry events on different topics;
+* Kubernetes for deploying most of the components to run in the cloud;
+* Strimzi for deploying easily the Apache Kafka on Kubernetes;
+* InfluxDB for storing the telemetry time series as data source for dashboards;
+* Grafana for providing dashboards showing the real time telemetry data;  
 
 ![Logo](./images/f1-telemetry-kafka-logo.png)
 
 ## Overview
 
+Following an overall picture of how these technologies are used together.
+
 ![Overview](./images/overview.png)
 
 ### F1 2020 Xbox UDP to Kafka
+
+In order to ingest the telemetry events into Apache Kafka, the Apache Camel project is used with:
+
+* a route getting the raw UDP packets from the F1 2020 game (by CodeMasters) on Microsoft Xbox and dispatching these events to three more routes;
+    * a route just forwarding the raw UDP packets to a corresponding Apache Kafka topic;
+    * a route to filter only the `EVENT` type raw UDP packets and forwarding them to a corresponding Apache Kafka topic;
+    * a route to aggregate the raw UDP packets data for producing drivers related data and forwarding them to a corresponding Apache Kafka topic;
 
 ![UDP to Kafka](./images/f1-telemetry-udp-kafka.png)
 
 ### Kafka to InfluxDB
 
+In order to provide the telemetry data to Grafana dashboards, InfluxDB is used as data source and the telemetry events are stored through Apache Camel with:
+
+* a route getting drivers related data for storing telemetry, motion and car status data;
+* a route getting the `EVENT` type raw UDP packets for storing fastest lap and speedtrap events;
+
 ![Kafka to InfluxDB](./images/f1-telemetry-kafka-influxdb.png)
 
-## Components
+## Repository structure
 
 Contains different components for ingesting and handling Formula 1 2020 game (by CodeMasters) telemetry data through Apache Kafka.
 
