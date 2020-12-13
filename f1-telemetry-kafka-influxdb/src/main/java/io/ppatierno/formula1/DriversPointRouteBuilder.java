@@ -46,6 +46,7 @@ public class DriversPointRouteBuilder extends RouteBuilder {
                     .addField("speed", driver.getCarTelemetryData().getSpeed())
                     .addField("throttle", driver.getCarTelemetryData().getThrottle())
                     .addField("brake", driver.getCarTelemetryData().getBrake())
+                    .addField("gear", driver.getCarTelemetryData().getGear())
                     .build();
 
             Point motionPoint = Point.measurement("motion")
