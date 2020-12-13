@@ -46,7 +46,7 @@
   "gnetId": null,
   "graphTooltip": 2,
   "id": null,
-  "iteration": 1607873869639,
+  "iteration": 1607873869642,
   "links": [],
   "panels": [
     {
@@ -443,7 +443,7 @@
           "label": null,
           "logBase": 1,
           "max": "8",
-          "min": "0",
+          "min": "-1",
           "show": true
         },
         {
@@ -512,5 +512,5 @@
   "timezone": "",
   "title": "Formula 1 - Driver",
   "uid": "GebhRJ1Mk",
-  "version": 12
+  "version": 13
 }
