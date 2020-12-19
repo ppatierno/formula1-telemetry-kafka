@@ -68,7 +68,7 @@ public class F1ConsumerApp {
         public void run() {
             Properties props = new Properties();
             props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, config.getKafkaBootstrapServers());
-            props.put(ConsumerConfig.GROUP_ID_CONFIG, "f1-drivers-group");
+            props.put(ConsumerConfig.GROUP_ID_CONFIG, config.getF1DriversGroupId());
             props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
             props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "io.ppatierno.formula1.DriverDeserializer");
 
@@ -76,7 +76,7 @@ public class F1ConsumerApp {
 
             try {
                 consumer = new KafkaConsumer<>(props);
-                consumer.subscribe(Collections.singleton("f1-telemetry-drivers"));
+                consumer.subscribe(Collections.singleton(config.getF1DriversTopic()));
 
                 while (consuming.get()) {
                     ConsumerRecords<String, Driver> records = consumer.poll(Duration.ofMillis(100));
@@ -108,7 +108,7 @@ public class F1ConsumerApp {
         public void run() {
             Properties props = new Properties();
             props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, config.getKafkaBootstrapServers());
-            props.put(ConsumerConfig.GROUP_ID_CONFIG, "f1-events-group");
+            props.put(ConsumerConfig.GROUP_ID_CONFIG, config.getF1EventsGroupId());
             props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
             props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "io.ppatierno.formula1.EventDeserializer");
 
@@ -116,7 +116,7 @@ public class F1ConsumerApp {
 
             try {
                 consumer = new KafkaConsumer<>(props);
-                consumer.subscribe(Collections.singleton("f1-telemetry-events"));
+                consumer.subscribe(Collections.singleton(config.getF1EventsTopic()));
 
                 while (consuming.get()) {
                     ConsumerRecords<String, Event> records = consumer.poll(Duration.ofMillis(100));
