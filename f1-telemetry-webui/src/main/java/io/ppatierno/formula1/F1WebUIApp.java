@@ -18,6 +18,10 @@ public class F1WebUIApp {
 
         Vertx vertx = Vertx.vertx();
         F1WebServer f1WebServer = new F1WebServer(config);
-        vertx.deployVerticle(f1WebServer);
+        vertx.deployVerticle(f1WebServer, done -> {
+            if (!done.succeeded()) {
+                System.exit(1);
+            }
+        });
     }
 }
