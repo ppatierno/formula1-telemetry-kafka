@@ -29,7 +29,7 @@
       <kafka.version>2.5.0</kafka.version>
       <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
       <jib-maven-plugin.version>2.6.0</jib-maven-plugin.version>
-      <vertx.version>4.0.0.CR2</vertx.version>
+      <vertx.version>4.0.0</vertx.version>
   </properties>
 
   <dependencyManagement>
