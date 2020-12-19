@@ -25,7 +25,7 @@ public class DriversPointRouteBuilder extends RouteBuilder {
     @Override
     public void configure() throws Exception {
 
-        from("kafka:f1-telemetry-drivers?" +
+        from("kafka:" + this.config.getF1DriversTopic() + "?" +
                 "brokers=" + this.config.getKafkaBootstrapServers() +
                 "&valueDeserializer=io.ppatierno.formula1.DriverDeserializer")
         .process(exchange -> {

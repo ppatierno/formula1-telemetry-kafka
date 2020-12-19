@@ -23,7 +23,7 @@ public class EventsPointRouteBuilder extends RouteBuilder {
     @Override
     public void configure() throws Exception {
 
-        from("kafka:f1-telemetry-events?" +
+        from("kafka:" + this.config.getF1EventsTopic() + "?" +
                 "brokers=" + this.config.getKafkaBootstrapServers() +
                 "&valueDeserializer=io.ppatierno.formula1.EventDeserializer")
         .process(exchange -> {
