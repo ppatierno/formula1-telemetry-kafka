@@ -70,7 +70,7 @@ public class DriversRouteBuilder extends RouteBuilder {
                     Driver driver = (Driver) exchange.getIn().getBody();
                     exchange.getIn().setHeader(KafkaConstants.KEY, driver.getParticipantData().getDriverId().name());
                 })
-                .to("kafka:f1-telemetry-drivers?" +
+                .to("kafka:" + this.config.getF1DriversTopic() + "?" +
                         "brokers=" + this.config.getKafkaBootstrapServers() +
                         "&clientId=drivers" +
                         "&serializerClass=io.ppatierno.formula1.DriverSerializer")

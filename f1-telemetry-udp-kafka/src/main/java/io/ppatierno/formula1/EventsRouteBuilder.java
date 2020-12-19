@@ -40,7 +40,7 @@ public class EventsRouteBuilder extends RouteBuilder  {
             exchange.getIn().setHeader(KafkaConstants.KEY, packetEventData.getEventCode().name());
             exchange.getIn().setBody(this.buildEvent(packetEventData));
         })
-        .to("kafka:f1-telemetry-events?" +
+        .to("kafka:" + this.config.getF1EventsTopic() + "?" +
                 "brokers=" + this.config.getKafkaBootstrapServers() +
                 "&clientId=events" +
                 "&serializerClass=io.ppatierno.formula1.EventSerializer")
