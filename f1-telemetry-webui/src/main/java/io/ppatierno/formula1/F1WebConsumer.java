@@ -20,22 +20,23 @@ public class F1WebConsumer {
 
     private Vertx vertx;
     private KafkaConsumer<String, Driver> consumer;
+    private F1WebUIAppConfig config;
 
-    public F1WebConsumer(Vertx vertx) {
+    public F1WebConsumer(Vertx vertx, F1WebUIAppConfig config) {
         this.vertx = vertx;
-        Properties config = new Properties();
-        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-        config.put(ConsumerConfig.GROUP_ID_CONFIG, "f1-drivers-webgroup");
-        this.consumer = KafkaConsumer.create(vertx, config, new StringDeserializer(), new DriverDeserializer());
+        this.config = config;
+        Properties props = new Properties();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, this.config.getKafkaBootstrapServers());
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, this.config.getF1DriversGroupId());
+        this.consumer = KafkaConsumer.create(vertx, props, new StringDeserializer(), new DriverDeserializer());
     }
 
     public void start() {
         this.consumer.handler(record -> {
-            // TODO: write to the eventbus for the Web UI
             log.info("record = {}", record);
             this.vertx.eventBus().publish("f1-race-ranking", driverToJson(record.value()));
         });
-        this.consumer.subscribe("f1-telemetry-drivers", done -> {
+        this.consumer.subscribe(this.config.getF1DriversTopic(), done -> {
             if (done.succeeded()) {
                 log.info("Successfully subscribed to the f1-telemetry-drivers topic");
             } else {

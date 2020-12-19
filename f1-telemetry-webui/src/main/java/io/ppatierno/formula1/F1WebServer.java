@@ -18,6 +18,12 @@ public class F1WebServer extends AbstractVerticle {
 
     private static Logger log = LoggerFactory.getLogger(F1WebServer.class);
 
+    private F1WebUIAppConfig config;
+
+    public F1WebServer(F1WebUIAppConfig config) {
+        this.config = config;
+    }
+
     @Override
     public void start(Promise<Void> startPromise) throws Exception {
         log.info("Starting F1 Telemetry Web Server");
@@ -37,7 +43,7 @@ public class F1WebServer extends AbstractVerticle {
                     if (done.succeeded()) {
                         log.info("F1 Telemetry Web Server started successfully");
                         // create and start the consumer for Drivers
-                        F1WebConsumer consumer = new F1WebConsumer(vertx);
+                        F1WebConsumer consumer = new F1WebConsumer(vertx, config);
                         consumer.start();
                         startPromise.complete();
                     } else {

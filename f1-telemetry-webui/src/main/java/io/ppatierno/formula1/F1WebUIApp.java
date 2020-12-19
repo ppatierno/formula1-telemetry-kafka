@@ -13,8 +13,11 @@ public class F1WebUIApp {
     private static Logger log = LoggerFactory.getLogger(F1WebUIApp.class);
 
     public static void main(String[] args) {
+        F1WebUIAppConfig config = F1WebUIAppConfig.fromEnv();
+        log.info("Config: {}", config);
+
         Vertx vertx = Vertx.vertx();
-        F1WebServer f1WebServer = new F1WebServer();
+        F1WebServer f1WebServer = new F1WebServer(config);
         vertx.deployVerticle(f1WebServer);
     }
 }
