@@ -30,9 +30,9 @@ public class F1StreamsApp {
         StreamsBuilder streamsBuilder = new StreamsBuilder();
 
         streamsBuilder
-                .stream("f1-telemetry-packets")
+                .stream(config.getF1StreamsInputTopic())
                 // TODO: doing some useful stuff
-                .to("f1-telemetry-streams");
+                .to(config.getF1StreamsOutputTopic());
 
         Topology topology = streamsBuilder.build();
         System.out.println(topology.describe());
