@@ -43,7 +43,7 @@ public class EventsRouteBuilder extends RouteBuilder  {
         .to("kafka:" + this.config.getF1EventsTopic() + "?" +
                 "brokers=" + this.config.getKafkaBootstrapServers() +
                 "&clientId=events" +
-                "&serializerClass=io.ppatierno.formula1.EventSerializer")
+                "&valueSerializer=io.ppatierno.formula1.EventSerializer")
         .routeId("udp-kafka-events")
         .log(LoggingLevel.DEBUG, "${body}")
         .log(LoggingLevel.INFO, "Event[id = ${body?.participantData.driverId}, code = ${body.eventData.eventCode}]");
