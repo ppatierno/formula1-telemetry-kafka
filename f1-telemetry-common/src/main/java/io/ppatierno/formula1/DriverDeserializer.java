@@ -33,11 +33,21 @@ public class DriverDeserializer implements Deserializer<Driver> {
     public Driver deserialize(String topic, Headers headers, byte[] bytes) {
         ByteBuf bb = Unpooled.wrappedBuffer(bytes);
         Driver driver = new Driver(new ParticipantData().fill(bb));
-        driver.setCarMotionData(new CarMotionData().fill(bb));
-        driver.setLapData(new LapData().fill(bb));
-        driver.setCarSetupData(new CarSetupData().fill(bb));
-        driver.setCarTelemetryData(new CarTelemetryData().fill(bb));
-        driver.setCarStatusData(new CarStatusData().fill(bb));
+        if (bb.isReadable()) {
+            driver.setCarMotionData(new CarMotionData().fill(bb));
+        }
+        if (bb.isReadable()) {
+            driver.setLapData(new LapData().fill(bb));
+        }
+        if (bb.isReadable()) {
+            driver.setCarSetupData(new CarSetupData().fill(bb));
+        }
+        if (bb.isReadable()) {
+            driver.setCarTelemetryData(new CarTelemetryData().fill(bb));
+        }
+        if (bb.isReadable()) {
+            driver.setCarStatusData(new CarStatusData().fill(bb));
+        }
         if (bb.isReadable()) {
             driver.setFinalClassificationData(new FinalClassificationData().fill(bb));
         }

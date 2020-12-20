@@ -33,11 +33,21 @@ public class DriverSerializer implements Serializer<Driver> {
     public byte[] serialize(String topic, Headers headers, Driver driver) {
         ByteBuf bb = Unpooled.buffer(this.rawBytesSize(driver));
         driver.getParticipantData().fillBuffer(bb);
-        driver.getCarMotionData().fillBuffer(bb);
-        driver.getLapData().fillBuffer(bb);
-        driver.getCarSetupData().fillBuffer(bb);
-        driver.getCarTelemetryData().fillBuffer(bb);
-        driver.getCarStatusData().fillBuffer(bb);
+        if (bb.isWritable()) {
+            driver.getCarMotionData().fillBuffer(bb);
+        }
+        if (bb.isWritable()) {
+            driver.getLapData().fillBuffer(bb);
+        }
+        if (bb.isWritable()) {
+            driver.getCarSetupData().fillBuffer(bb);
+        }
+        if (bb.isWritable()) {
+            driver.getCarTelemetryData().fillBuffer(bb);
+        }
+        if (bb.isWritable()) {
+            driver.getCarStatusData().fillBuffer(bb);
+        }
         if (bb.isWritable()) {
             driver.getFinalClassificationData().fillBuffer(bb);
         }
