@@ -28,6 +28,11 @@ public class DriversPointRouteBuilder extends RouteBuilder {
         from("kafka:" + this.config.getF1DriversTopic() + "?" +
                 "brokers=" + this.config.getKafkaBootstrapServers() +
                 "&valueDeserializer=io.ppatierno.formula1.DriverDeserializer")
+        .filter(exchange -> {
+            Driver driver = (Driver) exchange.getIn().getBody();
+            // we are interested in Driver packets with telemetry data only (some have just participant data)
+            return driver.hasValidTelemetry();
+        })
         .process(exchange -> {
 
             Driver driver = (Driver) exchange.getIn().getBody();

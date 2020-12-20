@@ -101,6 +101,11 @@ public class Driver {
         return shortName;
     }
 
+    public boolean hasValidTelemetry() {
+        return this.carMotionData != null && this.lapData != null &&
+                this.carSetupData != null && this.carTelemetryData != null && this.carStatusData != null;
+    }
+
     @Override
     public String toString() {
         return "Driver[participantData=" + this.participantData +
