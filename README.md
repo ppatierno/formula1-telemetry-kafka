@@ -76,3 +76,12 @@ The car status dashboard shows information mostly related to the status of each 
 The events dashboard shows race events like max speed trap and fastest lap.
 
 ![Events](./images/04-events.png)
+
+The driver dashboard allows to get data for a single driver, selecting one through the corresponding drop down list. 
+It has a top bar with information about current lap, position, distance and lap times.
+
+![Driver](./images/05-drivers.png)
+
+It also has some graphs showing specific driver data related to throttle/brake, engine/speed and gear.
+
+![Driver](./images/06-drivers.png)
