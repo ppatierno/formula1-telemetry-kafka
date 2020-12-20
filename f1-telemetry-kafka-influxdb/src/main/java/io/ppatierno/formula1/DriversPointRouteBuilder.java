@@ -9,6 +9,8 @@ import org.apache.camel.builder.RouteBuilder;
 import org.influxdb.dto.BatchPoints;
 import org.influxdb.dto.Point;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -73,9 +75,27 @@ public class DriversPointRouteBuilder extends RouteBuilder {
                     .addField("rearWingDamage", driver.getCarStatusData().getRearWingDamage())
                     .build();
 
+            Date currentLapTime = new Date((long)(driver.getLapData().getCurrentLapTime() * 1000));
+            Date lastLapTime = new Date((long)(driver.getLapData().getLastLapTime() * 1000));
+            Date bestLapTime = new Date((long)(driver.getLapData().getBestLapTime() * 1000));
+            Point lapDataPoint = Point.measurement("lapdata")
+                    .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
+                    .tag("driverid", driver.getParticipantData().getDriverId().name())
+                    .tag("driverhashtag", driver.getHashtag())
+                    .addField("gridposition", driver.getLapData().getGridPosition())
+                    .addField("carposition", driver.getLapData().getCarPosition())
+                    .addField("currentlapnum", driver.getLapData().getCurrentLapNum())
+                    .addField("lapdistance", driver.getLapData().getLapDistance())
+                    .addField("currentlaptime", new SimpleDateFormat("m:ss.SSS").format(currentLapTime))
+                    .addField("lastlaptime", new SimpleDateFormat("m:ss.SSS").format(lastLapTime))
+                    .addField("bestlaptime", new SimpleDateFormat("m:ss.SSS").format(bestLapTime))
+                    .addField("driverstatus", driver.getLapData().getDriverStatus().name())
+                    .build();
+
             batchPoints.point(telemetryPoint);
             batchPoints.point(motionPoint);
             batchPoints.point(carStatusPoint);
+            batchPoints.point(lapDataPoint);
 
             exchange.getIn().setBody(batchPoints);
         })
