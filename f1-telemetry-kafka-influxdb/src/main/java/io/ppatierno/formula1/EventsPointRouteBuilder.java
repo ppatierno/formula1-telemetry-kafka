@@ -6,6 +6,7 @@ package io.ppatierno.formula1;
 
 import io.ppatierno.formula1.data.FastestLap;
 import io.ppatierno.formula1.data.SpeedTrap;
+import io.ppatierno.formula1.enums.EventCode;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.influxdb.dto.Point;
@@ -26,6 +27,12 @@ public class EventsPointRouteBuilder extends RouteBuilder {
         from("kafka:" + this.config.getF1EventsTopic() + "?" +
                 "brokers=" + this.config.getKafkaBootstrapServers() +
                 "&valueDeserializer=io.ppatierno.formula1.EventDeserializer")
+        .filter(exchange ->  {
+            Event event = (Event) exchange.getIn().getBody();
+            // we are interested in following events only
+            return event.getEventData().getEventCode() == EventCode.FASTEST_LAP ||
+                    event.getEventData().getEventCode() == EventCode.SPEED_TRAP_TRIGGERED;
+        })
         .process(exchange -> {
 
             Event event = (Event) exchange.getIn().getBody();
