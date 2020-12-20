@@ -45,8 +45,8 @@ public class EventsRouteBuilder extends RouteBuilder  {
                 "&clientId=events" +
                 "&valueSerializer=io.ppatierno.formula1.EventSerializer")
         .routeId("udp-kafka-events")
-        .log(LoggingLevel.DEBUG, "${body}")
-        .log(LoggingLevel.INFO, "Event[id = ${body?.participantData.driverId}, code = ${body.eventData.eventCode}]");
+        .log(LoggingLevel.TRACE, "${body}")
+        .log(LoggingLevel.DEBUG, "Event[id = ${body?.participantData.driverId}, code = ${body.eventData.eventCode}]");
     }
 
     private Event buildEvent(PacketEventData packetEventData) {

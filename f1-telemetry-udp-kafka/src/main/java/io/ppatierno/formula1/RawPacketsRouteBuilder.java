@@ -25,7 +25,7 @@ public class RawPacketsRouteBuilder extends RouteBuilder {
         from("direct:raw-packets")
         .to("kafka:" + this.config.getF1RawPacketsTopic() + "?brokers=" + this.config.getKafkaBootstrapServers() + "&clientId=raw-packets")
         .routeId("udp-kafka-raw-packets")
-        .log(LoggingLevel.DEBUG, "${body}")
-        .log(LoggingLevel.INFO, "Packet[frameId = ${body.header.frameIdentifier}, packetId = ${body.header.packetId}]");
+        .log(LoggingLevel.TRACE, "${body}")
+        .log(LoggingLevel.DEBUG, "Packet[frameId = ${body.header.frameIdentifier}, packetId = ${body.header.packetId}]");
     }
 }

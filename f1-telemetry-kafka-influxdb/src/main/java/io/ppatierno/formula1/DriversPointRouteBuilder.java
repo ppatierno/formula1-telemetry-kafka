@@ -81,7 +81,7 @@ public class DriversPointRouteBuilder extends RouteBuilder {
         })
         .to("influxdb://connectionBean?databaseName=formula1&retentionPolicy=autogen&batch=true")
         .routeId("kafka-influxdb-drivers")
-        .log(LoggingLevel.DEBUG, "${body}")
-        .log(LoggingLevel.INFO, "Driver[${body.tags}]");
+        .log(LoggingLevel.TRACE, "${body}")
+        .log(LoggingLevel.DEBUG, "Driver[${body.tags}]");
     }
 }
