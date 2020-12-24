@@ -85,3 +85,13 @@ It has a top bar with information about current lap, position, distance and lap 
 It also has some graphs showing specific driver data related to throttle/brake, engine/speed and gear.
 
 ![Driver](./images/06-drivers.png)
+
+## Build
+
+In order to build the project just run the following command.
+
+```shell
+mvn package jib:dockerBuild
+```
+
+It will build all the components, and the Docker images (locally) using Gooele Jib for deploying using containers (on Kubernetes for example). 
