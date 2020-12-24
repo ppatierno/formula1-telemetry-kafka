@@ -33,7 +33,7 @@ public class F1WebConsumer {
 
     public void start() {
         this.consumer.handler(record -> {
-            log.info("record = {}", record);
+            log.trace("record = {}", record);
             this.vertx.eventBus().publish("f1-race-ranking", driverToJson(record.value()));
         });
         this.consumer.subscribe(this.config.getF1DriversTopic(), done -> {
@@ -47,11 +47,15 @@ public class F1WebConsumer {
 
     private JsonObject driverToJson(Driver driver) {
         JsonObject json = new JsonObject();
-        json.put("position", driver.getLapData().getCarPosition());
-        json.put("hashtag", driver.getHashtag());
         json.put("name", driver.getParticipantData().getDriverId().name().replace("_", " "));
-        json.put("positiongain", driver.getLapData().getGridPosition() - driver.getLapData().getCarPosition());
-        json.put("tyre", driver.getCarStatusData().getVisualTyreCompound());
+        json.put("hashtag", driver.getHashtag());
+        if (driver.getLapData() != null) {
+            json.put("position", driver.getLapData().getCarPosition());
+            json.put("positiongain", driver.getLapData().getGridPosition() - driver.getLapData().getCarPosition());
+        }
+        if (driver.getCarStatusData() != null) {
+            json.put("tyre", driver.getCarStatusData().getVisualTyreCompound());
+        }
         return json;
     }
 }
