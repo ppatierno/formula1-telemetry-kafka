@@ -12,7 +12,7 @@ spec:
   template:
     metadata:
       labels:
-        name: grafana
+        app: grafana
     spec:
       containers:
         - name: grafana
@@ -50,7 +50,7 @@ kind: Service
 metadata:
   name: grafana
   labels:
-    app: strimzi
+    app: grafana
 spec:
   ports:
     - name: grafana
@@ -58,5 +58,5 @@ spec:
       targetPort: 3000
       protocol: TCP
   selector:
-    name: grafana
+    app: grafana
   type: ClusterIP
