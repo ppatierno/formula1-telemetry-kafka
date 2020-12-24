@@ -88,10 +88,14 @@ It also has some graphs showing specific driver data related to throttle/brake, 
 
 ## Build
 
-In order to build the project just run the following command.
+In order to build all the components, just run the following command.
+
+```shell
+mvn package
+```
+
+If you want to run the applications as containers even locally or on Kubernetes, a [Google Jib](https://github.com/GoogleContainerTools/jib) configuration is available for building the corresponding Docker images.
 
 ```shell
 mvn package jib:dockerBuild
 ```
-
-It will build all the components, and the Docker images (locally) using Gooele Jib for deploying using containers (on Kubernetes for example). 
