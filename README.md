@@ -99,3 +99,5 @@ If you want to run the applications as containers even locally or on Kubernetes,
 ```shell
 mvn package jib:dockerBuild
 ```
+
+The above command will build the Docker images locally; you have to push them to the registry you prefer manually.
