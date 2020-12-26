@@ -40,7 +40,7 @@ public class DriversPointRouteBuilder extends RouteBuilder {
             Driver driver = (Driver) exchange.getIn().getBody();
 
             BatchPoints batchPoints = BatchPoints
-                    .database("formula1")
+                    .database(this.config.getInfluxDbDatabase())
                     .tag("driverid", driver.getParticipantData().getDriverId().name())
                     .tag("driverhashtag", driver.getHashtag())
                     .build();

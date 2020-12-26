@@ -22,7 +22,7 @@ public class F1KafkaInfluxDBApp {
         log.info("Config: {}", config);
 
         InfluxDB influxDB = InfluxDBFactory.connect(config.getInfluxDbUrl());
-        influxDB.query(new Query("CREATE DATABASE " + "formula1", "formula1"));
+        influxDB.query(new Query("CREATE DATABASE " + config.getInfluxDbDatabase(), config.getInfluxDbDatabase()));
 
         CamelContext camelContext = new DefaultCamelContext();
         camelContext.getRegistry().bind("connectionBean", influxDB);
