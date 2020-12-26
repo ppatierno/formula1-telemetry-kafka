@@ -18,6 +18,9 @@ spec:
         - name: influxdb
           image: docker.io/influxdb:1.8.2
           imagePullPolicy: IfNotPresent
+          env:
+            - name: INFLUXDB_DB
+              value: formula1
           ports:
             - containerPort: 8086
               name: api
