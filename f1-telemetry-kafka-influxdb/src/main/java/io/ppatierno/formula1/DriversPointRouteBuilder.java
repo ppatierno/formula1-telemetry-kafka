@@ -4,6 +4,7 @@
  */
 package io.ppatierno.formula1;
 
+import io.ppatierno.formula1.enums.Wheel;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.influxdb.dto.BatchPoints;
@@ -73,6 +74,14 @@ public class DriversPointRouteBuilder extends RouteBuilder {
                     .addField("frontLeftWingDamage", driver.getCarStatusData().getFrontLeftWingDamage())
                     .addField("frontRightWingDamage", driver.getCarStatusData().getFrontRightWingDamage())
                     .addField("rearWingDamage", driver.getCarStatusData().getRearWingDamage())
+                    .addField("rltyredamage", driver.getCarStatusData().getTyresDamage()[Wheel.REAR_LEFT.getValue()])
+                    .addField("rrtyredamage", driver.getCarStatusData().getTyresDamage()[Wheel.REAR_RIGHT.getValue()])
+                    .addField("fltyredamage", driver.getCarStatusData().getTyresDamage()[Wheel.FRONT_LEFT.getValue()])
+                    .addField("frtyredamage", driver.getCarStatusData().getTyresDamage()[Wheel.FRONT_RIGHT.getValue()])
+                    .addField("rltyrewear", driver.getCarStatusData().getTyresWear()[Wheel.REAR_LEFT.getValue()])
+                    .addField("rrtyrewear", driver.getCarStatusData().getTyresWear()[Wheel.REAR_RIGHT.getValue()])
+                    .addField("fltyrewear", driver.getCarStatusData().getTyresWear()[Wheel.FRONT_LEFT.getValue()])
+                    .addField("frtyrewear", driver.getCarStatusData().getTyresWear()[Wheel.FRONT_RIGHT.getValue()])
                     .build();
 
             Date currentLapTime = new Date((long)(driver.getLapData().getCurrentLapTime() * 1000));
