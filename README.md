@@ -86,6 +86,10 @@ It also has some graphs showing specific driver data related to throttle/brake, 
 
 ![Driver](./images/06-drivers.png)
 
+It also shows specific information about tyres as damage, wear and surface temperature.
+
+![Driver](./images/07-drivers.png)
+
 ## Build
 
 In order to build all the components, just run the following command.
