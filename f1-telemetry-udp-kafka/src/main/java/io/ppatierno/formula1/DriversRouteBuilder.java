@@ -27,9 +27,22 @@ public class DriversRouteBuilder extends RouteBuilder {
     private static int AGGREGATION_COMPLETION_TIMEOUT = 10000;
 
     private final F1UdpKafkaAppConfig config;
+    private String kafkaEndpoint;
 
     public DriversRouteBuilder(F1UdpKafkaAppConfig config) {
         this.config = config;
+        this.kafkaEndpoint =
+                "kafka:" + this.config.getF1DriversTopic() + "?" +
+                "brokers=" + this.config.getKafkaBootstrapServers() +
+                "&clientId=drivers" +
+                "&valueSerializer=io.ppatierno.formula1.DriverSerializer";
+        if (this.config.getKafkaTruststoreLocation() != null && this.config.getKafkaTruststorePassword() != null) {
+            this.kafkaEndpoint += "&sslTruststoreLocation=" + this.config.getKafkaTruststoreLocation() +
+                    "&sslTruststorePassword=" + this.config.getKafkaTruststorePassword() +
+                    "&sslTruststoreType=PKCS12" +
+                    "&securityProtocol=SSL";
+        }
+        log.info("kafkaEndpoint = {}", this.kafkaEndpoint);
     }
 
     @Override
@@ -70,11 +83,7 @@ public class DriversRouteBuilder extends RouteBuilder {
                     Driver driver = (Driver) exchange.getIn().getBody();
                     exchange.getIn().setHeader(KafkaConstants.KEY, driver.getParticipantData().getDriverId().name());
                 })
-                .to("kafka:" + this.config.getF1DriversTopic() + "?" +
-                        "brokers=" + this.config.getKafkaBootstrapServers() +
-                        "&clientId=drivers" +
-                        "&valueSerializer=io.ppatierno.formula1.DriverSerializer")
-                .routeId("udp-kafka-drivers")
+                .to(this.kafkaEndpoint)
                 .log(LoggingLevel.TRACE, "${body}")
                 .log(LoggingLevel.DEBUG, "Driver[id = ${body.participantData.driverId}, hashtag = ${body.hashtag}]");
     }

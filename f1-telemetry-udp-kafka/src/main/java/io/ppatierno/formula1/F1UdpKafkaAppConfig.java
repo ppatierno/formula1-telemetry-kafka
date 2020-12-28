@@ -7,6 +7,8 @@ package io.ppatierno.formula1;
 public class F1UdpKafkaAppConfig {
 
     private static final String KAFKA_BOOTSTRAP_SERVERS_ENV = "KAFKA_BOOTSTRAP_SERVERS";
+    private static final String KAFKA_TRUSTSTORE_LOCATION_ENV = "KAFKA_TRUSTSTORE_LOCATION";
+    private static final String KAFKA_TRUSTSTORE_PASSWORD_ENV = "KAFKA_TRUSTSTORE_PASSWORD";
     private static final String UDP_PORT_ENV = "UDP_PORT";
     private static final String F1_DRIVERS_TOPIC_ENV = "F1_DRIVERS_TOPIC";
     private static final String F1_EVENTS_TOPIC_ENV = "F1_EVENTS_TOPIC";
@@ -20,12 +22,17 @@ public class F1UdpKafkaAppConfig {
 
     private final int udpPort;
     private final String kafkaBootstrapServers;
+    private final String kafkaTruststoreLocation;
+    private final String kafkaTruststorePassword;
     private final String f1DriversTopic;
     private final String f1EventsTopic;
     private final String f1RawPacketsTopic;
 
-    private F1UdpKafkaAppConfig(String kafkaBootstrapServers, int udpPort, String f1DriversTopic, String f1EventsTopic, String f1RawPacketsTopic) {
+    private F1UdpKafkaAppConfig(String kafkaBootstrapServers, String kafkaTruststoreLocation, String kafkaTruststorePassword,
+                                int udpPort, String f1DriversTopic, String f1EventsTopic, String f1RawPacketsTopic) {
         this.kafkaBootstrapServers = kafkaBootstrapServers;
+        this.kafkaTruststoreLocation = kafkaTruststoreLocation;
+        this.kafkaTruststorePassword = kafkaTruststorePassword;
         this.udpPort = udpPort;
         this.f1DriversTopic = f1DriversTopic;
         this.f1EventsTopic = f1EventsTopic;
@@ -34,11 +41,13 @@ public class F1UdpKafkaAppConfig {
 
     public static F1UdpKafkaAppConfig fromEnv() {
         String kafkaBootstrapServers = System.getenv(KAFKA_BOOTSTRAP_SERVERS_ENV) == null ? DEFAULT_KAFKA_BOOTSTRAP_SERVERS : System.getenv(KAFKA_BOOTSTRAP_SERVERS_ENV);
+        String kafkaTruststoreLocation = System.getenv(KAFKA_TRUSTSTORE_LOCATION_ENV);
+        String kafkaTruststorePassword = System.getenv(KAFKA_TRUSTSTORE_PASSWORD_ENV);
         int udpPort = System.getenv(UDP_PORT_ENV) == null ? DEFAULT_UDP_PORT : Integer.parseInt(System.getenv(UDP_PORT_ENV));
         String f1DriversTopic = System.getenv(F1_DRIVERS_TOPIC_ENV) == null ? DEFAULT_F1_DRIVERS_TOPIC : System.getenv(F1_DRIVERS_TOPIC_ENV);
         String f1EventsTopic = System.getenv(F1_EVENTS_TOPIC_ENV) == null ? DEFAULT_F1_EVENTS_TOPIC : System.getenv(F1_EVENTS_TOPIC_ENV);
         String f1RawPacketsTopic = System.getenv(F1_RAW_PACKETS_TOPIC_ENV) == null ? DEFAULT_F1_RAW_PACKETS_TOPIC : System.getenv(F1_RAW_PACKETS_TOPIC_ENV);
-        return new F1UdpKafkaAppConfig(kafkaBootstrapServers, udpPort, f1DriversTopic, f1EventsTopic, f1RawPacketsTopic);
+        return new F1UdpKafkaAppConfig(kafkaBootstrapServers, kafkaTruststoreLocation, kafkaTruststorePassword, udpPort, f1DriversTopic, f1EventsTopic, f1RawPacketsTopic);
     }
 
     public int getUdpPort() {
@@ -47,6 +56,14 @@ public class F1UdpKafkaAppConfig {
 
     public String getKafkaBootstrapServers() {
         return kafkaBootstrapServers;
+    }
+
+    public String getKafkaTruststoreLocation() {
+        return kafkaTruststoreLocation;
+    }
+
+    public String getKafkaTruststorePassword() {
+        return kafkaTruststorePassword;
     }
 
     public String getF1DriversTopic() {
@@ -65,7 +82,9 @@ public class F1UdpKafkaAppConfig {
     public String toString() {
         return "F1UdpKafkaAppConfig[" +
                 "udpPort=" + this.udpPort +
-                ",kafkaBootstrapServers=" + this.kafkaBootstrapServers +
+                ", kafkaBootstrapServers=" + this.kafkaBootstrapServers +
+                ", kafkaTruststoreLocation=" +  this.kafkaTruststoreLocation +
+                ", kafkaTruststorePassword=" +  this.kafkaTruststorePassword +
                 ", f1DriversTopic=" + this.f1DriversTopic +
                 ", f1EventsTopic=" + this.f1EventsTopic +
                 ", f1RawPacketsTopic=" + this.f1RawPacketsTopic +

@@ -20,10 +20,22 @@ public class EventsRouteBuilder extends RouteBuilder  {
 
     private final F1UdpKafkaAppConfig config;
     private final Session session;
+    private String kafkaEndpoint;
 
     public EventsRouteBuilder(F1UdpKafkaAppConfig config, Session session) {
         this.config = config;
         this.session = session;
+        this.kafkaEndpoint = "kafka:" + this.config.getF1EventsTopic() + "?" +
+                "brokers=" + this.config.getKafkaBootstrapServers() +
+                "&clientId=events" +
+                "&valueSerializer=io.ppatierno.formula1.EventSerializer";
+        if (this.config.getKafkaTruststoreLocation() != null && this.config.getKafkaTruststorePassword() != null) {
+            this.kafkaEndpoint += "&sslTruststoreLocation=" + this.config.getKafkaTruststoreLocation() +
+                    "&sslTruststorePassword=" + this.config.getKafkaTruststorePassword() +
+                    "&sslTruststoreType=PKCS12" +
+                    "&securityProtocol=SSL";
+        }
+        log.info("kafkaEndpoint = {}", this.kafkaEndpoint);
     }
 
     @Override
@@ -40,10 +52,7 @@ public class EventsRouteBuilder extends RouteBuilder  {
             exchange.getIn().setHeader(KafkaConstants.KEY, packetEventData.getEventCode().name());
             exchange.getIn().setBody(this.buildEvent(packetEventData));
         })
-        .to("kafka:" + this.config.getF1EventsTopic() + "?" +
-                "brokers=" + this.config.getKafkaBootstrapServers() +
-                "&clientId=events" +
-                "&valueSerializer=io.ppatierno.formula1.EventSerializer")
+        .to(this.kafkaEndpoint)
         .routeId("udp-kafka-events")
         .log(LoggingLevel.TRACE, "${body}")
         .log(LoggingLevel.DEBUG, "Event[id = ${body?.participantData.driverId}, code = ${body.eventData.eventCode}]");
