@@ -60,7 +60,7 @@ public class EventsPointRouteBuilder extends RouteBuilder {
             }
             exchange.getIn().setBody(point);
         })
-        .to("influxdb://connectionBean?databaseName=formula1&retentionPolicy=autogen")
+        .to("influxdb://connectionBean?databaseName=" + this.config.getInfluxDbDatabase() + "&retentionPolicy=autogen")
         .routeId("kafka-influxdb-events")
         .log(LoggingLevel.TRACE, "${body}")
         .log(LoggingLevel.DEBUG, "Event[${body.tags}]");

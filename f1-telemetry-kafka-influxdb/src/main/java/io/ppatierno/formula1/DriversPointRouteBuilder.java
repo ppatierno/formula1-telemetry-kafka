@@ -117,7 +117,7 @@ public class DriversPointRouteBuilder extends RouteBuilder {
 
             exchange.getIn().setBody(batchPoints);
         })
-        .to("influxdb://connectionBean?databaseName=formula1&retentionPolicy=autogen&batch=true")
+        .to("influxdb://connectionBean?databaseName=" + this.config.getInfluxDbDatabase() + "&retentionPolicy=autogen&batch=true")
         .routeId("kafka-influxdb-drivers")
         .log(LoggingLevel.TRACE, "${body}")
         .log(LoggingLevel.DEBUG, "Driver[${body.tags}]");
