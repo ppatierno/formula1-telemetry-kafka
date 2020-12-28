@@ -52,7 +52,7 @@
   "gnetId": null,
   "graphTooltip": 2,
   "id": null,
-  "iteration": 1609098486827,
+  "iteration": 1609155407777,
   "links": [],
   "panels": [
     {
@@ -937,6 +937,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "${DS_INFLUXDB}",
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -974,8 +975,8 @@
       "renderer": "flot",
       "seriesOverrides": [
         {
-          "$$hashKey": "object:2880",
-          "alias": "telemetry.currentlaptime",
+          "$$hashKey": "object:768",
+          "alias": "telemetry.clutch",
           "yaxis": 2
         }
       ],
@@ -1009,13 +1010,38 @@
               "value": "/^$Driver$/"
             }
           ]
+        },
+        {
+          "groupBy": [],
+          "measurement": "telemetry",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "clutch"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "driverid",
+              "operator": "=~",
+              "value": "/^$Driver$/"
+            }
+          ]
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Gear",
+      "title": "Gear & Clutch",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1041,10 +1067,10 @@
         },
         {
           "$$hashKey": "object:173",
-          "format": "dthms",
+          "format": "short",
           "label": null,
           "logBase": 1,
-          "max": null,
+          "max": "100",
           "min": "0",
           "show": true
         }
