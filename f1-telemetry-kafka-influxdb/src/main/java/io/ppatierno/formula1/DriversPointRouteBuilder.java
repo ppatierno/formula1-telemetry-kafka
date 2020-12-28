@@ -60,6 +60,10 @@ public class DriversPointRouteBuilder extends RouteBuilder {
                     .addField("rrtyresurfacetemperature", driver.getCarTelemetryData().getTyresSurfaceTemperature()[Wheel.REAR_RIGHT.getValue()])
                     .addField("fltyresurfacetemperature", driver.getCarTelemetryData().getTyresSurfaceTemperature()[Wheel.FRONT_LEFT.getValue()])
                     .addField("frtyresurfacetemperature", driver.getCarTelemetryData().getTyresSurfaceTemperature()[Wheel.FRONT_RIGHT.getValue()])
+                    .addField("rlbrakestemperature", driver.getCarTelemetryData().getBrakesTemperature()[Wheel.REAR_LEFT.getValue()])
+                    .addField("rrbrakestemperature", driver.getCarTelemetryData().getBrakesTemperature()[Wheel.REAR_RIGHT.getValue()])
+                    .addField("flbrakestemperature", driver.getCarTelemetryData().getBrakesTemperature()[Wheel.FRONT_LEFT.getValue()])
+                    .addField("frbrakestemperature", driver.getCarTelemetryData().getBrakesTemperature()[Wheel.FRONT_RIGHT.getValue()])
                     .build();
 
             Point motionPoint = Point.measurement("motion")

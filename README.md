@@ -82,13 +82,15 @@ It has a top bar with information about current lap, position, distance and lap 
 
 ![Driver](./images/05-drivers.png)
 
-It also has some graphs showing specific driver data related to throttle/brake, engine/speed and gear.
+It also has some graphs showing specific driver data related to throttle/brake, engine/speed, gear/clutch and brakes.
 
 ![Driver](./images/06-drivers.png)
 
+![Driver](./images/07-drivers.png)
+
 It also shows specific information about tyres as damage, wear and surface temperature.
 
-![Driver](./images/07-drivers.png)
+![Driver](images/08-drivers.png)
 
 ## Build
 
