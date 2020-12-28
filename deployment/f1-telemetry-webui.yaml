@@ -20,3 +20,19 @@ spec:
   selector:
     matchLabels:
       app: f1-telemetry-webui
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: f1-telemetry-webui
+  labels:
+    app: f1-telemetry
+spec:
+  ports:
+    - name: web
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app: f1-telemetry-webui
+  type: ClusterIP
