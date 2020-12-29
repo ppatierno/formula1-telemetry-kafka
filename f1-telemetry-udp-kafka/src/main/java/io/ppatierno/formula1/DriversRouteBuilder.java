@@ -27,22 +27,19 @@ public class DriversRouteBuilder extends RouteBuilder {
     private static int AGGREGATION_COMPLETION_TIMEOUT = 10000;
 
     private final F1UdpKafkaAppConfig config;
-    private String kafkaEndpoint;
+    private KafkaEndpoint kafkaEndpoint;
 
     public DriversRouteBuilder(F1UdpKafkaAppConfig config) {
         this.config = config;
-        this.kafkaEndpoint =
-                "kafka:" + this.config.getF1DriversTopic() + "?" +
-                "brokers=" + this.config.getKafkaBootstrapServers() +
-                "&clientId=drivers" +
-                "&valueSerializer=io.ppatierno.formula1.DriverSerializer";
-        if (this.config.getKafkaTruststoreLocation() != null && this.config.getKafkaTruststorePassword() != null) {
-            this.kafkaEndpoint += "&sslTruststoreLocation=" + this.config.getKafkaTruststoreLocation() +
-                    "&sslTruststorePassword=" + this.config.getKafkaTruststorePassword() +
-                    "&sslTruststoreType=PKCS12" +
-                    "&securityProtocol=SSL";
-        }
-        log.info("kafkaEndpoint = {}", this.kafkaEndpoint);
+        this.kafkaEndpoint = new KafkaEndpoint.KafkaEndpointBuilder()
+                .withBootstrapServers(this.config.getKafkaBootstrapServers())
+                .withTopic(this.config.getF1DriversTopic())
+                .withClientId("drivers")
+                .withValueSerializer("io.ppatierno.formula1.DriverSerializer")
+                .withTruststoreLocation(this.config.getKafkaTruststoreLocation())
+                .withTruststorePassword(this.config.getKafkaTruststorePassword())
+                .build();
+        log.info("KafkaEndpoint = {}", this.kafkaEndpoint);
     }
 
     @Override
@@ -83,7 +80,7 @@ public class DriversRouteBuilder extends RouteBuilder {
                     Driver driver = (Driver) exchange.getIn().getBody();
                     exchange.getIn().setHeader(KafkaConstants.KEY, driver.getParticipantData().getDriverId().name());
                 })
-                .to(this.kafkaEndpoint)
+                .to(this.kafkaEndpoint.toString())
                 .log(LoggingLevel.TRACE, "${body}")
                 .log(LoggingLevel.DEBUG, "Driver[id = ${body.participantData.driverId}, hashtag = ${body.hashtag}]");
     }
