@@ -14,16 +14,25 @@ import org.apache.camel.builder.RouteBuilder;
 public class RawPacketsRouteBuilder extends RouteBuilder {
 
     private final F1UdpKafkaAppConfig config;
+    private KafkaEndpoint kafkaEndpoint;
 
     public RawPacketsRouteBuilder(F1UdpKafkaAppConfig config) {
         this.config = config;
+        this.kafkaEndpoint = new KafkaEndpoint.KafkaEndpointBuilder()
+                .withBootstrapServers(this.config.getKafkaBootstrapServers())
+                .withTopic(this.config.getF1RawPacketsTopic())
+                .withClientId("raw-packets")
+                .withTruststoreLocation(this.config.getKafkaTruststoreLocation())
+                .withTruststorePassword(this.config.getKafkaTruststorePassword())
+                .build();
+        log.info("KafkaEndpoint = {}", this.kafkaEndpoint);
     }
 
     @Override
     public void configure() throws Exception {
         // get raw Packet instances (as body) from the "udp-multicast-dispatcher" route thanks to multicast
         from("direct:raw-packets")
-        .to("kafka:" + this.config.getF1RawPacketsTopic() + "?brokers=" + this.config.getKafkaBootstrapServers() + "&clientId=raw-packets")
+        .to(this.kafkaEndpoint.toString())
         .routeId("udp-kafka-raw-packets")
         .log(LoggingLevel.TRACE, "${body}")
         .log(LoggingLevel.DEBUG, "Packet[frameId = ${body.header.frameIdentifier}, packetId = ${body.header.packetId}]");
