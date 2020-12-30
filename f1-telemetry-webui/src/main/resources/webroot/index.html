@@ -8,28 +8,28 @@
 <body>
 <h1>F1 Race Ranking</h1>
 <table id="ranking">
-    <tr id="pos_1"></tr>
-    <tr id="pos_2"></tr>
-    <tr id="pos_3"></tr>
-    <tr id="pos_4"></tr>
-    <tr id="pos_5"></tr>
-    <tr id="pos_6"></tr>
-    <tr id="pos_7"></tr>
-    <tr id="pos_8"></tr>
-    <tr id="pos_9"></tr>
-    <tr id="pos_10"></tr>
-    <tr id="pos_11"></tr>
-    <tr id="pos_12"></tr>
-    <tr id="pos_13"></tr>
-    <tr id="pos_14"></tr>
-    <tr id="pos_15"></tr>
-    <tr id="pos_16"></tr>
-    <tr id="pos_17"></tr>
-    <tr id="pos_18"></tr>
-    <tr id="pos_19"></tr>
-    <tr id="pos_20"></tr>
-    <tr id="pos_21"></tr>
-    <tr id="pos_22"></tr>
+    <tr id="1"></tr>
+    <tr id="2"></tr>
+    <tr id="3"></tr>
+    <tr id="4"></tr>
+    <tr id="5"></tr>
+    <tr id="6"></tr>
+    <tr id="7"></tr>
+    <tr id="8"></tr>
+    <tr id="9"></tr>
+    <tr id="10"></tr>
+    <tr id="11"></tr>
+    <tr id="12"></tr>
+    <tr id="13"></tr>
+    <tr id="14"></tr>
+    <tr id="15"></tr>
+    <tr id="16"></tr>
+    <tr id="17"></tr>
+    <tr id="18"></tr>
+    <tr id="19"></tr>
+    <tr id="20"></tr>
+    <tr id="21"></tr>
+    <tr id="22"></tr>
 </table>
 <script>
     var eb = new EventBus('http://localhost:8080/eventbus');
@@ -38,22 +38,24 @@
         // set a handler to receive a message
         eb.registerHandler('f1-race-ranking', (error, message) => {
             var driver = message.body
+            var currentPosition = $('table#ranking tr[driver="' + driver.hashtag + '"]').attr("id")
             console.log('received a message: ' + JSON.stringify(driver))
-            var color = 'black'
-            if (driver.positiongain > 0) {
-                color = 'green'
-                positionGain = '+' + driver.positiongain
-            } else if (driver.positiongain < 0) {
-                color = 'red'
-                positionGain = driver.positiongain
-            } else {
-                color = 'black'
-                positionGain = '='
+            if (currentPosition != driver.position) {
+                console.log("Position change: current = " + currentPosition + " new = " + driver.position)
+                var color = 'black'
+                var positionGain = '='
+                if (driver.positiongain > 0) {
+                    color = 'green'
+                    positionGain = '+' + driver.positiongain
+                } else if (driver.positiongain < 0) {
+                    color = 'red'
+                    positionGain = driver.positiongain
+                }
+                var positionGainRow = '<td style="color:' + color + ';text-align: center">' + positionGain + '</td>'
+                // on tyre, remove the "F1_" prefix
+                var row = '<td>' + driver.position + '</td><td>' + driver.hashtag + '</td><td>' + driver.name + '</td>' + positionGainRow + '<td>(' + driver.tyre.substring(3).toLowerCase() + ')</td>'
+                $('table#ranking tr[id="' + driver.position + '"]').attr("driver", driver.hashtag).html(row)
             }
-            var positionGainRow = '<td style="color:' + color + ';text-align: center">' + positionGain + '</td>'
-            // on tyre, remove the "F1_" prefix
-            var row = '<td>' + driver.position + '</td><td>' + driver.hashtag + '</td><td>' + driver.name + '</td>' + positionGainRow + '<td>(' + driver.tyre.substring(3).toLowerCase() + ')</td>'
-            $('table#ranking tr[id="pos_' + driver.position + '"]').html(row)
         });
     }
 </script>
