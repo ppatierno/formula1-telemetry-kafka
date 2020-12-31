@@ -27,12 +27,6 @@
       "id": "influxdb",
       "name": "InfluxDB",
       "version": "1.0.0"
-    },
-    {
-      "type": "datasource",
-      "id": "prometheus",
-      "name": "Prometheus",
-      "version": "1.0.0"
     }
   ],
   "annotations": {
@@ -1008,7 +1002,7 @@
             [
               {
                 "params": [
-                  "frontLeftWingDamage"
+                  "flwingdamage"
                 ],
                 "type": "field"
               }
@@ -1147,7 +1141,7 @@
             [
               {
                 "params": [
-                  "frontRightWingDamage"
+                  "frwingdamage"
                 ],
                 "type": "field"
               }
@@ -1286,7 +1280,7 @@
             [
               {
                 "params": [
-                  "rearWingDamage"
+                  "rwingdamage"
                 ],
                 "type": "field"
               }
@@ -1792,5 +1786,5 @@
   "timezone": "",
   "title": "Formula 1",
   "uid": "R-MtWMOGz",
-  "version": 7
+  "version": 3
 }
