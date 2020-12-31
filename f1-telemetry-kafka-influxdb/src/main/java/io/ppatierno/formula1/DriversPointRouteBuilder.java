@@ -53,6 +53,7 @@ public class DriversPointRouteBuilder extends RouteBuilder {
                     .addField("enginerpm", driver.getCarTelemetryData().getEngineRPM())
                     .addField("speed", driver.getCarTelemetryData().getSpeed())
                     .addField("throttle", driver.getCarTelemetryData().getThrottle())
+                    .addField("steer", driver.getCarTelemetryData().getSteer())
                     .addField("brake", driver.getCarTelemetryData().getBrake())
                     .addField("gear", driver.getCarTelemetryData().getGear())
                     .addField("clutch", driver.getCarTelemetryData().getClutch())
