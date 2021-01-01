@@ -20,7 +20,35 @@ The above command will build the Docker images locally; you have to push them to
 
 ### Apache Kafka, InfluxDB and Grafana stack
 
-TBD
+The overall Apache Kafka, InfluxDB and Grafana stack can be deployed locally or even on Kubernetes.
+For deploying it locally, just download the latest releases from the corresponding repositories or websites and follow the official instructions to run them.
+
+* Apache Kafka: the latest release can be downloaded from [here](https://kafka.apache.org/downloads) and the [quickstart](https://kafka.apache.org/quickstart) can walk you through the deployment.
+* InfluxDB: the latest release can be downloaded from [here](https://portal.influxdata.com/downloads/) and the [get started](https://docs.influxdata.com/influxdb/v2.0/get-started/) guide helps to run it.
+* Grafana:  the latest release can be downloaded from [here](https://grafana.com/grafana/download) and the [installation](https://grafana.com/docs/grafana/latest/installation/) guide helps to install it.
+
+For deploying it on Kubernetes, you can apply the Grafana and InfluxDB `Deployment` resources first.
+
+```shell
+kubectl apply -f deployment/influxdb.yaml
+kubectl apply -f deployment/grafana.yaml
+```
+
+To access Grafana from outside the Kubernetes cluster you can create a corresponding `Ingress` resource (or even a `Route` is using OpenShift).
+The dashboards can be imported from the `deployment/dashboard` folder. 
+
+Regarding Apache Kafka, the simpler way is to use the [Strimzi](https://strimzi.io/) project, and you can find all the information on the official [documentation](https://strimzi.io/documentation/).
+The quick start guide shows how to [install the operator](https://strimzi.io/docs/operators/latest/quickstart.html#proc-install-product-str) using the YAML files from the latest release.
+Another way is to use the OperatorHub.io website where the latest operator release is available [here](https://operatorhub.io/operator/strimzi-kafka-operator) with all the instructions to install it.  
+
+After installing the operator, you have to create your own `Kafka` custom resource for deploying the Apache Kafka cluster through the operator itself.
+Some `Kafka` custom resource examples are available at the official Strimzi repository [here](https://github.com/strimzi/strimzi-kafka-operator/tree/master/examples/kafka).
+
+The Apache Kafka cluster needs to be accessible from outside the Kubernetes cluster in order to allow the telemetry data coming from the UDP related application (not running on Kubernetes).
+In order to do so, it is important to configure one "external" listener (with TLS enabled if you prefer).
+More information are available in the [configuring external listeners](https://strimzi.io/docs/operators/latest/using.html#assembly-configuring-external-listeners-str) chapter.
+If the TLS protocol is enabled on the external listener, you need to get the cluster CA certificate, and the corresponding password for allowing the UDP to Kafka application to connect.
+More information are available in the [configuring external clients to trust the cluster CA](https://strimzi.io/docs/operators/latest/using.html#configuring-external-clients-to-trust-cluster-ca-str) chapter.
 
 ### UDP to Apache Kafka
 
