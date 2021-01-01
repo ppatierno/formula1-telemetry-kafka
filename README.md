@@ -59,6 +59,10 @@ Contains different components for ingesting and handling Formula 1 2020 game (by
 The Formula 1 2020 game UDP packets specification is [here](https://forums.codemasters.com/topic/50942-f1-2020-udp-specification/).
 The library used for decoding the packets is [here](https://github.com/ppatierno/formula1-telemetry).
 
+## Documentation
+
+You can find more information about building, deploying and running the solution in the documentation [here](documentation/README.md)
+
 ## Dashboards
 
 The telemetry dashboard shows information like speed, engine (rpm), throttle and brake.
@@ -91,19 +95,3 @@ It also has some graphs showing specific driver data related to throttle/brake, 
 It also shows specific information about tyres as damage, wear and surface temperature.
 
 ![Driver](images/08-drivers.png)
-
-## Build
-
-In order to build all the components, just run the following command.
-
-```shell
-mvn package
-```
-
-If you want to run the applications as containers even locally or on Kubernetes, a [Google Jib](https://github.com/GoogleContainerTools/jib) configuration is available for building the corresponding Docker images.
-
-```shell
-mvn package jib:dockerBuild
-```
-
-The above command will build the Docker images locally; you have to push them to the registry you prefer manually.
