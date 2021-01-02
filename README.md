@@ -92,6 +92,8 @@ It also has some graphs showing specific driver data related to throttle/brake, 
 
 ![Driver](./images/07-drivers.png)
 
-It also shows specific information about tyres as damage, wear and surface temperature.
+It also shows specific information about tyres like, for example, the compound, the age laps, wear, surface temperature and damage
 
 ![Driver](images/08-drivers.png)
+
+![Driver](images/09-drivers.png)
