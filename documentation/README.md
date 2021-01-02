@@ -1,12 +1,24 @@
 # Documentation
 
+* [Build](#build)
+    * [Components](#components)
+    * [Docker images](#docker-images)
+* [Running](#running)
+    * [Apache Kafka, InfluxDB and Grafana stack](#apache-kafka-influxdb-and-grafana-stack)
+    * [UDP to Apache Kafka](#udp-to-apache-kafka)
+    * [Apache Kafka to InfluxDB](#apache-kafka-to-influxdb)
+
 ## Build
+
+### Components
 
 In order to build all the components, just run the following command.
 
 ```shell
 mvn package
 ```
+
+### Docker images
 
 If you want to run the applications as containers even locally or on Kubernetes, a [Google Jib](https://github.com/GoogleContainerTools/jib) configuration is available for building the corresponding Docker images.
 
