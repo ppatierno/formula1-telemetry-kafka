@@ -92,6 +92,8 @@ public class DriversPointRouteBuilder extends RouteBuilder {
                     .addField("rrtyrewear", driver.getCarStatusData().getTyresWear()[Wheel.REAR_RIGHT.getValue()])
                     .addField("fltyrewear", driver.getCarStatusData().getTyresWear()[Wheel.FRONT_LEFT.getValue()])
                     .addField("frtyrewear", driver.getCarStatusData().getTyresWear()[Wheel.FRONT_RIGHT.getValue()])
+                    .addField("tyrecompound", driver.getCarStatusData().getVisualTyreCompound().name())
+                    .addField("tyresagelaps", driver.getCarStatusData().getTyresAgeLaps())
                     .build();
 
             Date currentLapTime = new Date((long)(driver.getLapData().getCurrentLapTime() * 1000));
