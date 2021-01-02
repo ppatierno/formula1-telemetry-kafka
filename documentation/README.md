@@ -1,5 +1,8 @@
 # Documentation
 
+* [Build](#build)
+* [Running](#running)
+
 ## Build
 
 In order to build all the components, just run the following command.
