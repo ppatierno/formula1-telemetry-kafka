@@ -43,9 +43,10 @@ public class F1ConsumerApp {
     }
 
     public void start() {
-        this.executorService = Executors.newFixedThreadPool(2);
+        this.executorService = Executors.newFixedThreadPool(3);
         this.executorService.submit(new F1DriverConsumer(this.config));
         this.executorService.submit(new F1EventConsumer(this.config));
+        this.executorService.submit(new F1DriverMaxSpeedConsumer(this.config));
     }
 
     public void stop() throws InterruptedException {
@@ -122,6 +123,46 @@ public class F1ConsumerApp {
                     ConsumerRecords<String, Event> records = consumer.poll(Duration.ofMillis(100));
                     for (ConsumerRecord<String, Event> record : records) {
                         log.info("Event record topic = {}, partition = {}, key = {}, value = {}",
+                                record.topic(), record.partition(), record.key(), record.value());
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (consumer != null)
+                    consumer.close();
+            }
+        }
+    }
+
+    private class F1DriverMaxSpeedConsumer implements Runnable {
+
+        private Logger log = LoggerFactory.getLogger(F1DriverMaxSpeedConsumer.class);
+
+        private F1ConsumerAppConfig config;
+
+        public F1DriverMaxSpeedConsumer(F1ConsumerAppConfig config) {
+            this.config = config;
+        }
+
+        @Override
+        public void run() {
+            Properties props = new Properties();
+            props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, config.getKafkaBootstrapServers());
+            props.put(ConsumerConfig.GROUP_ID_CONFIG, config.getF1DriversMaxSpeedGroupId());
+            props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
+            props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.IntegerDeserializer");
+
+            KafkaConsumer<String, Integer> consumer = null;
+
+            try {
+                consumer = new KafkaConsumer<>(props);
+                consumer.subscribe(Collections.singleton(config.getF1DriversMaxSpeedTopic()));
+
+                while (consuming.get()) {
+                    ConsumerRecords<String, Integer> records = consumer.poll(Duration.ofMillis(100));
+                    for (ConsumerRecord<String, Integer> record : records) {
+                        log.info("Driver max speed record topic = {}, partition = {}, key = {}, value = {}",
                                 record.topic(), record.partition(), record.key(), record.value());
                     }
                 }
