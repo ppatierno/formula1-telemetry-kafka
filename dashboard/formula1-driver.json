@@ -58,7 +58,7 @@
   "gnetId": null,
   "graphTooltip": 2,
   "id": null,
-  "iteration": 1609624817881,
+  "iteration": 1610194256265,
   "links": [],
   "panels": [
     {
@@ -1418,13 +1418,161 @@
       }
     },
     {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${DS_INFLUXDB}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 50
+      },
+      "hiddenSeries": false,
+      "id": 28,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:1514",
+          "alias": "motion.glongitudinal",
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "",
+          "groupBy": [],
+          "measurement": "motion",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "glateral"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "driverid",
+              "operator": "=~",
+              "value": "/^$Driver$/"
+            }
+          ]
+        },
+        {
+          "alias": "",
+          "groupBy": [],
+          "measurement": "motion",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "glongitudinal"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "driverid",
+              "operator": "=~",
+              "value": "/^$Driver$/"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "G Force",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:172",
+          "format": "accG",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:173",
+          "format": "accG",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
       "collapsed": false,
       "datasource": "${DS_INFLUXDB}",
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 50
+        "y": 59
       },
       "id": 17,
       "panels": [],
@@ -1465,7 +1613,7 @@
         "h": 5,
         "w": 4,
         "x": 0,
-        "y": 51
+        "y": 60
       },
       "id": 27,
       "options": {
@@ -1538,7 +1686,7 @@
         "h": 5,
         "w": 4,
         "x": 4,
-        "y": 51
+        "y": 60
       },
       "id": 26,
       "options": {
@@ -1615,7 +1763,7 @@
         "h": 5,
         "w": 4,
         "x": 8,
-        "y": 51
+        "y": 60
       },
       "id": 22,
       "options": {
@@ -1691,7 +1839,7 @@
         "h": 5,
         "w": 4,
         "x": 12,
-        "y": 51
+        "y": 60
       },
       "id": 23,
       "options": {
@@ -1767,7 +1915,7 @@
         "h": 5,
         "w": 4,
         "x": 16,
-        "y": 51
+        "y": 60
       },
       "id": 24,
       "options": {
@@ -1843,7 +1991,7 @@
         "h": 5,
         "w": 4,
         "x": 20,
-        "y": 51
+        "y": 60
       },
       "id": 25,
       "options": {
@@ -1909,7 +2057,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 56
+        "y": 65
       },
       "hiddenSeries": false,
       "id": 15,
@@ -2114,7 +2262,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 65
+        "y": 74
       },
       "hiddenSeries": false,
       "id": 18,
@@ -2319,7 +2467,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 74
+        "y": 83
       },
       "hiddenSeries": false,
       "id": 14,
