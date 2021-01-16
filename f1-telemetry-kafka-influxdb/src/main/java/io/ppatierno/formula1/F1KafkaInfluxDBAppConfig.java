@@ -11,25 +11,30 @@ public class F1KafkaInfluxDBAppConfig {
     private static final String INFLUXDB_DB_ENV = "INFLUXDB_DB";
     private static final String F1_DRIVERS_TOPIC_ENV = "F1_DRIVERS_TOPIC";
     private static final String F1_EVENTS_TOPIC_ENV = "F1_EVENTS_TOPIC";
+    private static final String F1_DRIVERS_AVG_SPEED_TOPIC_ENV = "F1_DRIVERS_AVG_SPEED_TOPIC";
 
     private static final String DEFAULT_KAFKA_BOOTSTRAP_SERVERS = "localhost:9092";
     private static final String DEFAULT_INFLUXDB_URL = "http://localhost:8086";
     private static final String DEFAULT_INFLUXDB_DB = "formula1";
     private static final String DEFAULT_F1_DRIVERS_TOPIC = "f1-telemetry-drivers";
     private static final String DEFAULT_F1_EVENTS_TOPIC = "f1-telemetry-events";
+    private static final String DEFAULT_F1_DRIVERS_AVG_SPEED_TOPIC = "f1-telemetry-drivers-avg-speed";
 
     private final String kafkaBootstrapServers;
     private final String influxDbUrl;
     private final String influxDbDatabase;
     private final String f1DriversTopic;
     private final String f1EventsTopic;
+    private final String f1DriversAvgSpeedTopic;
 
-    private F1KafkaInfluxDBAppConfig(String kafkaBootstrapServers, String influxDbUrl, String influxDbDatabase, String f1DriversTopic, String f1EventsTopic) {
+    private F1KafkaInfluxDBAppConfig(String kafkaBootstrapServers, String influxDbUrl, String influxDbDatabase,
+                                     String f1DriversTopic, String f1EventsTopic, String f1DriversAvgSpeedTopic) {
         this.kafkaBootstrapServers = kafkaBootstrapServers;
         this.influxDbUrl = influxDbUrl;
         this.influxDbDatabase = influxDbDatabase;
         this.f1DriversTopic = f1DriversTopic;
         this.f1EventsTopic = f1EventsTopic;
+        this.f1DriversAvgSpeedTopic = f1DriversAvgSpeedTopic;
     }
 
     public static F1KafkaInfluxDBAppConfig fromEnv() {
@@ -38,7 +43,8 @@ public class F1KafkaInfluxDBAppConfig {
         String influxDbDatabase = System.getenv(INFLUXDB_DB_ENV) == null ? DEFAULT_INFLUXDB_DB : System.getenv(INFLUXDB_DB_ENV);
         String f1DriversTopic = System.getenv(F1_DRIVERS_TOPIC_ENV) == null ? DEFAULT_F1_DRIVERS_TOPIC : System.getenv(F1_DRIVERS_TOPIC_ENV);
         String f1EventsTopic = System.getenv(F1_EVENTS_TOPIC_ENV) == null ? DEFAULT_F1_EVENTS_TOPIC : System.getenv(F1_EVENTS_TOPIC_ENV);
-        return new F1KafkaInfluxDBAppConfig(kafkaBootstrapServers, influxDbUrl, influxDbDatabase, f1DriversTopic, f1EventsTopic);
+        String f1DriversAvgSpeedTopic = System.getenv(F1_DRIVERS_AVG_SPEED_TOPIC_ENV) == null ? DEFAULT_F1_DRIVERS_AVG_SPEED_TOPIC : System.getenv(F1_DRIVERS_AVG_SPEED_TOPIC_ENV);
+        return new F1KafkaInfluxDBAppConfig(kafkaBootstrapServers, influxDbUrl, influxDbDatabase, f1DriversTopic, f1EventsTopic, f1DriversAvgSpeedTopic);
     }
 
     public String getKafkaBootstrapServers() {
@@ -61,6 +67,10 @@ public class F1KafkaInfluxDBAppConfig {
         return f1EventsTopic;
     }
 
+    public String getF1DriversAvgSpeedTopic() {
+        return f1DriversAvgSpeedTopic;
+    }
+
     @Override
     public String toString() {
         return "F1KafkaInfluxDBAppConfig[" +
@@ -69,6 +79,7 @@ public class F1KafkaInfluxDBAppConfig {
                 ", influxDbDatabase=" + this.influxDbDatabase +
                 ", f1DriversTopic=" + this.f1DriversTopic +
                 ", f1EventsTopic=" + this.f1EventsTopic +
+                ", f1DriversAvgSpeedTopic=" + this.f1DriversAvgSpeedTopic +
                 "]";
     }
 }

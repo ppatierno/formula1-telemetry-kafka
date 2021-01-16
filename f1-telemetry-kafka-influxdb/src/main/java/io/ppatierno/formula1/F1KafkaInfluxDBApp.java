@@ -29,6 +29,7 @@ public class F1KafkaInfluxDBApp {
 
         camelContext.addRoutes(new DriversPointRouteBuilder(config));
         camelContext.addRoutes(new EventsPointRouteBuilder(config));
+        camelContext.addRoutes(new DriversAvgSpeedPointRouteBuilder(config));
 
         camelContext.start();
 
