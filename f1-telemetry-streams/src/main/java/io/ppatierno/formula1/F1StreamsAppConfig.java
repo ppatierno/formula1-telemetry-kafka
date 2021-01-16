@@ -11,8 +11,8 @@ public class F1StreamsAppConfig {
     private static final String F1_STREAMS_OUTPUT_TOPIC_ENV = "F1_STREAMS_OUTPUT_TOPIC";
 
     private static final String DEFAULT_KAFKA_BOOTSTRAP_SERVERS = "localhost:9092";
-    private static final String DEFAULT_F1_STREAMS_INPUT_TOPIC = "f1-telemetry-packets";
-    private static final String DEFAULT_F1_STREAMS_OUTPUT_TOPIC = "f1-telemetry-streams";
+    private static final String DEFAULT_F1_STREAMS_INPUT_TOPIC = "f1-telemetry-drivers";
+    private static final String DEFAULT_F1_STREAMS_OUTPUT_TOPIC = "f1-telemetry-drivers-avg-speed";
 
     private final String kafkaBootstrapServers;
     private final String f1StreamsInputTopic;

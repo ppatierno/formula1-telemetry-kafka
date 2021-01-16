@@ -32,7 +32,7 @@ public class DriversAvgSpeedPointRouteBuilder extends RouteBuilder {
         .process(exchange -> {
             Integer avgSpeed = (Integer) exchange.getIn().getBody();
 
-            Point point = Point.measurement("maxspeed")
+            Point point = Point.measurement("avgspeed")
                     .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
                     .tag("driverhashtag", exchange.getIn().getHeader(KafkaConstants.KEY, String.class))
                     .addField("avgspeed", avgSpeed)
@@ -40,7 +40,7 @@ public class DriversAvgSpeedPointRouteBuilder extends RouteBuilder {
 
             exchange.getIn().setBody(point);
         })
-        .to("influxdb://connectionBean?datab:aseName=" + this.config.getInfluxDbDatabase() + "&retentionPolicy=autogen")
+        .to("influxdb://connectionBean?databaseName=" + this.config.getInfluxDbDatabase() + "&retentionPolicy=autogen")
         .routeId("kafka-influxdb-drivers-avg-speed")
         .log(LoggingLevel.TRACE, "${body}");
     }
