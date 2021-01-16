@@ -46,7 +46,7 @@ public class F1ConsumerApp {
         this.executorService = Executors.newFixedThreadPool(3);
         this.executorService.submit(new F1DriverConsumer(this.config));
         this.executorService.submit(new F1EventConsumer(this.config));
-        this.executorService.submit(new F1DriverMaxSpeedConsumer(this.config));
+        this.executorService.submit(new F1DriverAvgSpeedConsumer(this.config));
     }
 
     public void stop() throws InterruptedException {
@@ -135,13 +135,13 @@ public class F1ConsumerApp {
         }
     }
 
-    private class F1DriverMaxSpeedConsumer implements Runnable {
+    private class F1DriverAvgSpeedConsumer implements Runnable {
 
-        private Logger log = LoggerFactory.getLogger(F1DriverMaxSpeedConsumer.class);
+        private Logger log = LoggerFactory.getLogger(F1DriverAvgSpeedConsumer.class);
 
         private F1ConsumerAppConfig config;
 
-        public F1DriverMaxSpeedConsumer(F1ConsumerAppConfig config) {
+        public F1DriverAvgSpeedConsumer(F1ConsumerAppConfig config) {
             this.config = config;
         }
 
@@ -149,7 +149,7 @@ public class F1ConsumerApp {
         public void run() {
             Properties props = new Properties();
             props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, config.getKafkaBootstrapServers());
-            props.put(ConsumerConfig.GROUP_ID_CONFIG, config.getF1DriversMaxSpeedGroupId());
+            props.put(ConsumerConfig.GROUP_ID_CONFIG, config.getF1DriversAvgSpeedGroupId());
             props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
             props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.IntegerDeserializer");
 
@@ -157,7 +157,7 @@ public class F1ConsumerApp {
 
             try {
                 consumer = new KafkaConsumer<>(props);
-                consumer.subscribe(Collections.singleton(config.getF1DriversMaxSpeedTopic()));
+                consumer.subscribe(Collections.singleton(config.getF1DriversAvgSpeedTopic()));
 
                 while (consuming.get()) {
                     ConsumerRecords<String, Integer> records = consumer.poll(Duration.ofMillis(100));
