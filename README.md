@@ -49,7 +49,7 @@ Contains different components for ingesting and handling Formula 1 2020 game (by
     * _f1-telemetry-events_ contains only the raw `Packet`(s) of `EVENT` type;
     * _f1-telemetry-drivers_ contains the `Driver` messages as result of aggregating `Packet`(s) in the same frame with telemetry data for all drivers;
 * **f1-telemetry-consumer**: Apache Kafka client application consuming `Driver` messages from Apache Kafka;
-* **f1-telemetry-streams**: Apache Kafka Streams API based application getting raw `Packet`(s) and processing in real time;
+* **f1-telemetry-streams**: Apache Kafka Streams API based application getting raw `Driver`(s) and processing in real time;
 * **f1-telemetry-common**: common library providing model classes and related Apache Kafka serializer/deserializer;
 * **f1-telemetry-kafka-influxdb**: Apache Camel application writing driver/car's telemetry data  to InfluxDB as time series; 
 * **f1-telemetry-webui**: A sample Web application showing the race ranking in real time getting `Driver`(s) from Apache Kafka;
@@ -97,3 +97,8 @@ It also shows specific information about tyres like, for example, the compound, 
 ![Driver](images/08-drivers.png)
 
 ![Driver](images/09-drivers.png)
+
+The streams dashboard shows data about processed telemetry data through Kafka Streams application.
+The first one is about the average speed during the last 5 seconds.
+
+![Streams](images/10-streams.png)
