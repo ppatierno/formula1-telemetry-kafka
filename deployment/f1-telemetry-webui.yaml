@@ -16,6 +16,9 @@ spec:
         - name: f1-telemetry-webui
           image: ppatierno/f1-telemetry-webui:1.0-SNAPSHOT
           imagePullPolicy: IfNotPresent
+          env:
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: my-cluster-kafka-bootstrap:9092
       restartPolicy: Always
   selector:
     matchLabels:
