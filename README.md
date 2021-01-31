@@ -31,6 +31,13 @@ In order to ingest the telemetry events into Apache Kafka, the Apache Camel proj
 
 ![UDP to Kafka](./images/f1-telemetry-udp-kafka.png)
 
+### Kafka Streams API
+
+The Kafka Streams API based application shows an example of real-time analytics on the telemetry data.
+The application processes the average speed in the last 5 seconds.
+
+![Kafka Streams API](./images/f1-telemetry-streams.png)
+
 ### Kafka to InfluxDB
 
 In order to provide the telemetry data to Grafana dashboards, InfluxDB is used as data source and the telemetry events are stored through Apache Camel with:
