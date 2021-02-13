@@ -12,7 +12,10 @@
 
 ### Components
 
-In order to build all the components, just run the following command.
+This project has as prerequisite the [formula1-telemetry](https://github.com/ppatierno/formula1-telemetry) library, for decoding the raw UDP telemetry packets, that has to be installed in the local Maven repository.
+In order to do so, follow the instructions on the corresponding GitHub repository.
+
+After installing the decoding library, to build all the components, just run the following command.
 
 ```shell
 mvn package
