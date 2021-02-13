@@ -115,3 +115,24 @@ Or you can even deploy the application to Kubernetes by customizing the environm
 ```shell
 kubectl apply -f deployment/f1-telemetry-kafka-influxdb.yaml
 ```
+
+### Apache Kafka Streams
+
+The Apache Kafka Streams application can run locally or can be deployed on Kubernetes; it depends on where the overall stack is running.
+The main parameters for the application can be set via the following environment variables:
+
+* `KAFKA_BOOTSTRAP_SERVERS`: the bootstrap servers for connecting to the Apache Kafka cluster. Default is `localhost:9092`.
+* `F1_STREAMS_INPUT_TOPIC`: Apache Kafka topic from which `Driver` messages are read. Default is `f1-telemetry-drivers`.
+* `F1_STREAMS_OUTPUT_TOPIC`: Apache Kafka topic to which messages with processed average speed are sent. Default is `f1-telemetry-drivers-avg-speed`.
+
+You can set the environment variables locally and then running the application with following command.
+
+```shell
+java -jar f1-telemetry-streams/target/f1-telemetry-streams-1.0-SNAPSHOT-jar-with-dependencies.jar
+```
+
+Or you can even deploy the application to Kubernetes by customizing the environment variables in the `env` section of the Apache Kafka Streams `Deployment` then applying the resource.
+
+```shell
+kubectl apply -f deployment/f1-telemetry-streams.yaml
+```
