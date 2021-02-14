@@ -7,6 +7,7 @@
     * [Apache Kafka, InfluxDB and Grafana stack](#apache-kafka-influxdb-and-grafana-stack)
     * [UDP to Apache Kafka](#udp-to-apache-kafka)
     * [Apache Kafka to InfluxDB](#apache-kafka-to-influxdb)
+    * [Apache Kafka Streams](#apache-kafka-streams)
 
 ## Build
 
