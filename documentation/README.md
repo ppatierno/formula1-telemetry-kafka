@@ -8,6 +8,7 @@
     * [UDP to Apache Kafka](#udp-to-apache-kafka)
     * [Apache Kafka to InfluxDB](#apache-kafka-to-influxdb)
     * [Apache Kafka Streams](#apache-kafka-streams)
+* [Running on OpenShift](../deployment/openshift/README.md)
 
 ## Build
 
