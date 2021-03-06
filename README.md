@@ -38,6 +38,13 @@ The application processes the average speed in the last 5 seconds.
 
 ![Kafka Streams API](./images/f1-telemetry-streams.png)
 
+It has a source node reading from the topic with drivers related messages, filtering the ones not containing valid telemetry data.
+Extract and group the driver's speed by corresponding driver's id using in a tumbling window of 5 seconds.
+Next, it sums speeds and counts them in order to process the corresponding average value.
+Finally, the sink node writes to the destination topic.
+
+![Kafka Streams API Topology](./images/f1-telemetry-streams-topology.png)
+
 ### Kafka to InfluxDB
 
 In order to provide the telemetry data to Grafana dashboards, InfluxDB is used as data source and the telemetry events are stored through Apache Camel with:
