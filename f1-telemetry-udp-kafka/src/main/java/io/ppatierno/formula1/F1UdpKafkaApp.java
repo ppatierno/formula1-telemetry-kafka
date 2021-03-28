@@ -4,6 +4,8 @@
  */
 package io.ppatierno.formula1;
 
+import java.util.concurrent.CountDownLatch;
+
 import org.apache.camel.CamelContext;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.slf4j.Logger;
@@ -28,8 +30,28 @@ public class F1UdpKafkaApp {
         camelContext.addRoutes(new EventsRouteBuilder(config, session));
         camelContext.addRoutes(new DriversRouteBuilder(config));
 
-        camelContext.start();
+        CountDownLatch latch = new CountDownLatch(1);
 
-        Thread.sleep(Long.MAX_VALUE);
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                try {
+                    camelContext.close();
+                } catch (Exception e) {
+                    log.error("Error closing CamelContext", e);
+                } finally {
+                    latch.countDown();
+                }
+            }
+        });
+
+        try {
+            camelContext.start();
+            latch.await();
+        } catch (Throwable e) {
+            log.error("Error starting CamelContext", e);
+            System.exit(1);
+        }
+        System.exit(0);
     }
 }
