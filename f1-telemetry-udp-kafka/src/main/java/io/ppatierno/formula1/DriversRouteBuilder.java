@@ -51,9 +51,9 @@ public class DriversRouteBuilder extends RouteBuilder {
                 // driver messages with all data
                 .aggregate(new Expression() {
                     @Override
-                    public <Long> Long evaluate(Exchange exchange, Class<Long> type) {
+                    public <T> T evaluate(Exchange exchange, Class<T> type) {
                         Packet packet = (Packet) exchange.getIn().getBody();
-                        Long frameId = exchange.getContext().getTypeConverter().convertTo(type, packet.getHeader().getFrameIdentifier());
+                        T frameId = exchange.getContext().getTypeConverter().convertTo(type, packet.getHeader().getFrameIdentifier());
                         log.debug("Packet FrameId = {}", frameId);
                         return frameId;
                     }
