@@ -107,6 +107,9 @@ public class Session {
                 SpeedTrap speedTrap = packetEventData.getEventDataDetails().getSpeedTrap();
                 this.speedTrap = new Event(this.drivers.get(speedTrap.getVehicleIdx()).getParticipantData(), packetEventData);
                 break;
+            default:
+                // just ignore other events (resolves warning about missing cases)
+                break;
         }
     }
 

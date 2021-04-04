@@ -57,6 +57,9 @@ public class EventsPointRouteBuilder extends RouteBuilder {
                             .addField("speed", speedTrap.getSpeed())
                             .build();
                     break;
+                default:
+                    // should never happen due to the previous filter operation (resolves warning about missing cases)
+                    throw new IllegalArgumentException("Event " + event.getEventData().getEventCode().name() + " not handled");
             }
             exchange.getIn().setBody(point);
         })
