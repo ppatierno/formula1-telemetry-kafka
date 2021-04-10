@@ -130,11 +130,11 @@ The main parameters for the application can be set via the following environment
 You can set the environment variables locally and then running the application with following command.
 
 ```shell
-java -jar streams-avg-speed/target/f1-telemetry-streams-1.0-SNAPSHOT-jar-with-dependencies.jar
+java -jar streams-avg-speed/target/f1-telemetry-streams-avg-speed-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 
 Or you can even deploy the application to Kubernetes by customizing the environment variables in the `env` section of the Apache Kafka Streams `Deployment` then applying the resource.
 
 ```shell
-kubectl apply -f deployment/f1-telemetry-streams.yaml
+kubectl apply -f deployment/f1-telemetry-streams-avg-speed.yaml
 ```

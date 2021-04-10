@@ -48,7 +48,7 @@ In order to deploy them, run the following command.
 
 ```shell
 kubectl apply -f deployment/f1-telemetry-kafka-influxdb.yaml
-kubectl apply -f deployment/f1-telemetry-streams.yaml
+kubectl apply -f deployment/f1-telemetry-streams-avg-speed.yaml
 ```
 
 > NOTE: their configuration don't need any change if using the default `Kafka` resource provided by example.

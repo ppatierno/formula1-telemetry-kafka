@@ -36,14 +36,14 @@ In order to ingest the telemetry events into Apache Kafka, the Apache Camel proj
 The Kafka Streams API based application shows an example of real-time analytics on the telemetry data.
 The application processes the average speed in the last 5 seconds.
 
-![Kafka Streams API](./images/f1-telemetry-streams.png)
+![Kafka Streams API](./images/f1-telemetry-streams-avg-speed.png)
 
 It has a source node reading from the topic with drivers related messages, filtering the ones not containing valid telemetry data.
 Extract and group the driver's speed by corresponding driver's id using in a tumbling window of 5 seconds.
 Next, it sums speeds and counts them in order to process the corresponding average value.
 Finally, the sink node writes to the destination topic.
 
-![Kafka Streams API Topology](./images/f1-telemetry-streams-topology.png)
+![Kafka Streams API Topology](./images/f1-telemetry-streams-avg-speed-topology.png)
 
 ### Kafka to InfluxDB
 
@@ -63,7 +63,7 @@ Contains different components for ingesting and handling Formula 1 2020 game (by
     * _f1-telemetry-events_ contains only the raw `Packet`(s) of `EVENT` type;
     * _f1-telemetry-drivers_ contains the `Driver` messages as result of aggregating `Packet`(s) in the same frame with telemetry data for all drivers;
 * **f1-telemetry-consumer**: Apache Kafka client application consuming `Driver` messages from Apache Kafka;
-* **f1-telemetry-streams**: Apache Kafka Streams API based application getting raw `Driver`(s) and processing in real time;
+* **f1-telemetry-streams-avg-speed**: Apache Kafka Streams API based application getting raw `Driver`(s), processing them in real time to get average speed in a 5 seconds window ;
 * **f1-telemetry-common**: common library providing model classes and related Apache Kafka serializer/deserializer;
 * **f1-telemetry-kafka-influxdb**: Apache Camel application writing driver/car's telemetry data  to InfluxDB as time series; 
 * **f1-telemetry-webui**: A sample Web application showing the race ranking in real time getting `Driver`(s) from Apache Kafka;
