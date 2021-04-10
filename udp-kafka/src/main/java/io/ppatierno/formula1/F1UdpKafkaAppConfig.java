@@ -4,35 +4,28 @@
  */
 package io.ppatierno.formula1;
 
-public class F1UdpKafkaAppConfig {
+import io.ppatierno.formula1.config.KafkaBaseConfig;
 
-    private static final String KAFKA_BOOTSTRAP_SERVERS_ENV = "KAFKA_BOOTSTRAP_SERVERS";
-    private static final String KAFKA_TRUSTSTORE_LOCATION_ENV = "KAFKA_TRUSTSTORE_LOCATION";
-    private static final String KAFKA_TRUSTSTORE_PASSWORD_ENV = "KAFKA_TRUSTSTORE_PASSWORD";
+public class F1UdpKafkaAppConfig extends KafkaBaseConfig {
+
     private static final String UDP_PORT_ENV = "UDP_PORT";
     private static final String F1_DRIVERS_TOPIC_ENV = "F1_DRIVERS_TOPIC";
     private static final String F1_EVENTS_TOPIC_ENV = "F1_EVENTS_TOPIC";
     private static final String F1_RAW_PACKETS_TOPIC_ENV = "F1_RAW_PACKETS_TOPIC";
 
-    private static final String DEFAULT_KAFKA_BOOTSTRAP_SERVERS = "localhost:9092";
     private static final int DEFAULT_UDP_PORT = 20777;
     private static final String DEFAULT_F1_DRIVERS_TOPIC = "f1-telemetry-drivers";
     private static final String DEFAULT_F1_EVENTS_TOPIC = "f1-telemetry-events";
     private static final String DEFAULT_F1_RAW_PACKETS_TOPIC = "f1-telemetry-packets";
 
     private final int udpPort;
-    private final String kafkaBootstrapServers;
-    private final String kafkaTruststoreLocation;
-    private final String kafkaTruststorePassword;
     private final String f1DriversTopic;
     private final String f1EventsTopic;
     private final String f1RawPacketsTopic;
 
     private F1UdpKafkaAppConfig(String kafkaBootstrapServers, String kafkaTruststoreLocation, String kafkaTruststorePassword,
                                 int udpPort, String f1DriversTopic, String f1EventsTopic, String f1RawPacketsTopic) {
-        this.kafkaBootstrapServers = kafkaBootstrapServers;
-        this.kafkaTruststoreLocation = kafkaTruststoreLocation;
-        this.kafkaTruststorePassword = kafkaTruststorePassword;
+        super(kafkaBootstrapServers, kafkaTruststoreLocation, kafkaTruststorePassword);
         this.udpPort = udpPort;
         this.f1DriversTopic = f1DriversTopic;
         this.f1EventsTopic = f1EventsTopic;
@@ -52,18 +45,6 @@ public class F1UdpKafkaAppConfig {
 
     public int getUdpPort() {
         return udpPort;
-    }
-
-    public String getKafkaBootstrapServers() {
-        return kafkaBootstrapServers;
-    }
-
-    public String getKafkaTruststoreLocation() {
-        return kafkaTruststoreLocation;
-    }
-
-    public String getKafkaTruststorePassword() {
-        return kafkaTruststorePassword;
     }
 
     public String getF1DriversTopic() {

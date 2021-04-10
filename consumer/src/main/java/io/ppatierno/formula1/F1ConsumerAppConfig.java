@@ -4,9 +4,10 @@
  */
 package io.ppatierno.formula1;
 
-public class F1ConsumerAppConfig {
+import io.ppatierno.formula1.config.KafkaBaseConfig;
 
-    private static final String KAFKA_BOOTSTRAP_SERVERS_ENV = "KAFKA_BOOTSTRAP_SERVERS";
+public class F1ConsumerAppConfig extends KafkaBaseConfig {
+
     private static final String F1_DRIVERS_GROUP_ID_ENV = "F1_DRIVERS_GROUP_ID";
     private static final String F1_EVENTS_GROUP_ID_ENV = "F1_EVENTS_GROUP_ID";
     private static final String F1_DRIVERS_AVG_SPEED_GROUP_ID_ENV = "F1_DRIVERS_AVG_SPEED_GROUP_ID";
@@ -14,7 +15,6 @@ public class F1ConsumerAppConfig {
     private static final String F1_EVENTS_TOPIC_ENV = "F1_EVENTS_TOPIC";
     private static final String F1_DRIVERS_AVG_SPEED_TOPIC_ENV = "F1_DRIVERS_AVG_SPEED_TOPIC";
 
-    private static final String DEFAULT_KAFKA_BOOTSTRAP_SERVERS = "localhost:9092";
     private static final String DEFAULT_F1_DRIVERS_GROUP_ID = "f1-drivers-group";
     private static final String DEFAULT_F1_EVENTS_GROUP_ID = "f1-events-group";
     private static final String DEFAULT_F1_DRIVERS_AVG_SPEED_GROUP_ID = "f1-drivers-avg-speed-group";
@@ -22,7 +22,6 @@ public class F1ConsumerAppConfig {
     private static final String DEFAULT_F1_EVENTS_TOPIC = "f1-telemetry-events";
     private static final String DEFAULT_F1_DRIVERS_AVG_SPEED_TOPIC = "f1-telemetry-drivers-avg-speed";
 
-    private final String kafkaBootstrapServers;
     private final String f1DriversGroupId;
     private final String f1EventsGroupId;
     private final String f1DriversAvgSpeedGroupId;
@@ -32,7 +31,7 @@ public class F1ConsumerAppConfig {
 
     private F1ConsumerAppConfig(String kafkaBootstrapServers, String f1DriversGroupId, String f1EventsGroupId, String f1DriversAvgSpeedGroupId,
                                 String f1DriversTopic, String f1EventsTopic, String f1DriversAvgSpeedTopic) {
-        this.kafkaBootstrapServers = kafkaBootstrapServers;
+        super(kafkaBootstrapServers, null, null);
         this.f1DriversGroupId = f1DriversGroupId;
         this.f1EventsGroupId = f1EventsGroupId;
         this.f1DriversAvgSpeedGroupId = f1DriversAvgSpeedGroupId;
@@ -50,10 +49,6 @@ public class F1ConsumerAppConfig {
         String f1EventsTopic = System.getenv(F1_EVENTS_TOPIC_ENV) == null ? DEFAULT_F1_EVENTS_TOPIC : System.getenv(F1_EVENTS_TOPIC_ENV);
         String f1DriversAvgSpeedTopic = System.getenv(F1_DRIVERS_AVG_SPEED_TOPIC_ENV) == null ? DEFAULT_F1_DRIVERS_AVG_SPEED_TOPIC : System.getenv(F1_DRIVERS_AVG_SPEED_TOPIC_ENV);
         return new F1ConsumerAppConfig(kafkaBootstrapServers, f1DriversGroupId, f1EventsGroupId, f1DriversAvgSpeedGroupId, f1DriversTopic, f1EventsTopic, f1DriversAvgSpeedTopic);
-    }
-
-    public String getKafkaBootstrapServers() {
-        return kafkaBootstrapServers;
     }
 
     public String getF1DriversGroupId() {
