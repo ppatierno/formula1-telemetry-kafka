@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: f1-telemetry-streams
+  name: f1-telemetry-streams-avg-speed
   labels:
     app: f1-telemetry
 spec:
   replicas: 1
   template:
     metadata:
-      name: f1-telemetry-streams
+      name: f1-telemetry-streams-avg-speed
       labels:
-        app: f1-telemetry-streams
+        app: f1-telemetry-streams-avg-speed
     spec:
       containers:
-        - name: f1-telemetry-streams
-          image: ppatierno/f1-telemetry-streams:1.0-SNAPSHOT
+        - name: f1-telemetry-streams-avg-speed
+          image: ppatierno/f1-telemetry-streams-avg-speed:1.0-SNAPSHOT
           imagePullPolicy: IfNotPresent
           env:
             - name: KAFKA_BOOTSTRAP_SERVERS
@@ -22,4 +22,4 @@ spec:
       restartPolicy: Always
   selector:
     matchLabels:
-      app: f1-telemetry-streams
+      app: f1-telemetry-streams-avg-speed
