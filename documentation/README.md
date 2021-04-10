@@ -87,7 +87,7 @@ Other available environment variables are:
 After setting the needed environment variables, you can start the application running the following command:
 
 ```shell
-java -jar f1-telemetry-udp-kafka/target/f1-telemetry-udp-kafka-1.0-SNAPSHOT-jar-with-dependencies.jar
+java -jar udp-kafka/target/f1-telemetry-udp-kafka-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 
 The application starts listening on UDP, connects to the Apache Kafka cluster, and the Apache Camel routes are activated for bridging the packets from UDP to topics.
@@ -109,7 +109,7 @@ Other available environment variables are:
 You can set the environment variables locally and then running the application with following command.
 
 ```shell
-java -jar f1-telemetry-kafka-influxdb/target/f1-telemetry-kafka-influxdb-1.0-SNAPSHOT-jar-with-dependencies.jar
+java -jar kafka-influxdb/target/f1-telemetry-kafka-influxdb-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 
 Or you can even deploy the application to Kubernetes by customizing the environment variables in the `env` section of the Apache Kafka to InfluxDB `Deployment` then applying the resource.
@@ -130,7 +130,7 @@ The main parameters for the application can be set via the following environment
 You can set the environment variables locally and then running the application with following command.
 
 ```shell
-java -jar f1-telemetry-streams/target/f1-telemetry-streams-1.0-SNAPSHOT-jar-with-dependencies.jar
+java -jar streams-avg-speed/target/f1-telemetry-streams-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 
 Or you can even deploy the application to Kubernetes by customizing the environment variables in the `env` section of the Apache Kafka Streams `Deployment` then applying the resource.

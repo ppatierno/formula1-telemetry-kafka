@@ -69,5 +69,5 @@ export KAFKA_TRUSTSTORE_PASSWORD=$(cat ca.password)
 Finally, run the application.
 
 ```shell
-java -jar f1-telemetry-udp-kafka/target/f1-telemetry-udp-kafka-1.0-SNAPSHOT-jar-with-dependencies.jar
+java -jar udp-kafka/target/f1-telemetry-udp-kafka-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```

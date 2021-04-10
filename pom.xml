@@ -10,12 +10,12 @@
   <packaging>pom</packaging>
 
   <modules>
-      <module>f1-telemetry-udp-kafka</module>
-      <module>f1-telemetry-common</module>
-      <module>f1-telemetry-consumer</module>
-      <module>f1-telemetry-kafka-influxdb</module>
-      <module>f1-telemetry-streams</module>
-      <module>f1-telemetry-webui</module>
+      <module>udp-kafka</module>
+      <module>common</module>
+      <module>consumer</module>
+      <module>kafka-influxdb</module>
+      <module>streams-avg-speed</module>
+      <module>webui</module>
   </modules>
 
   <properties>
