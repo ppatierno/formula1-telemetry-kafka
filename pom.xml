@@ -16,6 +16,7 @@
       <module>kafka-influxdb</module>
       <module>streams-avg-speed</module>
       <module>webui</module>
+      <module>streams-laps</module>
   </modules>
 
   <properties>
