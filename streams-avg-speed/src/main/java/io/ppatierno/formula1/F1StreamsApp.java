@@ -97,7 +97,7 @@ public class F1StreamsApp {
                 //.print(Printed.toSysOut());
 
         Topology topology = streamsBuilder.build();
-        System.out.println(topology.describe());
+        log.info("{}", topology.describe());
 
         KafkaStreams kafkaStreams = new KafkaStreams(topology, props);
 

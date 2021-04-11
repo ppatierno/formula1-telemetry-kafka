@@ -4,23 +4,15 @@
  */
 package io.ppatierno.formula1;
 
-import io.ppatierno.formula1.config.KafkaBaseConfig;
+import io.ppatierno.formula1.config.KafkaStreamsBaseConfig;
 
-public class F1StreamsAppConfig extends KafkaBaseConfig {
-
-    private static final String F1_STREAMS_INPUT_TOPIC_ENV = "F1_STREAMS_INPUT_TOPIC";
-    private static final String F1_STREAMS_OUTPUT_TOPIC_ENV = "F1_STREAMS_OUTPUT_TOPIC";
+public class F1StreamsAppConfig extends KafkaStreamsBaseConfig {
 
     private static final String DEFAULT_F1_STREAMS_INPUT_TOPIC = "f1-telemetry-drivers";
     private static final String DEFAULT_F1_STREAMS_OUTPUT_TOPIC = "f1-telemetry-drivers-avg-speed";
 
-    private final String f1StreamsInputTopic;
-    private final String f1StreamsOutputTopic;
-
     private F1StreamsAppConfig(String kafkaBootstrapServers, String f1StreamsInputTopic, String f1StreamsOutputTopic) {
-        super(kafkaBootstrapServers, null, null);
-        this.f1StreamsInputTopic = f1StreamsInputTopic;
-        this.f1StreamsOutputTopic = f1StreamsOutputTopic;
+        super(kafkaBootstrapServers, f1StreamsInputTopic, f1StreamsOutputTopic);
     }
 
     public static F1StreamsAppConfig fromEnv() {
@@ -28,14 +20,6 @@ public class F1StreamsAppConfig extends KafkaBaseConfig {
         String f1StreamsInputTopic = System.getenv(F1_STREAMS_INPUT_TOPIC_ENV) == null ? DEFAULT_F1_STREAMS_INPUT_TOPIC : System.getenv(F1_STREAMS_INPUT_TOPIC_ENV);
         String f1StreamsOutputTopic = System.getenv(F1_STREAMS_OUTPUT_TOPIC_ENV) == null ? DEFAULT_F1_STREAMS_OUTPUT_TOPIC : System.getenv(F1_STREAMS_OUTPUT_TOPIC_ENV);
         return new F1StreamsAppConfig(kafkaBootstrapServers, f1StreamsInputTopic, f1StreamsOutputTopic);
-    }
-
-    public String getF1StreamsInputTopic() {
-        return f1StreamsInputTopic;
-    }
-
-    public String getF1StreamsOutputTopic() {
-        return f1StreamsOutputTopic;
     }
 
     @Override
