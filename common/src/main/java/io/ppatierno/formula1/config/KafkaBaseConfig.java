@@ -1,5 +1,12 @@
+/*
+ * Copyright Paolo Patierno.
+ * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
+ */
 package io.ppatierno.formula1.config;
 
+/**
+ * Base configuration for any Kafka application
+ */
 public class KafkaBaseConfig {
 
     protected static final String KAFKA_BOOTSTRAP_SERVERS_ENV = "KAFKA_BOOTSTRAP_SERVERS";
@@ -12,7 +19,7 @@ public class KafkaBaseConfig {
     protected final String kafkaTruststoreLocation;
     protected final String kafkaTruststorePassword;
 
-    public KafkaBaseConfig(String kafkaBootstrapServers, String kafkaTruststoreLocation, String kafkaTruststorePassword) {
+    protected KafkaBaseConfig(String kafkaBootstrapServers, String kafkaTruststoreLocation, String kafkaTruststorePassword) {
         this.kafkaBootstrapServers = kafkaBootstrapServers;
         this.kafkaTruststoreLocation = kafkaTruststoreLocation;
         this.kafkaTruststorePassword = kafkaTruststorePassword;
