@@ -4,10 +4,14 @@
  */
 package io.ppatierno.formula1;
 
+import org.apache.kafka.common.serialization.Serde;
+import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.Topology;
+import org.apache.kafka.streams.kstream.Consumed;
+import org.apache.kafka.streams.kstream.Printed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,8 +33,12 @@ public class F1StreamsApp {
         props.setProperty(StreamsConfig.CACHE_MAX_BYTES_BUFFERING_CONFIG, "0");
 
         StreamsBuilder streamsBuilder = new StreamsBuilder();
+        Serde<Driver> driverSerdes = Serdes.serdeFrom(new DriverSerializer(), new DriverDeserializer());
 
-        // TODO: building the topology
+        streamsBuilder
+                .stream(config.getF1StreamsInputTopic(), Consumed.with(Serdes.String(), driverSerdes))
+                // TODO: processing
+                .print(Printed.toSysOut());
 
         Topology topology = streamsBuilder.build();
         log.info("{}", topology.describe());
