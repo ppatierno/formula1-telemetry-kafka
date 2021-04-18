@@ -16,7 +16,7 @@ It uses different products, projects and technologies:
 ## Overview
 
 Following an overall picture of how these technologies are used together.
-A short introduction video is available [here](https://youtu.be/Re9LOAYZi2A). 
+A couple of short introduction videos are available [here](https://youtu.be/Re9LOAYZi2A) and [here](https://youtu.be/2efOtyFAZ4s). 
 
 ![Overview](./images/overview.png)
 
