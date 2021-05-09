@@ -6,46 +6,32 @@ package io.ppatierno.formula1.model;
 
 public class BestOverallSector {
 
-    private final int bestOverallSector1TimeInMS;
-    private final short bestOverallSector1LapNum;
-    private final int bestOverallSector2TimeInMS;
-    private final short bestOverallSector2LapNum;
-    private final int bestOverallSector3TimeInMS;
-    private final short bestOverallSector3LapNum;
+    private final short sector;
+    private final String driver;
+    private final int timeInMs;
+    private final short lapNum;
 
-    public BestOverallSector(int bestOverallSector1TimeInMS, short bestOverallSector1LapNum,
-                            int bestOverallSector2TimeInMS, short bestOverallSector2LapNum,
-                            int bestOverallSector3TimeInMS, short bestOverallSector3LapNum)
+    public BestOverallSector(short sector, String driver, int timeInMs, short lapNum)
     {
-        this.bestOverallSector1TimeInMS = bestOverallSector1TimeInMS;
-        this.bestOverallSector1LapNum = bestOverallSector1LapNum;
-        this.bestOverallSector2TimeInMS = bestOverallSector2TimeInMS;
-        this.bestOverallSector2LapNum = bestOverallSector2LapNum;
-        this.bestOverallSector3TimeInMS = bestOverallSector3TimeInMS;
-        this.bestOverallSector3LapNum = bestOverallSector3LapNum;
+        this.sector = sector;
+        this.driver = driver;
+        this.timeInMs = timeInMs;
+        this.lapNum = lapNum;
     }
 
-    public int getBestOverallSector1TimeInMS() {
-        return bestOverallSector1TimeInMS;
+    public short getSector() {
+        return sector;
     }
 
-    public short getBestOverallSector1LapNum() {
-        return bestOverallSector1LapNum;
+    public String getDriver() {
+        return driver;
     }
 
-    public int getBestOverallSector2TimeInMS() {
-        return bestOverallSector2TimeInMS;
+    public int getTimeInMs() {
+        return timeInMs;
     }
 
-    public short getBestOverallSector2LapNum() {
-        return bestOverallSector2LapNum;
-    }
-
-    public int getBestOverallSector3TimeInMS() {
-        return bestOverallSector3TimeInMS;
-    }
-
-    public short getBestOverallSector3LapNum() {
-        return bestOverallSector3LapNum;
+    public short getLapNum() {
+        return lapNum;
     }
 }
