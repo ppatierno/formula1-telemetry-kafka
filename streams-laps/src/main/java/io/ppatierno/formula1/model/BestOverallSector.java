@@ -34,4 +34,14 @@ public class BestOverallSector {
     public short getLapNum() {
         return lapNum;
     }
+
+    @Override
+    public String toString() {
+        return "BestOverallSector{" +
+                "sector=" + sector +
+                ", driver='" + driver + '\'' +
+                ", timeInMs=" + timeInMs +
+                ", lapNum=" + lapNum +
+                '}';
+    }
 }

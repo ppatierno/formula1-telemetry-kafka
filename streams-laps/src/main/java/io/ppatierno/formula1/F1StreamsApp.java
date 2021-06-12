@@ -4,6 +4,9 @@
  */
 package io.ppatierno.formula1;
 
+import io.ppatierno.formula1.model.BestOverallSectorDeserializer;
+import io.ppatierno.formula1.model.BestOverallSectorSerializer;
+import io.ppatierno.formula1.model.BestOverallSectorTransformer;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
@@ -11,7 +14,11 @@ import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.Consumed;
+import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.Predicate;
 import org.apache.kafka.streams.kstream.Printed;
+import org.apache.kafka.streams.state.StoreBuilder;
+import org.apache.kafka.streams.state.Stores;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,9 +42,24 @@ public class F1StreamsApp {
         StreamsBuilder streamsBuilder = new StreamsBuilder();
         Serde<Driver> driverSerdes = Serdes.serdeFrom(new DriverSerializer(), new DriverDeserializer());
 
-        streamsBuilder
-                .stream(config.getF1StreamsInputTopic(), Consumed.with(Serdes.String(), driverSerdes))
-                // TODO: processing
+        StoreBuilder storeBuilder = Stores.keyValueStoreBuilder(
+                Stores.inMemoryKeyValueStore("best-ovarall-sector-store"),
+                Serdes.Short(),
+                Serdes.serdeFrom(new BestOverallSectorSerializer(), new BestOverallSectorDeserializer())
+        );
+        streamsBuilder.addStateStore(storeBuilder);
+
+        KStream<String, Driver> driverStream =
+                streamsBuilder.stream(config.getF1StreamsInputTopic(), Consumed.with(Serdes.String(), driverSerdes));
+
+        driverStream
+                .filter(new Predicate<String, Driver>() {
+                    @Override
+                    public boolean test(String key, Driver value) {
+                        return value.hasValidTelemetry();
+                    }
+                })
+                .transform(BestOverallSectorTransformer::new, "best-ovarall-sector-store")
                 .print(Printed.toSysOut());
 
         Topology topology = streamsBuilder.build();
