@@ -43,7 +43,7 @@ public class F1StreamsApp {
         Serde<Driver> driverSerdes = Serdes.serdeFrom(new DriverSerializer(), new DriverDeserializer());
 
         StoreBuilder storeBuilder = Stores.keyValueStoreBuilder(
-                Stores.inMemoryKeyValueStore("best-ovarall-sector-store"),
+                Stores.inMemoryKeyValueStore("best-overall-sector-store"),
                 Serdes.Short(),
                 Serdes.serdeFrom(new BestOverallSectorSerializer(), new BestOverallSectorDeserializer())
         );
@@ -59,7 +59,7 @@ public class F1StreamsApp {
                         return value.hasValidTelemetry();
                     }
                 })
-                .transform(BestOverallSectorTransformer::new, "best-ovarall-sector-store")
+                .transform(BestOverallSectorTransformer::new, "best-overall-sector-store")
                 .print(Printed.toSysOut());
 
         Topology topology = streamsBuilder.build();

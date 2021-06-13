@@ -18,7 +18,7 @@ public class BestOverallSectorTransformer implements Transformer<String, Driver,
     @Override
     public void init(ProcessorContext context) {
         this.context = context;
-        this.kvStore = context.getStateStore("best-ovarall-sector-store");
+        this.kvStore = context.getStateStore("best-overall-sector-store");
     }
 
     @Override
