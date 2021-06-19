@@ -4,8 +4,6 @@
  */
 package io.ppatierno.formula1;
 
-import io.ppatierno.formula1.model.BestOverallSectorDeserializer;
-import io.ppatierno.formula1.model.BestOverallSectorSerializer;
 import io.ppatierno.formula1.model.BestOverallSectorTransformer;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
