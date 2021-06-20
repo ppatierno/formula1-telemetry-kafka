@@ -15,6 +15,7 @@ import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.Predicate;
 import org.apache.kafka.streams.kstream.Printed;
+import org.apache.kafka.streams.kstream.Produced;
 import org.apache.kafka.streams.state.StoreBuilder;
 import org.apache.kafka.streams.state.Stores;
 import org.slf4j.Logger;
@@ -39,6 +40,7 @@ public class F1StreamsApp {
 
         StreamsBuilder streamsBuilder = new StreamsBuilder();
         Serde<Driver> driverSerdes = Serdes.serdeFrom(new DriverSerializer(), new DriverDeserializer());
+        Serde<BestOverallSector> bestOverallSectorSerde = Serdes.serdeFrom(new BestOverallSectorSerializer(), new BestOverallSectorDeserializer());
 
         StoreBuilder storeBuilder = Stores.keyValueStoreBuilder(
                 Stores.inMemoryKeyValueStore("best-overall-sector-store"),
@@ -58,7 +60,8 @@ public class F1StreamsApp {
                     }
                 })
                 .transform(BestOverallSectorTransformer::new, "best-overall-sector-store")
-                .print(Printed.toSysOut());
+                .to(config.getF1StreamsOutputTopic(), Produced.with(Serdes.Short(), bestOverallSectorSerde));
+                //.print(Printed.toSysOut());
 
         Topology topology = streamsBuilder.build();
         log.info("{}", topology.describe());

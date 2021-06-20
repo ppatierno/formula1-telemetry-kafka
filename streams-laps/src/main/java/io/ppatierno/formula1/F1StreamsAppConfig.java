@@ -9,7 +9,7 @@ import io.ppatierno.formula1.config.KafkaStreamsBaseConfig;
 public class F1StreamsAppConfig extends KafkaStreamsBaseConfig {
 
     private static final String DEFAULT_F1_STREAMS_INPUT_TOPIC = "f1-telemetry-drivers";
-    private static final String DEFAULT_F1_STREAMS_OUTPUT_TOPIC = "f1-telemetry-drivers-laps";
+    private static final String DEFAULT_F1_STREAMS_OUTPUT_TOPIC = "f1-telemetry-best-overall-sector";
 
     private F1StreamsAppConfig(String kafkaBootstrapServers, String f1StreamsInputTopic, String f1StreamsOutputTopic) {
         super(kafkaBootstrapServers, f1StreamsInputTopic, f1StreamsOutputTopic);
