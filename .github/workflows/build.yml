@@ -12,13 +12,20 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Test
-        run: echo Hello, Formula 1 Telemetry Kafka!
+      - name: Checkout formula1-telemetry library
+        uses: actions/checkout@v2
+        with:
+          repository: https://github.com/ppatierno/formula1-telemetry
+          path: formula1-telemetry
       - name: Set up JDK 11
         uses: actions/setup-java@v2
         with:
           java-version: '11'
           distribution: 'adopt'
-      - name: Build with Maven
+      - name: Build formula1-telemetry library with Maven
+        working-directory: formula1-telemetry
+        run: mvn install
+      - name: Checkout formula1-telemetry-kafka project
+        uses: actions/checkout@v2
+      - name: Build formula1-telemetry-kafka project with Maven
         run: mvn package
