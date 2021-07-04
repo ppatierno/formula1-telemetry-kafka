@@ -1,5 +1,3 @@
-[![Build](https://github.com/ppatierno/formula1-telemetry-kafka/actions/workflows/build.yml/badge.svg)](https://github.com/ppatierno/formula1-telemetry-kafka/actions/workflows/build.yml)
-
 # Documentation
 
 * [Build](#build)

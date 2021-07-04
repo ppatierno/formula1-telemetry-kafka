@@ -1,3 +1,5 @@
+[![Build](https://github.com/ppatierno/formula1-telemetry-kafka/actions/workflows/build.yml/badge.svg)](https://github.com/ppatierno/formula1-telemetry-kafka/actions/workflows/build.yml)
+
 # Formula 1 - Telemetry with Apache Kafka
 
 This project aims to use Apache Kafka in order to ingest Formula 1 telemetry data from the F1 2020 game (by CodeMasters) running on Microsoft Xbox.
