@@ -24,8 +24,8 @@ jobs:
           path: formula1-telemetry
       - name: Build formula1-telemetry library with Maven
         working-directory: formula1-telemetry
-        run: mvn install
+        run: mvn -B install
       - name: Checkout formula1-telemetry-kafka project
         uses: actions/checkout@v2
       - name: Build formula1-telemetry-kafka project with Maven
-        run: mvn package
+        run: mvn -B package
