@@ -65,7 +65,8 @@ Contains different components for ingesting and handling Formula 1 2020 game (by
     * _f1-telemetry-events_ contains only the raw `Packet`(s) of `EVENT` type;
     * _f1-telemetry-drivers_ contains the `Driver` messages as result of aggregating `Packet`(s) in the same frame with telemetry data for all drivers;
 * **consumer**: Apache Kafka client application consuming `Driver` messages from Apache Kafka;
-* **streams-avg-speed**: Apache Kafka Streams API based application getting raw `Driver`(s), processing them in real time to get average speed in a 5 seconds window and writing to Apache Kafka to the _f1-telemetry-streams-avg-speed_ topic; 
+* **streams-avg-speed**: Apache Kafka Streams API based application getting raw `Driver`(s), processing them in real time to get average speed in a 5 seconds window and writing to Apache Kafka to the _f1-telemetry-streams-avg-speed_ topic;
+* **streams-laps**: Apache Kafka Streams API based application getting raw `Driver`(s), processing them in real time to get the best overall times in the three track sectors and writing to Apache Kafka to the _f1-telemetry-best-overall-sector_ topic;
 * **common**: common library providing model classes and related Apache Kafka serializer/deserializer;
 * **kafka-influxdb**: Apache Camel application writing driver/car's telemetry data  to InfluxDB as time series; 
 * **webui**: A sample Web application showing the race ranking in real time getting `Driver`(s) from Apache Kafka;
