@@ -1,4 +1,5 @@
 [![Build](https://github.com/ppatierno/formula1-telemetry-kafka/actions/workflows/build.yml/badge.svg)](https://github.com/ppatierno/formula1-telemetry-kafka/actions/workflows/build.yml)
+[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/ppatierno/formula1-telemetry-kafka)
 
 # Formula 1 - Telemetry with Apache Kafka
 
