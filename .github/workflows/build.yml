@@ -16,7 +16,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '11'
-          distribution: 'adopt'
+          distribution: 'zulu'
       - name: Checkout formula1-telemetry library
         uses: actions/checkout@v2
         with:
