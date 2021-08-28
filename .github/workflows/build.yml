@@ -11,12 +11,15 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [11,17-ea]
     steps:
-      - name: Set up JDK 11
+      - name: Set up JDK ${{ matrix.java }}
         uses: actions/setup-java@v2
         with:
-          java-version: '11'
-          distribution: 'adopt'
+          java-version: ${{ matrix.java }}
+          distribution: 'zulu'
       - name: Checkout formula1-telemetry library
         uses: actions/checkout@v2
         with:
