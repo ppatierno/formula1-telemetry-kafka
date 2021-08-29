@@ -75,7 +75,7 @@ Contains different components for ingesting and handling Formula 1 2020 game (by
 * **deployment**: folder containing Kubernetes deployments for all the provided applications;
 * **documentation**: folder containing documentation about how to deploy the entire solution;
 
-The Formula 1 2020 game UDP packets specification is [here](https://forums.codemasters.com/topic/50942-f1-2020-udp-specification/).
+The Formula 1 2020 game UDP packets specification is [here](https://forums.codemasters.com/topic/54423-f1%C2%AE-2020-udp-specification/).
 The library used for decoding the packets is [here](https://github.com/ppatierno/formula1-telemetry).
 
 ## Documentation
