@@ -19,7 +19,12 @@ It uses different products, projects and technologies:
 ## Overview
 
 Following an overall picture of how these technologies are used together.
-A couple of short introduction videos are available [here](https://youtu.be/Re9LOAYZi2A) and [here](https://youtu.be/2efOtyFAZ4s). 
+A couple of short introduction videos are available [here](https://youtu.be/Re9LOAYZi2A) and [here](https://youtu.be/2efOtyFAZ4s).
+
+You can also find some material from conference presentations:
+
+* Let's code a motorsport telemetry processing pipeline - [slides](https://www.slideshare.net/paolopat/lets-code-a-motorsport-telemetry-processing-pipeline) [demo](https://github.com/ppatierno/formula1-telemetry-kafka) [video](https://www.youtube.com/watch?v=zFmON75w1kE)
+* Formula 1 telemetry processing using Kafka Streams - [slides](https://www.slideshare.net/paolopat/formula-1-telemetry-processing-using-kafka-streams) [demo](https://github.com/ppatierno/devconfcz-2021-formula1-kafka-streams) [video](https://www.youtube.com/watch?v=OkXlSb4vfDk)
 
 ![Overview](./images/overview.png)
 
