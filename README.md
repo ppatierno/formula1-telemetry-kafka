@@ -16,6 +16,8 @@ It uses different products, projects and technologies:
 
 ![Logo](./images/f1-telemetry-kafka-logo.png)
 
+> It also works with F1 2021 game by selecting the "2020" UDP packet format in the Telemetry settings on the game.
+
 ## Overview
 
 Following an overall picture of how these technologies are used together.
