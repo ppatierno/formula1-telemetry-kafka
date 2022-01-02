@@ -3,10 +3,10 @@
 
 # Formula 1 - Telemetry with Apache Kafka
 
-This project aims to use Apache Kafka in order to ingest Formula 1 telemetry data from the F1 2020 game (by CodeMasters) running on Microsoft Xbox.
+This project aims to use Apache Kafka in order to ingest Formula 1 telemetry data from the F1 202x game (by CodeMasters) running on Microsoft Xbox.
 It uses different products, projects and technologies:
 
-* **[F1 2020 game (by CodeMasters)](https://www.codemasters.com/game/f1-2020/)** for getting the telemetry data via UDP;
+* **[F1 202x games (by CodeMasters)](https://www.codemasters.com/category/f1-games/)** for getting the telemetry data via UDP;
 * **[Apache Camel](https://camel.apache.org/)** project for routing telemetry events from UDP to Apache Kafka and to InfluxDB;
 * **[Apache Kafka](https://kafka.apache.org/)** as the core project for ingesting the telemetry events on different topics;
 * **[Kubernetes](https://kubernetes.io/)** for deploying most of the components to run in the cloud;
@@ -16,7 +16,7 @@ It uses different products, projects and technologies:
 
 ![Logo](./images/f1-telemetry-kafka-logo.png)
 
-> It also works with F1 2021 game by selecting the "2020" UDP packet format in the Telemetry settings on the game.
+> The formula 1 telemetry library, used to decode the UDP packets, works with the F1 2020 game format. It's possible to have the project working with F1 2021 game by selecting the "2020" UDP packet format in the Telemetry settings on the game.
 
 ## Overview
 
@@ -30,11 +30,11 @@ You can also find some material from conference presentations:
 
 ![Overview](./images/overview.png)
 
-### F1 2020 Xbox UDP to Kafka
+### F1 202x Xbox UDP to Kafka
 
 In order to ingest the telemetry events into Apache Kafka, the Apache Camel project is used with:
 
-* a route getting the raw UDP packets from the F1 2020 game (by CodeMasters) on Microsoft Xbox and dispatching these events to three more routes;
+* a route getting the raw UDP packets from the F1 202x game (by CodeMasters) on Microsoft Xbox and dispatching these events to three more routes;
     * a route just forwarding the raw UDP packets to a corresponding Apache Kafka topic;
     * a route to filter only the `EVENT` type raw UDP packets and forwarding them to a corresponding Apache Kafka topic;
     * a route to aggregate the raw UDP packets data for producing drivers related data and forwarding them to a corresponding Apache Kafka topic;
@@ -66,9 +66,9 @@ In order to provide the telemetry data to Grafana dashboards, InfluxDB is used a
 
 ## Repository structure
 
-Contains different components for ingesting and handling Formula 1 2020 game (by CodeMasters) telemetry data through Apache Kafka.
+Contains different components for ingesting and handling Formula 1 202x game (by CodeMasters) telemetry data through Apache Kafka.
 
-* **udp-kafka**: Apache Camel application bridging the telemetry packets got on UDP from the Formula 1 2020 game to Apache Kafka to different topics:
+* **udp-kafka**: Apache Camel application bridging the telemetry packets got on UDP from the Formula 1 202x game to Apache Kafka to different topics:
     * _f1-telemetry-packets_ contains the raw `Packet`(s);
     * _f1-telemetry-events_ contains only the raw `Packet`(s) of `EVENT` type;
     * _f1-telemetry-drivers_ contains the `Driver` messages as result of aggregating `Packet`(s) in the same frame with telemetry data for all drivers;
