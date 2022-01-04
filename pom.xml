@@ -17,6 +17,7 @@
       <module>streams-avg-speed</module>
       <module>webui</module>
       <module>streams-laps</module>
+      <module>quarkus-streams-avg-speed</module>
   </modules>
 
   <properties>
