@@ -23,6 +23,7 @@ import org.apache.kafka.streams.kstream.TimeWindowedKStream;
 import org.apache.kafka.streams.kstream.TimeWindows;
 import org.apache.kafka.streams.kstream.ValueMapper;
 import org.apache.kafka.streams.kstream.Windowed;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import java.time.Duration;
 
@@ -33,10 +34,13 @@ import org.jboss.logging.Logger;
 @ApplicationScoped
 public class F1StreamsTopology {
 
-    private static final String DEFAULT_F1_STREAMS_INPUT_TOPIC = "f1-telemetry-drivers";
-    private static final String DEFAULT_F1_STREAMS_OUTPUT_TOPIC = "f1-telemetry-drivers-avg-speed";
-    
     private static Logger log = Logger.getLogger(F1StreamsTopology.class.getName());
+
+    @ConfigProperty(name = "formula1.telemetry.input-topic")
+    String inputTopic;
+
+    @ConfigProperty(name = "formula1.telemetry.output-topic")
+    String outputTopic;
 
     @Produces
     public Topology buildTopology() {
@@ -46,7 +50,7 @@ public class F1StreamsTopology {
 
         KStream<String, Integer> speedStream =
         streamsBuilder
-                .stream(DEFAULT_F1_STREAMS_INPUT_TOPIC, Consumed.with(Serdes.String(), driverSerdes))
+                .stream(inputTopic, Consumed.with(Serdes.String(), driverSerdes))
                 .filter((driverid, driver) -> driver.hasValidTelemetry())
                 .map((driverid, driver) -> new KeyValue<>(driver.getHashtag(), driver.getCarTelemetryData().getSpeed()));
 
@@ -87,7 +91,7 @@ public class F1StreamsTopology {
                         return new KeyValue<>(stringWindowed.key(), integer);
                     }
                 })
-                .to(DEFAULT_F1_STREAMS_OUTPUT_TOPIC, Produced.with(Serdes.String(), Serdes.Integer()));
+                .to(outputTopic, Produced.with(Serdes.String(), Serdes.Integer()));
                 //.print(Printed.toSysOut());
         
 
