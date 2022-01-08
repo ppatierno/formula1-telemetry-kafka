@@ -68,9 +68,7 @@ public class F1ConsumerApp {
 
         @Override
         public void run() {
-            Properties props = new Properties();
-            props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, config.getKafkaBootstrapServers());
-            props.put(ConsumerConfig.GROUP_ID_CONFIG, config.getF1DriversGroupId());
+            Properties props = F1ConsumerAppConfig.getProperties(config);
             props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
             props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "io.ppatierno.formula1.DriverDeserializer");
 
@@ -108,9 +106,7 @@ public class F1ConsumerApp {
 
         @Override
         public void run() {
-            Properties props = new Properties();
-            props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, config.getKafkaBootstrapServers());
-            props.put(ConsumerConfig.GROUP_ID_CONFIG, config.getF1EventsGroupId());
+            Properties props = F1ConsumerAppConfig.getProperties(config);
             props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
             props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "io.ppatierno.formula1.EventDeserializer");
 
@@ -148,9 +144,7 @@ public class F1ConsumerApp {
 
         @Override
         public void run() {
-            Properties props = new Properties();
-            props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, config.getKafkaBootstrapServers());
-            props.put(ConsumerConfig.GROUP_ID_CONFIG, config.getF1DriversAvgSpeedGroupId());
+            Properties props = F1ConsumerAppConfig.getProperties(config);
             props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
             props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.IntegerDeserializer");
 
@@ -188,9 +182,7 @@ public class F1ConsumerApp {
 
         @Override
         public void run() {
-            Properties props = new Properties();
-            props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, config.getKafkaBootstrapServers());
-            props.put(ConsumerConfig.GROUP_ID_CONFIG, config.getF1BestOverallSectorGroupId());
+            Properties props = F1ConsumerAppConfig.getProperties(config);
             props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.ShortDeserializer");
             props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "io.ppatierno.formula1.BestOverallSectorDeserializer");
 
