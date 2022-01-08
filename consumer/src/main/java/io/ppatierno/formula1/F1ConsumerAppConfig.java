@@ -37,7 +37,7 @@ public class F1ConsumerAppConfig extends KafkaBaseConfig {
 
     private F1ConsumerAppConfig(String kafkaBootstrapServers, String f1DriversGroupId, String f1EventsGroupId, String f1DriversAvgSpeedGroupId, String f1BestOverallSectorGroupId,
                                 String f1DriversTopic, String f1EventsTopic, String f1DriversAvgSpeedTopic, String f1BestOverallSectorTopic) {
-        super(kafkaBootstrapServers, null, null);
+        super(kafkaBootstrapServers, false, null, null, null, null, null);
         this.f1DriversGroupId = f1DriversGroupId;
         this.f1EventsGroupId = f1EventsGroupId;
         this.f1DriversAvgSpeedGroupId = f1DriversAvgSpeedGroupId;

@@ -28,7 +28,7 @@ public class F1KafkaInfluxDBAppConfig extends KafkaBaseConfig {
 
     private F1KafkaInfluxDBAppConfig(String kafkaBootstrapServers, String influxDbUrl, String influxDbDatabase,
                                      String f1DriversTopic, String f1EventsTopic, String f1DriversAvgSpeedTopic) {
-        super(kafkaBootstrapServers, null, null);
+        super(kafkaBootstrapServers, false, null, null, null, null, null);
         this.influxDbUrl = influxDbUrl;
         this.influxDbDatabase = influxDbDatabase;
         this.f1DriversTopic = f1DriversTopic;

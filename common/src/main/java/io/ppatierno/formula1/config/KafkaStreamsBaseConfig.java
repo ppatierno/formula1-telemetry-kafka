@@ -19,7 +19,7 @@ public class KafkaStreamsBaseConfig extends KafkaBaseConfig {
     protected final String f1StreamsOutputTopic;
 
     protected KafkaStreamsBaseConfig(String kafkaBootstrapServers, String f1StreamsInputTopic, String f1StreamsOutputTopic) {
-        super(kafkaBootstrapServers, null, null);
+        super(kafkaBootstrapServers, false, null, null, null, null, null);
         this.f1StreamsInputTopic = f1StreamsInputTopic;
         this.f1StreamsOutputTopic = f1StreamsOutputTopic;
     }
