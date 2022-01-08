@@ -1,14 +1,15 @@
 # Documentation
 
-* [Build](#build)
-    * [Components](#components)
-    * [Docker images](#docker-images)
-* [Running](#running)
-    * [Apache Kafka, InfluxDB and Grafana stack](#apache-kafka-influxdb-and-grafana-stack)
-    * [UDP to Apache Kafka](#udp-to-apache-kafka)
-    * [Apache Kafka to InfluxDB](#apache-kafka-to-influxdb)
-    * [Apache Kafka Streams](#apache-kafka-streams)
-* [Running on OpenShift](../deployment/openshift/README.md)
+- [Documentation](#documentation)
+  - [Build](#build)
+    - [Components](#components)
+    - [Docker images](#docker-images)
+  - [Running](#running)
+    - [Apache Kafka, InfluxDB and Grafana stack](#apache-kafka-influxdb-and-grafana-stack)
+    - [UDP to Apache Kafka](#udp-to-apache-kafka)
+    - [Apache Kafka to InfluxDB](#apache-kafka-to-influxdb)
+    - [Average Speed Apache Kafka Streams](#average-speed-apache-kafka-streams)
+    - [Laps Apache Kafka Streams](#laps-apache-kafka-streams)
 
 ## Build
 
@@ -74,8 +75,12 @@ In this way, it gets the raw telemetry packets sent by the game over UDP and bri
 The main parameters for the application can be set via the following environment variables:
 
 * `KAFKA_BOOTSTRAP_SERVERS`: the bootstrap servers for connecting to the Apache Kafka cluster. Default is `localhost:9092`.
+* `KAFKA_TLS_ENABLED`: if TLS has to be enabled for connecting to the Apache Kafka cluster. Default is `false`. NOTE: if it is enabled but the a truststore is not provided, then the JVM system truststore is used by default.
 * `KAFKA_TRUSTSTORE_LOCATION`: the path to the truststore containing certificates to connect to the Apache Kafka cluster when TLS is enabled. Not set by default.
 * `KAFKA_TRUSTSTORE_PASSWORD`: the password for the truststore containing certificates to connect to the Apache Kafka cluster when TLS is enabled. No set by default.
+* `KAFKA_SASL_MECHANISM`: SASL mechanism to be used for authentication. `PLAIN` mechanism is supported. Not set by default.
+* `KAFKA_SASL_USERNAME`: username to be used if SASL mechanism is `PLAIN`. Not set by default.
+* `KAFKA_SASL_PASSWORD`: password to be used if SASL mechanism is `PLAIN`. Not set by default.
 
 Other available environment variables are:
 
