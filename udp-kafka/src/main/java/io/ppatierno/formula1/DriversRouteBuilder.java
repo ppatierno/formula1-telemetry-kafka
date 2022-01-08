@@ -4,6 +4,7 @@
  */
 package io.ppatierno.formula1;
 
+import io.ppatierno.formula1.KafkaEndpoint.KafkaEndpointBuilder;
 import io.ppatierno.formula1.packets.Packet;
 import org.apache.camel.Exchange;
 import org.apache.camel.Expression;
@@ -31,14 +32,23 @@ public class DriversRouteBuilder extends RouteBuilder {
 
     public DriversRouteBuilder(F1UdpKafkaAppConfig config) {
         this.config = config;
-        this.kafkaEndpoint = new KafkaEndpoint.KafkaEndpointBuilder()
+        KafkaEndpointBuilder kafkaEndpointBuilder = new KafkaEndpoint.KafkaEndpointBuilder()
                 .withBootstrapServers(this.config.getKafkaBootstrapServers())
                 .withTopic(this.config.getF1DriversTopic())
                 .withClientId("drivers")
                 .withValueSerializer("io.ppatierno.formula1.DriverSerializer")
+                .withTlsEnabled(this.config.isKafkaTlsEnabled())
                 .withTruststoreLocation(this.config.getKafkaTruststoreLocation())
                 .withTruststorePassword(this.config.getKafkaTruststorePassword())
-                .build();
+                .withSaslMechanism(this.config.getKafkaSaslMechanism());
+
+        if ("PLAIN".equals(this.config.getKafkaSaslMechanism()) && 
+            this.config.getKafkaSaslUsername() != null && this.config.getKafkaSaslPassword() != null) {
+                String saslJaasConfig = "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"" + this.config.getKafkaSaslUsername() + "\" password=\"" + this.config.getKafkaSaslPassword() + "\";";
+                kafkaEndpointBuilder.withSaslJassConfig(saslJaasConfig);
+        }
+                
+        this.kafkaEndpoint = kafkaEndpointBuilder.build();
         log.info("KafkaEndpoint = {}", this.kafkaEndpoint);
     }
 

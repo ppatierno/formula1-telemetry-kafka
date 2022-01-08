@@ -14,7 +14,7 @@ public class F1WebUIAppConfig extends KafkaBaseConfig {
     private final String f1DriversTopic;
 
     private F1WebUIAppConfig(String kafkaBootstrapServers, String f1DriversGroupId, String f1DriversTopic) {
-        super(kafkaBootstrapServers, null, null);
+        super(kafkaBootstrapServers, false, null, null, null, null, null);
         this.f1DriversGroupId = f1DriversGroupId;
         this.f1DriversTopic = f1DriversTopic;
     }

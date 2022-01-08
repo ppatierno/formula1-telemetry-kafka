@@ -7,6 +7,8 @@ package io.ppatierno.formula1;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 
+import io.ppatierno.formula1.KafkaEndpoint.KafkaEndpointBuilder;
+
 /**
  * Route getting raw Packet instances (as body) from the "udp-multicast-dispatcher" route thanks to multicast
  * and sending them to Kafka
@@ -18,13 +20,22 @@ public class RawPacketsRouteBuilder extends RouteBuilder {
 
     public RawPacketsRouteBuilder(F1UdpKafkaAppConfig config) {
         this.config = config;
-        this.kafkaEndpoint = new KafkaEndpoint.KafkaEndpointBuilder()
+        KafkaEndpointBuilder kafkaEndpointBuilder = new KafkaEndpoint.KafkaEndpointBuilder()
                 .withBootstrapServers(this.config.getKafkaBootstrapServers())
                 .withTopic(this.config.getF1RawPacketsTopic())
                 .withClientId("raw-packets")
+                .withTlsEnabled(this.config.isKafkaTlsEnabled())
                 .withTruststoreLocation(this.config.getKafkaTruststoreLocation())
                 .withTruststorePassword(this.config.getKafkaTruststorePassword())
-                .build();
+                .withSaslMechanism(this.config.getKafkaSaslMechanism());
+
+        if ("PLAIN".equals(this.config.getKafkaSaslMechanism()) && 
+            this.config.getKafkaSaslUsername() != null && this.config.getKafkaSaslPassword() != null) {
+                String saslJaasConfig = "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"" + this.config.getKafkaSaslUsername() + "\" password=\"" + this.config.getKafkaSaslPassword() + "\";";
+                kafkaEndpointBuilder.withSaslJassConfig(saslJaasConfig);
+        }
+        
+        this.kafkaEndpoint = kafkaEndpointBuilder.build();        
         log.info("KafkaEndpoint = {}", this.kafkaEndpoint);
     }
 
