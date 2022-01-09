@@ -135,6 +135,13 @@ The Apache Kafka Streams application can run locally or can be deployed on Kuber
 The main parameters for the application can be set via the following environment variables:
 
 * `KAFKA_BOOTSTRAP_SERVERS`: the bootstrap servers for connecting to the Apache Kafka cluster. Default is `localhost:9092`.
+* `KAFKA_TLS_ENABLED`: if TLS has to be enabled for connecting to the Apache Kafka cluster. Default is `false`. NOTE: if it is enabled but the a truststore is not provided, then the JVM system truststore is used by default.
+* `KAFKA_TRUSTSTORE_LOCATION`: the path to the truststore containing certificates to connect to the Apache Kafka cluster when TLS is enabled. Not set by default.
+* `KAFKA_TRUSTSTORE_PASSWORD`: the password for the truststore containing certificates to connect to the Apache Kafka cluster when TLS is enabled. No set by default.
+* `KAFKA_SASL_MECHANISM`: SASL mechanism to be used for authentication. `PLAIN` mechanism is supported. Not set by default.
+* `KAFKA_SASL_USERNAME`: username to be used if SASL mechanism is `PLAIN`. Not set by default.
+* `KAFKA_SASL_PASSWORD`: password to be used if SASL mechanism is `PLAIN`. Not set by default.
+* `F1_STREAMS_INTERNAL_REPLICATION_FACTOR`: the replication factor for the internal topics that the Kafka Streams application creates (changelog, repartitioning, ...). Default is `1`.
 * `F1_STREAMS_INPUT_TOPIC`: Apache Kafka topic from which `Driver` messages are read. Default is `f1-telemetry-drivers`.
 * `F1_STREAMS_OUTPUT_TOPIC`: Apache Kafka topic to which messages with processed average speed are sent. Default is `f1-telemetry-drivers-avg-speed`.
 
@@ -156,6 +163,13 @@ The Apache Kafka Streams application can run locally or can be deployed on Kuber
 The main parameters for the application can be set via the following environment variables:
 
 * `KAFKA_BOOTSTRAP_SERVERS`: the bootstrap servers for connecting to the Apache Kafka cluster. Default is `localhost:9092`.
+* `KAFKA_TLS_ENABLED`: if TLS has to be enabled for connecting to the Apache Kafka cluster. Default is `false`. NOTE: if it is enabled but the a truststore is not provided, then the JVM system truststore is used by default.
+* `KAFKA_TRUSTSTORE_LOCATION`: the path to the truststore containing certificates to connect to the Apache Kafka cluster when TLS is enabled. Not set by default.
+* `KAFKA_TRUSTSTORE_PASSWORD`: the password for the truststore containing certificates to connect to the Apache Kafka cluster when TLS is enabled. No set by default.
+* `KAFKA_SASL_MECHANISM`: SASL mechanism to be used for authentication. `PLAIN` mechanism is supported. Not set by default.
+* `KAFKA_SASL_USERNAME`: username to be used if SASL mechanism is `PLAIN`. Not set by default.
+* `KAFKA_SASL_PASSWORD`: password to be used if SASL mechanism is `PLAIN`. Not set by default.
+* `F1_STREAMS_INTERNAL_REPLICATION_FACTOR`: the replication factor for the internal topics that the Kafka Streams application creates (changelog, 
 * `F1_STREAMS_INPUT_TOPIC`: Apache Kafka topic from which `Driver` messages are read. Default is `f1-telemetry-drivers`.
 * `F1_STREAMS_OUTPUT_TOPIC`: Apache Kafka topic to which messages with processed best overall time per sector. Default is `f1-telemetry-drivers-laps`.
 

@@ -41,9 +41,8 @@ public class F1StreamsApp {
 
         log.info("Config: {}", config);
 
-        Properties props = new Properties();
+        Properties props = F1StreamsAppConfig.getProperties(config);
         props.setProperty(StreamsConfig.APPLICATION_ID_CONFIG, "f1-telemetry-streams-avg-speed");
-        props.setProperty(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, config.getKafkaBootstrapServers());
         props.setProperty(StreamsConfig.CACHE_MAX_BYTES_BUFFERING_CONFIG, "0");
 
         StreamsBuilder streamsBuilder = new StreamsBuilder();
