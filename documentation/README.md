@@ -103,6 +103,12 @@ The Apache Kafka to InfluxDB application can run locally or can be deployed on K
 The main parameters for the application can be set via the following environment variables:
 
 * `KAFKA_BOOTSTRAP_SERVERS`: the bootstrap servers for connecting to the Apache Kafka cluster. Default is `localhost:9092`.
+* `KAFKA_TLS_ENABLED`: if TLS has to be enabled for connecting to the Apache Kafka cluster. Default is `false`. NOTE: if it is enabled but the a truststore is not provided, then the JVM system truststore is used by default.
+* `KAFKA_TRUSTSTORE_LOCATION`: the path to the truststore containing certificates to connect to the Apache Kafka cluster when TLS is enabled. Not set by default.
+* `KAFKA_TRUSTSTORE_PASSWORD`: the password for the truststore containing certificates to connect to the Apache Kafka cluster when TLS is enabled. No set by default.
+* `KAFKA_SASL_MECHANISM`: SASL mechanism to be used for authentication. `PLAIN` mechanism is supported. Not set by default.
+* `KAFKA_SASL_USERNAME`: username to be used if SASL mechanism is `PLAIN`. Not set by default.
+* `KAFKA_SASL_PASSWORD`: password to be used if SASL mechanism is `PLAIN`. Not set by default.
 * `INFLUXDB_URL`: the URL of the InfluxDB HTTP REST API. Default is `http://localhost:8086`.
 
 Other available environment variables are:
