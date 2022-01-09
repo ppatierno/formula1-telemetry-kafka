@@ -4,7 +4,8 @@
  */
 package io.ppatierno.formula1;
 
-import io.ppatierno.formula1.KafkaEndpoint.KafkaEndpointBuilder;
+import io.ppatierno.formula1.camel.KafkaEndpoint;
+import io.ppatierno.formula1.camel.KafkaEndpoint.KafkaEndpointBuilder;
 import io.ppatierno.formula1.data.*;
 import io.ppatierno.formula1.enums.PacketId;
 import io.ppatierno.formula1.packets.Packet;

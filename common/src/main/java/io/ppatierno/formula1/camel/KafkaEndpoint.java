@@ -2,27 +2,32 @@
  * Copyright Paolo Patierno.
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
-package io.ppatierno.formula1;
+package io.ppatierno.formula1.camel;
 
 public class KafkaEndpoint {
 
     private final String bootstrapServers;
     private final String clientId;
+    private final String groupId;
     private final String topic;
     private final String valueSerializer;
+    private final String valueDeserializer;
     private final boolean tlsEnabled;
     private final String truststoreLocation;
     private final String truststorePassword;
     private final String saslMechanism;
     private final String saslJaasConfig;
 
-    private KafkaEndpoint(String bootstrapServers, String clientId, String topic,
-                          String valueSerializer, boolean tlsEnabled, String truststoreLocation, String truststorePassword,
-                          String saslMechanism, String saslJaasConfig) {
+    private KafkaEndpoint(String bootstrapServers, String clientId, String groupId, 
+                            String topic, String valueSerializer, String valueDeserializer,
+                            boolean tlsEnabled, String truststoreLocation, String truststorePassword,
+                            String saslMechanism, String saslJaasConfig) {
         this.bootstrapServers = bootstrapServers;
         this.clientId = clientId;
+        this.groupId = groupId;
         this.topic = topic;
         this.valueSerializer = valueSerializer;
+        this.valueDeserializer = valueDeserializer;
         this.tlsEnabled = tlsEnabled;
         this.truststoreLocation = truststoreLocation;
         this.truststorePassword = truststorePassword;
@@ -36,8 +41,14 @@ public class KafkaEndpoint {
         StringBuilder sb = new StringBuilder("kafka:" + this.topic + "?");
         sb.append("brokers=" + this.bootstrapServers);
         sb.append("&clientId=" + this.clientId);
+        if (this.groupId != null) {
+            sb.append("&groupId=" + this.groupId);
+        }
         if (this.valueSerializer != null) {
             sb.append("&valueSerializer=" + this.valueSerializer);
+        }
+        if (this.valueDeserializer != null) {
+            sb.append("&valueDeserializer=" + this.valueDeserializer);
         }
         if (this.tlsEnabled) {
             securityProtocol = "SSL";
@@ -61,8 +72,10 @@ public class KafkaEndpoint {
     public static class KafkaEndpointBuilder {
         private String bootstrapServers;
         private String clientId;
+        private String groupId;
         private String topic;
         private String valueSerializer;
+        private String valueDeserializer;
         private boolean tlsEnabled;
         private String truststoreLocation;
         private String truststorePassword;
@@ -79,6 +92,11 @@ public class KafkaEndpoint {
             return this;
         }
 
+        public KafkaEndpointBuilder withGroupId(String groupId) {
+            this.groupId = groupId;
+            return this;
+        }
+
         public KafkaEndpointBuilder withTopic(String topic) {
             this.topic = topic;
             return this;
@@ -86,6 +104,11 @@ public class KafkaEndpoint {
 
         public KafkaEndpointBuilder withValueSerializer(String valueSerializer) {
             this.valueSerializer = valueSerializer;
+            return this;
+        }
+
+        public KafkaEndpointBuilder withValueDeserializer(String valueDeserializer) {
+            this.valueDeserializer = valueDeserializer;
             return this;
         }
 
@@ -115,8 +138,9 @@ public class KafkaEndpoint {
         }
 
         public KafkaEndpoint build() {
-            return new KafkaEndpoint(this.bootstrapServers, this.clientId, this.topic,
-                    this.valueSerializer, this.tlsEnabled, this.truststoreLocation, this.truststorePassword,
+            return new KafkaEndpoint(this.bootstrapServers, this.clientId, this.groupId, 
+                    this.topic, this.valueSerializer, this.valueDeserializer,
+                    this.tlsEnabled, this.truststoreLocation, this.truststorePassword,
                     this.saslMechanism, this.saslJaasConfig);
         }
     }

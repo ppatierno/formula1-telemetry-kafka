@@ -5,6 +5,7 @@
 
 package io.ppatierno.formula1;
 
+import io.ppatierno.formula1.camel.KafkaEndpoint;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.kafka.KafkaConstants;
@@ -18,17 +19,34 @@ import java.util.concurrent.TimeUnit;
 public class DriversAvgSpeedPointRouteBuilder extends RouteBuilder {
 
     private final F1KafkaInfluxDBAppConfig config;
+    private KafkaEndpoint kafkaEndpoint;
 
     public DriversAvgSpeedPointRouteBuilder(F1KafkaInfluxDBAppConfig config) {
         this.config = config;
+        KafkaEndpoint.KafkaEndpointBuilder kafkaEndpointBuilder = new KafkaEndpoint.KafkaEndpointBuilder()
+                .withBootstrapServers(this.config.getKafkaBootstrapServers())
+                .withTopic(this.config.getF1DriversAvgSpeedTopic())
+                .withClientId("kafka-influxdb-drivers-avg-speed")
+                .withGroupId("f1-kafka-influxdb-drivers-avg-speed-group")
+                .withValueDeserializer("org.apache.kafka.common.serialization.IntegerDeserializer")
+                .withTlsEnabled(this.config.isKafkaTlsEnabled())
+                .withTruststoreLocation(this.config.getKafkaTruststoreLocation())
+                .withTruststorePassword(this.config.getKafkaTruststorePassword())
+                .withSaslMechanism(this.config.getKafkaSaslMechanism());
+
+        if ("PLAIN".equals(this.config.getKafkaSaslMechanism()) &&
+                this.config.getKafkaSaslUsername() != null && this.config.getKafkaSaslPassword() != null) {
+            String saslJaasConfig = "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"" + this.config.getKafkaSaslUsername() + "\" password=\"" + this.config.getKafkaSaslPassword() + "\";";
+            kafkaEndpointBuilder.withSaslJassConfig(saslJaasConfig);
+        }
+
+        this.kafkaEndpoint = kafkaEndpointBuilder.build();
+        log.info("KafkaEndpoint = {}", this.kafkaEndpoint);
     }
 
     @Override
     public void configure() throws Exception {
-
-        from("kafka:" + this.config.getF1DriversAvgSpeedTopic() + "?" +
-                "brokers=" + this.config.getKafkaBootstrapServers() +
-                "&valueDeserializer=org.apache.kafka.common.serialization.IntegerDeserializer")
+        from(this.kafkaEndpoint.toString())
         .process(exchange -> {
             Integer avgSpeed = (Integer) exchange.getIn().getBody();
 

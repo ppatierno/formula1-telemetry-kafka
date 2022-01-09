@@ -4,10 +4,11 @@
  */
 package io.ppatierno.formula1;
 
+import io.ppatierno.formula1.camel.KafkaEndpoint;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 
-import io.ppatierno.formula1.KafkaEndpoint.KafkaEndpointBuilder;
+import io.ppatierno.formula1.camel.KafkaEndpoint.KafkaEndpointBuilder;
 
 /**
  * Route getting raw Packet instances (as body) from the "udp-multicast-dispatcher" route thanks to multicast

@@ -26,9 +26,10 @@ public class F1KafkaInfluxDBAppConfig extends KafkaBaseConfig {
     private final String f1EventsTopic;
     private final String f1DriversAvgSpeedTopic;
 
-    private F1KafkaInfluxDBAppConfig(String kafkaBootstrapServers, String influxDbUrl, String influxDbDatabase,
-                                     String f1DriversTopic, String f1EventsTopic, String f1DriversAvgSpeedTopic) {
-        super(kafkaBootstrapServers, false, null, null, null, null, null);
+    private F1KafkaInfluxDBAppConfig(String kafkaBootstrapServers, boolean kafkaTlsEnabled, String kafkaTruststoreLocation, String kafkaTruststorePassword,
+                                        String kafkaSaslMechanism, String kafkaSaslUsername, String kafkaSalsPassword,                                    
+                                        String influxDbUrl, String influxDbDatabase, String f1DriversTopic, String f1EventsTopic, String f1DriversAvgSpeedTopic) {
+        super(kafkaBootstrapServers, kafkaTlsEnabled, kafkaTruststoreLocation, kafkaTruststorePassword, kafkaSaslMechanism, kafkaSaslUsername, kafkaSalsPassword);
         this.influxDbUrl = influxDbUrl;
         this.influxDbDatabase = influxDbDatabase;
         this.f1DriversTopic = f1DriversTopic;
@@ -38,12 +39,20 @@ public class F1KafkaInfluxDBAppConfig extends KafkaBaseConfig {
 
     public static F1KafkaInfluxDBAppConfig fromEnv() {
         String kafkaBootstrapServers = System.getenv(KAFKA_BOOTSTRAP_SERVERS_ENV) == null ? DEFAULT_KAFKA_BOOTSTRAP_SERVERS : System.getenv(KAFKA_BOOTSTRAP_SERVERS_ENV);
+        boolean kafkaTlsEnabled = System.getenv(KAFKA_TLS_ENABLED) == null ? DEFAULT_KAFKA_TLS_ENABLED : Boolean.parseBoolean(System.getenv(KAFKA_TLS_ENABLED));
+        String kafkaTruststoreLocation = System.getenv(KAFKA_TRUSTSTORE_LOCATION_ENV);
+        String kafkaTruststorePassword = System.getenv(KAFKA_TRUSTSTORE_PASSWORD_ENV);
+        String kafkaSaslMechanism = System.getenv(KAFKA_SASL_MECHANISM);
+        String kafkaSaslUsername = System.getenv(KAFKA_SASL_USERNAME);
+        String kafkaSaslPassword = System.getenv(KAFKA_SASL_PASSWORD);
         String influxDbUrl = System.getenv(INFLUXDB_URL_ENV) == null ? DEFAULT_INFLUXDB_URL : System.getenv(INFLUXDB_URL_ENV);
         String influxDbDatabase = System.getenv(INFLUXDB_DB_ENV) == null ? DEFAULT_INFLUXDB_DB : System.getenv(INFLUXDB_DB_ENV);
         String f1DriversTopic = System.getenv(F1_DRIVERS_TOPIC_ENV) == null ? DEFAULT_F1_DRIVERS_TOPIC : System.getenv(F1_DRIVERS_TOPIC_ENV);
         String f1EventsTopic = System.getenv(F1_EVENTS_TOPIC_ENV) == null ? DEFAULT_F1_EVENTS_TOPIC : System.getenv(F1_EVENTS_TOPIC_ENV);
         String f1DriversAvgSpeedTopic = System.getenv(F1_DRIVERS_AVG_SPEED_TOPIC_ENV) == null ? DEFAULT_F1_DRIVERS_AVG_SPEED_TOPIC : System.getenv(F1_DRIVERS_AVG_SPEED_TOPIC_ENV);
-        return new F1KafkaInfluxDBAppConfig(kafkaBootstrapServers, influxDbUrl, influxDbDatabase, f1DriversTopic, f1EventsTopic, f1DriversAvgSpeedTopic);
+        return new F1KafkaInfluxDBAppConfig(kafkaBootstrapServers, kafkaTlsEnabled, kafkaTruststoreLocation, kafkaTruststorePassword,
+                                            kafkaSaslMechanism, kafkaSaslUsername, kafkaSaslPassword,
+                                            influxDbUrl, influxDbDatabase, f1DriversTopic, f1EventsTopic, f1DriversAvgSpeedTopic);
     }
 
     public String getInfluxDbUrl() {
@@ -70,6 +79,12 @@ public class F1KafkaInfluxDBAppConfig extends KafkaBaseConfig {
     public String toString() {
         return "F1KafkaInfluxDBAppConfig[" +
                 "kafkaBootstrapServers=" + this.kafkaBootstrapServers +
+                ", kafkaTlsEnabled=" + this.kafkaTlsEnabled +
+                ", kafkaTruststoreLocation=" +  this.kafkaTruststoreLocation +
+                ", kafkaTruststorePassword=" +  this.kafkaTruststorePassword +
+                ", kafkaSaslMechanism=" +  this.kafkaSaslMechanism +
+                ", kafkaSaslUsername=" +  this.kafkaSaslUsername +
+                ", kafkaSaslPassword=" +  this.kafkaSaslPassword +
                 ", influxDbUrl=" + this.influxDbUrl +
                 ", influxDbDatabase=" + this.influxDbDatabase +
                 ", f1DriversTopic=" + this.f1DriversTopic +
