@@ -4,6 +4,7 @@
  */
 package io.ppatierno.formula1;
 
+import io.ppatierno.formula1.camel.KafkaEndpoint;
 import io.ppatierno.formula1.data.FastestLap;
 import io.ppatierno.formula1.data.SpeedTrap;
 import io.ppatierno.formula1.enums.EventCode;
@@ -16,17 +17,34 @@ import java.util.concurrent.TimeUnit;
 public class EventsPointRouteBuilder extends RouteBuilder {
 
     private final F1KafkaInfluxDBAppConfig config;
+    private KafkaEndpoint kafkaEndpoint;
 
     public EventsPointRouteBuilder(F1KafkaInfluxDBAppConfig config) {
         this.config = config;
+        KafkaEndpoint.KafkaEndpointBuilder kafkaEndpointBuilder = new KafkaEndpoint.KafkaEndpointBuilder()
+                .withBootstrapServers(this.config.getKafkaBootstrapServers())
+                .withTopic(this.config.getF1EventsTopic())
+                .withClientId("kafka-influxdb-events")
+                .withGroupId("f1-kafka-influxdb-events-group")
+                .withValueDeserializer("io.ppatierno.formula1.EventDeserializer")
+                .withTlsEnabled(this.config.isKafkaTlsEnabled())
+                .withTruststoreLocation(this.config.getKafkaTruststoreLocation())
+                .withTruststorePassword(this.config.getKafkaTruststorePassword())
+                .withSaslMechanism(this.config.getKafkaSaslMechanism());
+
+        if ("PLAIN".equals(this.config.getKafkaSaslMechanism()) &&
+                this.config.getKafkaSaslUsername() != null && this.config.getKafkaSaslPassword() != null) {
+            String saslJaasConfig = "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"" + this.config.getKafkaSaslUsername() + "\" password=\"" + this.config.getKafkaSaslPassword() + "\";";
+            kafkaEndpointBuilder.withSaslJassConfig(saslJaasConfig);
+        }
+
+        this.kafkaEndpoint = kafkaEndpointBuilder.build();
+        log.info("KafkaEndpoint = {}", this.kafkaEndpoint);
     }
 
     @Override
     public void configure() throws Exception {
-
-        from("kafka:" + this.config.getF1EventsTopic() + "?" +
-                "brokers=" + this.config.getKafkaBootstrapServers() +
-                "&valueDeserializer=io.ppatierno.formula1.EventDeserializer")
+        from(this.kafkaEndpoint.toString())
         .filter(exchange ->  {
             Event event = (Event) exchange.getIn().getBody();
             // we are interested in following events only
