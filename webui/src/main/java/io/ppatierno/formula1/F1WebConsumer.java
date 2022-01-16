@@ -7,7 +7,6 @@ package io.ppatierno.formula1;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.kafka.client.consumer.KafkaConsumer;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,9 +24,7 @@ public class F1WebConsumer {
     public F1WebConsumer(Vertx vertx, F1WebUIAppConfig config) {
         this.vertx = vertx;
         this.config = config;
-        Properties props = new Properties();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, this.config.getKafkaBootstrapServers());
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, this.config.getF1DriversGroupId());
+        Properties props = F1WebUIAppConfig.getProperties(config);
         this.consumer = KafkaConsumer.create(vertx, props, new StringDeserializer(), new DriverDeserializer());
     }
 
