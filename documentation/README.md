@@ -116,6 +116,7 @@ Other available environment variables are:
 * `INFLUXDB_DB`: the InfluxDB database where measurements will be stored. Default is `formula1`.
 * `F1_DRIVERS_TOPIC`: Apache Kafka topic from which `Driver` messages are read. Default is `f1-telemetry-drivers`. 
 * `F1_EVENTS_TOPIC`: Apache Kafka topic from which `Event` messages are read. Default is `f1-telemetry-events`.
+* `F1_DRIVERS_AVG_SPEED_TOPIC`: Apache Kafka topic from which messages with processed average speed are read. Default is `f1-telemetry-drivers-avg-speed`.
 
 You can set the environment variables locally and then running the application with following command.
 
