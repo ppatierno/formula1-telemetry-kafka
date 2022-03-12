@@ -10,6 +10,7 @@
     - [Apache Kafka to InfluxDB](#apache-kafka-to-influxdb)
     - [Average Speed Apache Kafka Streams](#average-speed-apache-kafka-streams)
     - [Laps Apache Kafka Streams](#laps-apache-kafka-streams)
+  - [Testing](#testing)
 
 ## Build
 
@@ -184,4 +185,15 @@ Or you can even deploy the application to Kubernetes by customizing the environm
 
 ```shell
 kubectl apply -f deployment/f1-telemetry-streams-laps.yaml
+```
+
+## Testing
+
+If you don't have a console and the F1 game, you can still try the entire pipeline by using the telemetry data stored in the SQLite3 database provided in the `databases` repository folder.
+It provides telemetry data for just the first lap of the Azerbaijan Grand Prix 2020 (Baku).
+
+In order to use it, you need to install the [f1-2020-telemetry](https://pypi.org/project/f1-2020-telemetry/) Python library which comes with a CLI that allows to read the telemetry data from the SQLite3 database and send them to UDP as they were coming from the F1 game on the console.
+
+```shell
+f1-2020-telemetry-player F1_2020_BAKU.sqlite3
 ```
