@@ -4,6 +4,9 @@
  */
 package io.ppatierno.formula1;
 
+import io.ppatierno.formula1.model.BestOverallSector;
+import io.ppatierno.formula1.model.Driver;
+import io.ppatierno.formula1.model.Event;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -70,7 +73,7 @@ public class F1ConsumerApp {
         public void run() {
             Properties props = F1ConsumerAppConfig.getProperties(config);
             props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
-            props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "io.ppatierno.formula1.DriverDeserializer");
+            props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "io.ppatierno.formula1.serializers.DriverDeserializer");
 
             KafkaConsumer<String, Driver> consumer = null;
 
@@ -108,7 +111,7 @@ public class F1ConsumerApp {
         public void run() {
             Properties props = F1ConsumerAppConfig.getProperties(config);
             props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
-            props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "io.ppatierno.formula1.EventDeserializer");
+            props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "io.ppatierno.formula1.serializers.EventDeserializer");
 
             KafkaConsumer<String, Event> consumer = null;
 
@@ -184,7 +187,7 @@ public class F1ConsumerApp {
         public void run() {
             Properties props = F1ConsumerAppConfig.getProperties(config);
             props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.ShortDeserializer");
-            props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "io.ppatierno.formula1.BestOverallSectorDeserializer");
+            props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "io.ppatierno.formula1.serializers.BestOverallSectorDeserializer");
 
             KafkaConsumer<Short, BestOverallSector> consumer = null;
 

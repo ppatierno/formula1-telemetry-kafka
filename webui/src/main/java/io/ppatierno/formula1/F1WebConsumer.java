@@ -4,6 +4,8 @@
  */
 package io.ppatierno.formula1;
 
+import io.ppatierno.formula1.model.Driver;
+import io.ppatierno.formula1.serializers.DriverDeserializer;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.kafka.client.consumer.KafkaConsumer;

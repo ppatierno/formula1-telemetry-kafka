@@ -6,6 +6,7 @@ package io.ppatierno.formula1;
 
 import java.util.concurrent.CountDownLatch;
 
+import io.ppatierno.formula1.model.Session;
 import org.apache.camel.CamelContext;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.slf4j.Logger;

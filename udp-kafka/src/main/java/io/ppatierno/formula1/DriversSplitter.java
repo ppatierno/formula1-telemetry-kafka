@@ -4,6 +4,8 @@
  */
 package io.ppatierno.formula1;
 
+import io.ppatierno.formula1.model.Driver;
+import io.ppatierno.formula1.model.Session;
 import io.ppatierno.formula1.packets.Packet;
 import io.ppatierno.formula1.packets.PacketCarSetupData;
 import io.ppatierno.formula1.packets.PacketCarStatusData;

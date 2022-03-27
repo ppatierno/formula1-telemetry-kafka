@@ -4,7 +4,13 @@
  */
 package io.ppatierno.formula1;
 
+import io.ppatierno.formula1.model.BestOverallSector;
 import io.ppatierno.formula1.model.BestOverallSectorTransformer;
+import io.ppatierno.formula1.model.Driver;
+import io.ppatierno.formula1.serializers.BestOverallSectorDeserializer;
+import io.ppatierno.formula1.serializers.BestOverallSectorSerializer;
+import io.ppatierno.formula1.serializers.DriverDeserializer;
+import io.ppatierno.formula1.serializers.DriverSerializer;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
@@ -14,7 +20,6 @@ import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.Predicate;
-import org.apache.kafka.streams.kstream.Printed;
 import org.apache.kafka.streams.kstream.Produced;
 import org.apache.kafka.streams.state.StoreBuilder;
 import org.apache.kafka.streams.state.Stores;

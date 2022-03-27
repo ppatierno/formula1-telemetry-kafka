@@ -6,6 +6,7 @@ package io.ppatierno.formula1;
 
 import io.ppatierno.formula1.camel.KafkaEndpoint;
 import io.ppatierno.formula1.camel.KafkaEndpoint.KafkaEndpointBuilder;
+import io.ppatierno.formula1.model.Driver;
 import io.ppatierno.formula1.packets.Packet;
 import org.apache.camel.Exchange;
 import org.apache.camel.Expression;
@@ -37,7 +38,7 @@ public class DriversRouteBuilder extends RouteBuilder {
                 .withBootstrapServers(this.config.getKafkaBootstrapServers())
                 .withTopic(this.config.getF1DriversTopic())
                 .withClientId("drivers")
-                .withValueSerializer("io.ppatierno.formula1.DriverSerializer")
+                .withValueSerializer("io.ppatierno.formula1.serializers.DriverSerializer")
                 .withTlsEnabled(this.config.isKafkaTlsEnabled())
                 .withTruststoreLocation(this.config.getKafkaTruststoreLocation())
                 .withTruststorePassword(this.config.getKafkaTruststorePassword())

@@ -8,6 +8,8 @@ import io.ppatierno.formula1.camel.KafkaEndpoint;
 import io.ppatierno.formula1.camel.KafkaEndpoint.KafkaEndpointBuilder;
 import io.ppatierno.formula1.data.*;
 import io.ppatierno.formula1.enums.PacketId;
+import io.ppatierno.formula1.model.Event;
+import io.ppatierno.formula1.model.Session;
 import io.ppatierno.formula1.packets.Packet;
 import io.ppatierno.formula1.packets.PacketEventData;
 import org.apache.camel.LoggingLevel;
@@ -31,7 +33,7 @@ public class EventsRouteBuilder extends RouteBuilder  {
                 .withBootstrapServers(this.config.getKafkaBootstrapServers())
                 .withTopic(this.config.getF1EventsTopic())
                 .withClientId("events")
-                .withValueSerializer("io.ppatierno.formula1.EventSerializer")
+                .withValueSerializer("io.ppatierno.formula1.serializers.EventSerializer")
                 .withTlsEnabled(this.config.isKafkaTlsEnabled())
                 .withTruststoreLocation(this.config.getKafkaTruststoreLocation())
                 .withTruststorePassword(this.config.getKafkaTruststorePassword())

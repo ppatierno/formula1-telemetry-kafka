@@ -6,6 +6,7 @@ package io.ppatierno.formula1;
 
 import io.ppatierno.formula1.camel.KafkaEndpoint;
 import io.ppatierno.formula1.enums.Wheel;
+import io.ppatierno.formula1.model.Driver;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.influxdb.dto.BatchPoints;
@@ -30,7 +31,7 @@ public class DriversPointRouteBuilder extends RouteBuilder {
                 .withTopic(this.config.getF1DriversTopic())
                 .withClientId("kafka-influxdb-drivers")
                 .withGroupId("f1-kafka-influxdb-drivers-group")
-                .withValueDeserializer("io.ppatierno.formula1.DriverDeserializer")
+                .withValueDeserializer("io.ppatierno.formula1.serializers.DriverDeserializer")
                 .withTlsEnabled(this.config.isKafkaTlsEnabled())
                 .withTruststoreLocation(this.config.getKafkaTruststoreLocation())
                 .withTruststorePassword(this.config.getKafkaTruststorePassword())
