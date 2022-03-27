@@ -4,6 +4,12 @@
  */
 package io.ppatierno.formula1;
 
+import io.ppatierno.formula1.model.Driver;
+import io.ppatierno.formula1.model.SpeedCountAndSum;
+import io.ppatierno.formula1.serializers.DriverDeserializer;
+import io.ppatierno.formula1.serializers.DriverSerializer;
+import io.ppatierno.formula1.serializers.SpeedCountAndSumDeserializer;
+import io.ppatierno.formula1.serializers.SpeedCountAndSumSerializer;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;

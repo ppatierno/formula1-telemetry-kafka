@@ -8,6 +8,7 @@ import io.ppatierno.formula1.camel.KafkaEndpoint;
 import io.ppatierno.formula1.data.FastestLap;
 import io.ppatierno.formula1.data.SpeedTrap;
 import io.ppatierno.formula1.enums.EventCode;
+import io.ppatierno.formula1.model.Event;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.influxdb.dto.Point;
@@ -26,7 +27,7 @@ public class EventsPointRouteBuilder extends RouteBuilder {
                 .withTopic(this.config.getF1EventsTopic())
                 .withClientId("kafka-influxdb-events")
                 .withGroupId("f1-kafka-influxdb-events-group")
-                .withValueDeserializer("io.ppatierno.formula1.EventDeserializer")
+                .withValueDeserializer("io.ppatierno.formula1.serializers.EventDeserializer")
                 .withTlsEnabled(this.config.isKafkaTlsEnabled())
                 .withTruststoreLocation(this.config.getKafkaTruststoreLocation())
                 .withTruststorePassword(this.config.getKafkaTruststorePassword())

@@ -4,8 +4,6 @@
  */
 package io.ppatierno.formula1.model;
 
-import io.ppatierno.formula1.BestOverallSector;
-import io.ppatierno.formula1.Driver;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.kstream.Transformer;
 import org.apache.kafka.streams.processor.ProcessorContext;
