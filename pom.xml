@@ -18,7 +18,7 @@
       <module>webui</module>
       <module>streams-laps</module>
       <module>quarkus-streams-avg-speed</module>
-      <module>kafka-processing</module>
+      <module>streams-processing</module>
   </modules>
 
   <properties>

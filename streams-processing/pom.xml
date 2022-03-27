@@ -11,6 +11,6 @@
         <relativePath>../</relativePath>
     </parent>
 
-    <artifactId>f1-telemetry-kafka-processing</artifactId>
+    <artifactId>f1-telemetry-streams-processing</artifactId>
 
 </project>
