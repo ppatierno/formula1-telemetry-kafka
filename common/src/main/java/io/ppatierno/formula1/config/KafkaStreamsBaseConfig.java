@@ -4,6 +4,10 @@
  */
 package io.ppatierno.formula1.config;
 
+import org.apache.kafka.streams.StreamsConfig;
+
+import java.util.Properties;
+
 /**
  * Base configuration for any Kafka Streams application
  */
@@ -44,6 +48,12 @@ public class KafkaStreamsBaseConfig extends KafkaBaseConfig {
         return new KafkaStreamsBaseConfig(kafkaBootstrapServers, kafkaTlsEnabled, kafkaTruststoreLocation, kafkaTruststorePassword, 
                                             kafkaSaslMechanism, kafkaSaslUsername, kafkaSaslPassword,
                                             f1StreamsReplicationFactor, f1StreamsInputTopic, f1StreamsOutputTopic);
+    }
+
+    public static Properties getProperties(KafkaStreamsBaseConfig config) {
+        Properties props = KafkaBaseConfig.getProperties(config);
+        props.put(StreamsConfig.REPLICATION_FACTOR_CONFIG, config.getF1StreamsReplicationFactor());
+        return props;
     }
 
     public int getF1StreamsReplicationFactor() {

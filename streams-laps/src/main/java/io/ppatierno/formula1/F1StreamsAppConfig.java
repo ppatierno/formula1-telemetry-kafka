@@ -6,10 +6,6 @@ package io.ppatierno.formula1;
 
 import java.util.Properties;
 
-import org.apache.kafka.common.config.SaslConfigs;
-import org.apache.kafka.common.config.SslConfigs;
-import org.apache.kafka.streams.StreamsConfig;
-
 import io.ppatierno.formula1.config.KafkaStreamsBaseConfig;
 
 public class F1StreamsAppConfig extends KafkaStreamsBaseConfig {
@@ -42,26 +38,7 @@ public class F1StreamsAppConfig extends KafkaStreamsBaseConfig {
     }
 
     public static Properties getProperties(F1StreamsAppConfig config) {
-        Properties props = new Properties();
-        props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, config.getKafkaBootstrapServers());
-        props.put(StreamsConfig.REPLICATION_FACTOR_CONFIG, config.getF1StreamsReplicationFactor());
-        if (config.isKafkaTlsEnabled()) {
-            props.put(StreamsConfig.SECURITY_PROTOCOL_CONFIG, "SSL");
-            if (config.getKafkaTruststoreLocation() != null && config.getKafkaTruststorePassword() != null) {
-                props.put(SslConfigs.SSL_TRUSTSTORE_TYPE_CONFIG, "PKCS12");
-                props.put(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG, config.getKafkaTruststoreLocation());
-                props.put(SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG, config.getKafkaTruststorePassword());
-            }
-        }
-
-        if ("PLAIN".equals(config.getKafkaSaslMechanism()) && 
-            config.getKafkaSaslUsername() != null && config.getKafkaSaslPassword() != null) {
-                props.put(SaslConfigs.SASL_MECHANISM, config.getKafkaSaslMechanism());
-                props.put(StreamsConfig.SECURITY_PROTOCOL_CONFIG, "SSL".equals(props.getProperty(StreamsConfig.SECURITY_PROTOCOL_CONFIG)) ? "SASL_SSL" : "SASL_PLAINTEXT");
-                String saslJaasConfig = "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"" + config.getKafkaSaslUsername() + "\" password=\"" + config.getKafkaSaslPassword() + "\";";
-                props.put(SaslConfigs.SASL_JAAS_CONFIG, saslJaasConfig);
-        }
-        return props;
+        return KafkaStreamsBaseConfig.getProperties(config);
     }
 
     @Override

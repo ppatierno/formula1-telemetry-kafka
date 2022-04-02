@@ -4,6 +4,12 @@
  */
 package io.ppatierno.formula1.config;
 
+import org.apache.kafka.clients.CommonClientConfigs;
+import org.apache.kafka.common.config.SaslConfigs;
+import org.apache.kafka.common.config.SslConfigs;
+
+import java.util.Properties;
+
 /**
  * Base configuration for any Kafka application
  */
@@ -37,6 +43,28 @@ public class KafkaBaseConfig {
         this.kafkaSaslMechanism = kafkaSaslMechanism;
         this.kafkaSaslUsername = kafkaSaslUsername;
         this.kafkaSaslPassword = kafkaSaslPassword;
+    }
+
+    public static Properties getProperties(KafkaBaseConfig config) {
+        Properties props = new Properties();
+        props.put(CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG, config.getKafkaBootstrapServers());
+        if (config.isKafkaTlsEnabled()) {
+            props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SSL");
+            if (config.getKafkaTruststoreLocation() != null && config.getKafkaTruststorePassword() != null) {
+                props.put(SslConfigs.SSL_TRUSTSTORE_TYPE_CONFIG, "PKCS12");
+                props.put(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG, config.getKafkaTruststoreLocation());
+                props.put(SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG, config.getKafkaTruststorePassword());
+            }
+        }
+
+        if ("PLAIN".equals(config.getKafkaSaslMechanism()) &&
+                config.getKafkaSaslUsername() != null && config.getKafkaSaslPassword() != null) {
+            props.put(SaslConfigs.SASL_MECHANISM, config.getKafkaSaslMechanism());
+            props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SSL".equals(props.getProperty(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG)) ? "SASL_SSL" : "SASL_PLAINTEXT");
+            String saslJaasConfig = "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"" + config.getKafkaSaslUsername() + "\" password=\"" + config.getKafkaSaslPassword() + "\";";
+            props.put(SaslConfigs.SASL_JAAS_CONFIG, saslJaasConfig);
+        }
+        return props;
     }
 
     public String getKafkaBootstrapServers() {

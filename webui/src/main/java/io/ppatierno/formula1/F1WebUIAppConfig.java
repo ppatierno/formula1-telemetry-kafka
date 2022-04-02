@@ -44,25 +44,8 @@ public class F1WebUIAppConfig extends KafkaBaseConfig {
     }
 
     public static Properties getProperties(F1WebUIAppConfig config) {
-        Properties props = new Properties();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, config.getKafkaBootstrapServers());
+        Properties props = KafkaBaseConfig.getProperties(config);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, config.getF1DriversGroupId());
-        if (config.isKafkaTlsEnabled()) {
-            props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SSL");
-            if (config.getKafkaTruststoreLocation() != null && config.getKafkaTruststorePassword() != null) {
-                props.put(SslConfigs.SSL_TRUSTSTORE_TYPE_CONFIG, "PKCS12");
-                props.put(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG, config.getKafkaTruststoreLocation());
-                props.put(SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG, config.getKafkaTruststorePassword());
-            }
-        }
-
-        if ("PLAIN".equals(config.getKafkaSaslMechanism()) && 
-            config.getKafkaSaslUsername() != null && config.getKafkaSaslPassword() != null) {
-                props.put(SaslConfigs.SASL_MECHANISM, config.getKafkaSaslMechanism());
-                props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SSL".equals(props.getProperty(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG)) ? "SASL_SSL" : "SASL_PLAINTEXT");
-                String saslJaasConfig = "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"" + config.getKafkaSaslUsername() + "\" password=\"" + config.getKafkaSaslPassword() + "\";";
-                props.put(SaslConfigs.SASL_JAAS_CONFIG, saslJaasConfig);
-        }
         return props;
     }
 
