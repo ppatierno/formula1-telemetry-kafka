@@ -35,18 +35,18 @@ public class DriversRouteBuilder extends RouteBuilder {
     public DriversRouteBuilder(F1UdpKafkaAppConfig config) {
         this.config = config;
         KafkaEndpointBuilder kafkaEndpointBuilder = new KafkaEndpoint.KafkaEndpointBuilder()
-                .withBootstrapServers(this.config.getKafkaBootstrapServers())
+                .withBootstrapServers(this.config.getCommon().getKafkaBootstrapServers())
                 .withTopic(this.config.getF1DriversTopic())
                 .withClientId("drivers")
                 .withValueSerializer("io.ppatierno.formula1.serializers.DriverSerializer")
-                .withTlsEnabled(this.config.isKafkaTlsEnabled())
-                .withTruststoreLocation(this.config.getKafkaTruststoreLocation())
-                .withTruststorePassword(this.config.getKafkaTruststorePassword())
-                .withSaslMechanism(this.config.getKafkaSaslMechanism());
+                .withTlsEnabled(this.config.getCommon().isKafkaTlsEnabled())
+                .withTruststoreLocation(this.config.getCommon().getKafkaTruststoreLocation())
+                .withTruststorePassword(this.config.getCommon().getKafkaTruststorePassword())
+                .withSaslMechanism(this.config.getCommon().getKafkaSaslMechanism());
 
-        if ("PLAIN".equals(this.config.getKafkaSaslMechanism()) && 
-            this.config.getKafkaSaslUsername() != null && this.config.getKafkaSaslPassword() != null) {
-                String saslJaasConfig = "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"" + this.config.getKafkaSaslUsername() + "\" password=\"" + this.config.getKafkaSaslPassword() + "\";";
+        if ("PLAIN".equals(this.config.getCommon().getKafkaSaslMechanism()) &&
+            this.config.getCommon().getKafkaSaslUsername() != null && this.config.getCommon().getKafkaSaslPassword() != null) {
+                String saslJaasConfig = "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"" + this.config.getCommon().getKafkaSaslUsername() + "\" password=\"" + this.config.getCommon().getKafkaSaslPassword() + "\";";
                 kafkaEndpointBuilder.withSaslJassConfig(saslJaasConfig);
         }
                 

@@ -54,7 +54,7 @@ public class F1StreamsApp {
         streamsBuilder.addStateStore(storeBuilder);
 
         KStream<String, Driver> driverStream =
-                streamsBuilder.stream(config.getF1StreamsInputTopic(), Consumed.with(Serdes.String(), driverSerdes));
+                streamsBuilder.stream(config.getStreamsCommon().getF1StreamsInputTopic(), Consumed.with(Serdes.String(), driverSerdes));
 
         driverStream
                 .filter(new Predicate<String, Driver>() {
@@ -64,7 +64,7 @@ public class F1StreamsApp {
                     }
                 })
                 .transform(BestOverallSectorTransformer::new, "best-overall-sector-store")
-                .to(config.getF1StreamsOutputTopic(), Produced.with(Serdes.Short(), bestOverallSectorSerde));
+                .to(config.getStreamsCommon().getF1StreamsOutputTopic(), Produced.with(Serdes.Short(), bestOverallSectorSerde));
                 //.print(Printed.toSysOut());
 
         Topology topology = streamsBuilder.build();

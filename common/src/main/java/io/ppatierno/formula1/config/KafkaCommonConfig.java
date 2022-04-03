@@ -11,9 +11,9 @@ import org.apache.kafka.common.config.SslConfigs;
 import java.util.Properties;
 
 /**
- * Base configuration for any Kafka application
+ * Common configuration for any Kafka application
  */
-public class KafkaBaseConfig {
+public class KafkaCommonConfig {
 
     protected static final String KAFKA_BOOTSTRAP_SERVERS_ENV = "KAFKA_BOOTSTRAP_SERVERS";
     protected static final String KAFKA_TLS_ENABLED = "KAFKA_TLS_ENABLED";
@@ -34,7 +34,7 @@ public class KafkaBaseConfig {
     protected final String kafkaSaslUsername;
     protected final String kafkaSaslPassword;
 
-    protected KafkaBaseConfig(String kafkaBootstrapServers, boolean kafkaTlsEnabled, String kafkaTruststoreLocation, String kafkaTruststorePassword,
+    protected KafkaCommonConfig(String kafkaBootstrapServers, boolean kafkaTlsEnabled, String kafkaTruststoreLocation, String kafkaTruststorePassword,
                                 String kafkaSaslMechanism, String kafkaSaslUsername, String kafkaSaslPassword) {
         this.kafkaBootstrapServers = kafkaBootstrapServers;
         this.kafkaTlsEnabled = kafkaTlsEnabled;                            
@@ -45,7 +45,19 @@ public class KafkaBaseConfig {
         this.kafkaSaslPassword = kafkaSaslPassword;
     }
 
-    public static Properties getProperties(KafkaBaseConfig config) {
+    public static KafkaCommonConfig fromEnv() {
+        String kafkaBootstrapServers = System.getenv(KAFKA_BOOTSTRAP_SERVERS_ENV) == null ? DEFAULT_KAFKA_BOOTSTRAP_SERVERS : System.getenv(KAFKA_BOOTSTRAP_SERVERS_ENV);
+        boolean kafkaTlsEnabled = System.getenv(KAFKA_TLS_ENABLED) == null ? DEFAULT_KAFKA_TLS_ENABLED : Boolean.parseBoolean(System.getenv(KAFKA_TLS_ENABLED));
+        String kafkaTruststoreLocation = System.getenv(KAFKA_TRUSTSTORE_LOCATION_ENV);
+        String kafkaTruststorePassword = System.getenv(KAFKA_TRUSTSTORE_PASSWORD_ENV);
+        String kafkaSaslMechanism = System.getenv(KAFKA_SASL_MECHANISM);
+        String kafkaSaslUsername = System.getenv(KAFKA_SASL_USERNAME);
+        String kafkaSaslPassword = System.getenv(KAFKA_SASL_PASSWORD);
+        return new KafkaCommonConfig(kafkaBootstrapServers, kafkaTlsEnabled, kafkaTruststoreLocation, kafkaTruststorePassword,
+                kafkaSaslMechanism, kafkaSaslUsername, kafkaSaslPassword);
+    }
+
+    public static Properties getProperties(KafkaCommonConfig config) {
         Properties props = new Properties();
         props.put(CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG, config.getKafkaBootstrapServers());
         if (config.isKafkaTlsEnabled()) {
@@ -93,5 +105,18 @@ public class KafkaBaseConfig {
 
     public String getKafkaSaslPassword() {
         return kafkaSaslPassword;
-    }    
+    }
+
+    @Override
+    public String toString() {
+        return "KafkaCommonConfig[" +
+                "kafkaBootstrapServers=" + this.kafkaBootstrapServers +
+                ", kafkaTlsEnabled=" + this.kafkaTlsEnabled +
+                ", kafkaTruststoreLocation=" + this.kafkaTruststoreLocation +
+                ", kafkaTruststorePassword=" + this.kafkaTruststorePassword +
+                ", kafkaSaslMechanism=" + this.kafkaSaslMechanism +
+                ", kafkaSaslUsername=" + this.kafkaSaslUsername +
+                ", kafkaSaslPassword=" + this.kafkaSaslPassword +
+                ']';
+    }
 }

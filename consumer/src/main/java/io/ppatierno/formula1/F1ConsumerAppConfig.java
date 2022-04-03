@@ -8,9 +8,9 @@ import java.util.Properties;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 
-import io.ppatierno.formula1.config.KafkaBaseConfig;
+import io.ppatierno.formula1.config.KafkaCommonConfig;
 
-public class F1ConsumerAppConfig extends KafkaBaseConfig {
+public class F1ConsumerAppConfig {
 
     private static final String F1_DRIVERS_GROUP_ID_ENV = "F1_DRIVERS_GROUP_ID";
     private static final String F1_EVENTS_GROUP_ID_ENV = "F1_EVENTS_GROUP_ID";
@@ -30,6 +30,7 @@ public class F1ConsumerAppConfig extends KafkaBaseConfig {
     private static final String DEFAULT_F1_DRIVERS_AVG_SPEED_TOPIC = "f1-telemetry-drivers-avg-speed";
     private static final String DEFAULT_F1_BEST_OVERALL_SECTOR_TOPIC = "f1-telemetry-best-overall-sector";
 
+    private final KafkaCommonConfig common;
     private final String f1DriversGroupId;
     private final String f1EventsGroupId;
     private final String f1DriversAvgSpeedGroupId;
@@ -39,11 +40,9 @@ public class F1ConsumerAppConfig extends KafkaBaseConfig {
     private final String f1DriversAvgSpeedTopic;
     private final String f1BestOverallSectorTopic;
 
-    private F1ConsumerAppConfig(String kafkaBootstrapServers, boolean kafkaTlsEnabled, String kafkaTruststoreLocation, String kafkaTruststorePassword,
-                                String kafkaSaslMechanism, String kafkaSaslUsername, String kafkaSalsPassword,
-                                String f1DriversGroupId, String f1EventsGroupId, String f1DriversAvgSpeedGroupId, String f1BestOverallSectorGroupId,
+    private F1ConsumerAppConfig(KafkaCommonConfig common, String f1DriversGroupId, String f1EventsGroupId, String f1DriversAvgSpeedGroupId, String f1BestOverallSectorGroupId,
                                 String f1DriversTopic, String f1EventsTopic, String f1DriversAvgSpeedTopic, String f1BestOverallSectorTopic) {
-        super(kafkaBootstrapServers, kafkaTlsEnabled, kafkaTruststoreLocation, kafkaTruststorePassword, kafkaSaslMechanism, kafkaSaslUsername, kafkaSalsPassword);
+        this.common = common;
         this.f1DriversGroupId = f1DriversGroupId;
         this.f1EventsGroupId = f1EventsGroupId;
         this.f1DriversAvgSpeedGroupId = f1DriversAvgSpeedGroupId;
@@ -55,13 +54,7 @@ public class F1ConsumerAppConfig extends KafkaBaseConfig {
     }
 
     public static F1ConsumerAppConfig fromEnv() {
-        String kafkaBootstrapServers = System.getenv(KAFKA_BOOTSTRAP_SERVERS_ENV) == null ? DEFAULT_KAFKA_BOOTSTRAP_SERVERS : System.getenv(KAFKA_BOOTSTRAP_SERVERS_ENV);
-        boolean kafkaTlsEnabled = System.getenv(KAFKA_TLS_ENABLED) == null ? DEFAULT_KAFKA_TLS_ENABLED : Boolean.parseBoolean(System.getenv(KAFKA_TLS_ENABLED));
-        String kafkaTruststoreLocation = System.getenv(KAFKA_TRUSTSTORE_LOCATION_ENV);
-        String kafkaTruststorePassword = System.getenv(KAFKA_TRUSTSTORE_PASSWORD_ENV);
-        String kafkaSaslMechanism = System.getenv(KAFKA_SASL_MECHANISM);
-        String kafkaSaslUsername = System.getenv(KAFKA_SASL_USERNAME);
-        String kafkaSaslPassword = System.getenv(KAFKA_SASL_PASSWORD);
+        KafkaCommonConfig common = KafkaCommonConfig.fromEnv();
         String f1DriversGroupId = System.getenv(F1_DRIVERS_GROUP_ID_ENV) == null ? DEFAULT_F1_DRIVERS_GROUP_ID : System.getenv(F1_DRIVERS_GROUP_ID_ENV);
         String f1EventsGroupId = System.getenv(F1_EVENTS_GROUP_ID_ENV) == null ? DEFAULT_F1_EVENTS_GROUP_ID : System.getenv(F1_EVENTS_GROUP_ID_ENV);
         String f1DriversAvgSpeedGroupId = System.getenv(F1_DRIVERS_AVG_SPEED_GROUP_ID_ENV) == null ? DEFAULT_F1_DRIVERS_AVG_SPEED_GROUP_ID : System.getenv(F1_DRIVERS_AVG_SPEED_GROUP_ID_ENV);
@@ -70,15 +63,17 @@ public class F1ConsumerAppConfig extends KafkaBaseConfig {
         String f1EventsTopic = System.getenv(F1_EVENTS_TOPIC_ENV) == null ? DEFAULT_F1_EVENTS_TOPIC : System.getenv(F1_EVENTS_TOPIC_ENV);
         String f1DriversAvgSpeedTopic = System.getenv(F1_DRIVERS_AVG_SPEED_TOPIC_ENV) == null ? DEFAULT_F1_DRIVERS_AVG_SPEED_TOPIC : System.getenv(F1_DRIVERS_AVG_SPEED_TOPIC_ENV);
         String f1BestOverallSectorTopic = System.getenv(F1_BEST_OVERALL_SECTOR_TOPIC_ENV) == null ? DEFAULT_F1_BEST_OVERALL_SECTOR_TOPIC : System.getenv(F1_BEST_OVERALL_SECTOR_TOPIC_ENV);
-        return new F1ConsumerAppConfig(kafkaBootstrapServers, kafkaTlsEnabled, kafkaTruststoreLocation, kafkaTruststorePassword,
-                                        kafkaSaslMechanism, kafkaSaslUsername, kafkaSaslPassword,
-                                        f1DriversGroupId, f1EventsGroupId, f1DriversAvgSpeedGroupId, f1BestOverallSectorGroupId, f1DriversTopic, f1EventsTopic, f1DriversAvgSpeedTopic, f1BestOverallSectorTopic);
+        return new F1ConsumerAppConfig(common, f1DriversGroupId, f1EventsGroupId, f1DriversAvgSpeedGroupId, f1BestOverallSectorGroupId, f1DriversTopic, f1EventsTopic, f1DriversAvgSpeedTopic, f1BestOverallSectorTopic);
     }
 
     public static Properties getProperties(F1ConsumerAppConfig config) {
-        Properties props = KafkaBaseConfig.getProperties(config);
+        Properties props = KafkaCommonConfig.getProperties(config.common);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, config.getF1DriversGroupId());
         return props;
+    }
+
+    public KafkaCommonConfig getCommon() {
+        return common;
     }
 
     public String getF1DriversGroupId() {
@@ -116,13 +111,7 @@ public class F1ConsumerAppConfig extends KafkaBaseConfig {
     @Override
     public String toString() {
         return "F1ConsumerAppConfig[" +
-                "kafkaBootstrapServers=" + this.kafkaBootstrapServers +
-                ", kafkaTlsEnabled=" + this.kafkaTlsEnabled +
-                ", kafkaTruststoreLocation=" +  this.kafkaTruststoreLocation +
-                ", kafkaTruststorePassword=" +  this.kafkaTruststorePassword +
-                ", kafkaSaslMechanism=" +  this.kafkaSaslMechanism +
-                ", kafkaSaslUsername=" +  this.kafkaSaslUsername +
-                ", kafkaSaslPassword=" +  this.kafkaSaslPassword +
+                "common=" + this.common +
                 ", f1DriversGroupId=" + this.f1DriversGroupId +
                 ", f1EventsGroupId=" + this.f1EventsGroupId +
                 ", f1DriversAvgSpeedGroupId=" + this.f1DriversAvgSpeedGroupId +
