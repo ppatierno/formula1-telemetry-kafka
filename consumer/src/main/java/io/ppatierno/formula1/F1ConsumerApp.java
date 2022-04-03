@@ -8,27 +8,26 @@ import io.ppatierno.formula1.model.BestOverallSector;
 import io.ppatierno.formula1.model.Driver;
 import io.ppatierno.formula1.model.Event;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.ConsumerRecords;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class F1ConsumerApp {
 
     private static Logger log = LoggerFactory.getLogger(F1ConsumerApp.class);
 
-    private AtomicBoolean consuming = new AtomicBoolean(true);
     private ExecutorService executorService;
     private F1ConsumerAppConfig config;
+
+    private F1Consumer<String, Driver> f1DriverConsumer;
+    private F1Consumer<String, Event> f1EventConsumer;
+    private F1Consumer<String, Integer> f1DriverAvgSpeedConsumer;
+    private F1Consumer<String, BestOverallSector> f1BestOverallSectorConsumer;
 
     public F1ConsumerApp(F1ConsumerAppConfig config) {
         this.config = config;
@@ -46,168 +45,43 @@ public class F1ConsumerApp {
     }
 
     public void start() {
+        this.setupConsumers();
+
         this.executorService = Executors.newFixedThreadPool(4);
-        this.executorService.submit(new F1DriverConsumer(this.config));
-        this.executorService.submit(new F1EventConsumer(this.config));
-        this.executorService.submit(new F1DriverAvgSpeedConsumer(this.config));
-        this.executorService.submit(new F1BestOverallSectorConsumer(this.config));
+        this.executorService.submit(this.f1DriverConsumer);
+        this.executorService.submit(this.f1EventConsumer);
+        this.executorService.submit(this.f1DriverAvgSpeedConsumer);
+        this.executorService.submit(this.f1BestOverallSectorConsumer);
     }
 
     public void stop() throws InterruptedException {
-        this.consuming.set(false);
+        this.f1DriverConsumer.stop();
+        this.f1EventConsumer.stop();
+        this.f1DriverAvgSpeedConsumer.stop();
+        this.f1BestOverallSectorConsumer.stop();
         this.executorService.awaitTermination(10000, TimeUnit.MILLISECONDS);
         this.executorService.shutdownNow();
     }
 
-    private class F1DriverConsumer implements Runnable {
+    private void setupConsumers() {
+        Properties propsF1DriverConsumer = F1ConsumerAppConfig.getProperties(config);
+        propsF1DriverConsumer.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
+        propsF1DriverConsumer.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "io.ppatierno.formula1.serializers.DriverDeserializer");
+        this.f1DriverConsumer = new F1Consumer<>(propsF1DriverConsumer, Collections.singleton(config.getF1DriversTopic()));
 
-        private Logger log = LoggerFactory.getLogger(F1DriverConsumer.class);
+        Properties propsF1EventConsumer = F1ConsumerAppConfig.getProperties(config);
+        propsF1EventConsumer.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
+        propsF1EventConsumer.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "io.ppatierno.formula1.serializers.EventDeserializer");
+        this.f1EventConsumer = new F1Consumer<>(propsF1EventConsumer, Collections.singleton(config.getF1EventsTopic()));
 
-        private F1ConsumerAppConfig config;
+        Properties propsF1DriverAvgSpeedConsumer = F1ConsumerAppConfig.getProperties(config);
+        propsF1DriverAvgSpeedConsumer.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
+        propsF1DriverAvgSpeedConsumer.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.IntegerDeserializer");
+        this.f1DriverAvgSpeedConsumer = new F1Consumer<>(propsF1DriverAvgSpeedConsumer, Collections.singleton(config.getF1DriversAvgSpeedTopic()));
 
-        public F1DriverConsumer(F1ConsumerAppConfig config) {
-            this.config = config;
-        }
-
-        @Override
-        public void run() {
-            Properties props = F1ConsumerAppConfig.getProperties(config);
-            props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
-            props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "io.ppatierno.formula1.serializers.DriverDeserializer");
-
-            KafkaConsumer<String, Driver> consumer = null;
-
-            try {
-                consumer = new KafkaConsumer<>(props);
-                consumer.subscribe(Collections.singleton(config.getF1DriversTopic()));
-
-                while (consuming.get()) {
-                    ConsumerRecords<String, Driver> records = consumer.poll(Duration.ofMillis(100));
-                    for (ConsumerRecord<String, Driver> record : records) {
-                        log.info("Driver record topic = {}, partition = {}, key = {}, value = {}",
-                                record.topic(), record.partition(), record.key(), record.value());
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (consumer != null)
-                    consumer.close();
-            }
-        }
-    }
-
-    private class F1EventConsumer implements Runnable {
-
-        private Logger log = LoggerFactory.getLogger(F1EventConsumer.class);
-
-        private F1ConsumerAppConfig config;
-
-        public F1EventConsumer(F1ConsumerAppConfig config) {
-            this.config = config;
-        }
-
-        @Override
-        public void run() {
-            Properties props = F1ConsumerAppConfig.getProperties(config);
-            props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
-            props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "io.ppatierno.formula1.serializers.EventDeserializer");
-
-            KafkaConsumer<String, Event> consumer = null;
-
-            try {
-                consumer = new KafkaConsumer<>(props);
-                consumer.subscribe(Collections.singleton(config.getF1EventsTopic()));
-
-                while (consuming.get()) {
-                    ConsumerRecords<String, Event> records = consumer.poll(Duration.ofMillis(100));
-                    for (ConsumerRecord<String, Event> record : records) {
-                        log.info("Event record topic = {}, partition = {}, key = {}, value = {}",
-                                record.topic(), record.partition(), record.key(), record.value());
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (consumer != null)
-                    consumer.close();
-            }
-        }
-    }
-
-    private class F1DriverAvgSpeedConsumer implements Runnable {
-
-        private Logger log = LoggerFactory.getLogger(F1DriverAvgSpeedConsumer.class);
-
-        private F1ConsumerAppConfig config;
-
-        public F1DriverAvgSpeedConsumer(F1ConsumerAppConfig config) {
-            this.config = config;
-        }
-
-        @Override
-        public void run() {
-            Properties props = F1ConsumerAppConfig.getProperties(config);
-            props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
-            props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.IntegerDeserializer");
-
-            KafkaConsumer<String, Integer> consumer = null;
-
-            try {
-                consumer = new KafkaConsumer<>(props);
-                consumer.subscribe(Collections.singleton(config.getF1DriversAvgSpeedTopic()));
-
-                while (consuming.get()) {
-                    ConsumerRecords<String, Integer> records = consumer.poll(Duration.ofMillis(100));
-                    for (ConsumerRecord<String, Integer> record : records) {
-                        log.info("Driver max speed record topic = {}, partition = {}, key = {}, value = {}",
-                                record.topic(), record.partition(), record.key(), record.value());
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (consumer != null)
-                    consumer.close();
-            }
-        }
-    }
-
-    private class F1BestOverallSectorConsumer implements Runnable {
-
-        private Logger log = LoggerFactory.getLogger(F1BestOverallSectorConsumer.class);
-
-        private F1ConsumerAppConfig config;
-
-        public F1BestOverallSectorConsumer(F1ConsumerAppConfig config) {
-            this.config = config;
-        }
-
-        @Override
-        public void run() {
-            Properties props = F1ConsumerAppConfig.getProperties(config);
-            props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.ShortDeserializer");
-            props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "io.ppatierno.formula1.serializers.BestOverallSectorDeserializer");
-
-            KafkaConsumer<Short, BestOverallSector> consumer = null;
-
-            try {
-                consumer = new KafkaConsumer<>(props);
-                consumer.subscribe(Collections.singleton(config.getF1BestOverallSectorTopic()));
-
-                while (consuming.get()) {
-                    ConsumerRecords<Short, BestOverallSector> records = consumer.poll(Duration.ofMillis(100));
-                    for (ConsumerRecord<Short, BestOverallSector> record : records) {
-                        log.info("Best overall sector record topic = {}, partition = {}, key = {}, value = {}",
-                                record.topic(), record.partition(), record.key(), record.value());
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (consumer != null)
-                    consumer.close();
-            }
-        }
+        Properties propsF1BestOverallSectorConsumer = F1ConsumerAppConfig.getProperties(config);
+        propsF1BestOverallSectorConsumer.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.ShortDeserializer");
+        propsF1BestOverallSectorConsumer.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "io.ppatierno.formula1.serializers.BestOverallSectorDeserializer");
+        this.f1BestOverallSectorConsumer = new F1Consumer<>(propsF1BestOverallSectorConsumer, Collections.singleton(config.getF1BestOverallSectorTopic()));
     }
 }
