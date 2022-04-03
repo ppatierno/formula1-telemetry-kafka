@@ -57,7 +57,7 @@ public class F1StreamsApp {
 
         KStream<String, Integer> speedStream =
         streamsBuilder
-                .stream(config.getF1StreamsInputTopic(), Consumed.with(Serdes.String(), driverSerdes))
+                .stream(config.getStreamsCommon().getF1StreamsInputTopic(), Consumed.with(Serdes.String(), driverSerdes))
                 .filter((driverid, driver) -> driver.hasValidTelemetry())
                 .map((driverid, driver) -> new KeyValue<>(driver.getHashtag(), driver.getCarTelemetryData().getSpeed()));
 
@@ -98,7 +98,7 @@ public class F1StreamsApp {
                         return new KeyValue<>(stringWindowed.key(), integer);
                     }
                 })
-                .to(config.getF1StreamsOutputTopic(), Produced.with(Serdes.String(), Serdes.Integer()));
+                .to(config.getStreamsCommon().getF1StreamsOutputTopic(), Produced.with(Serdes.String(), Serdes.Integer()));
                 //.print(Printed.toSysOut());
 
         Topology topology = streamsBuilder.build();
