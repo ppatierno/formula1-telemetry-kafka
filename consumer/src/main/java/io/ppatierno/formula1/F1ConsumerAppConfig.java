@@ -6,8 +6,6 @@ package io.ppatierno.formula1;
 
 import java.util.Properties;
 
-import org.apache.kafka.clients.consumer.ConsumerConfig;
-
 import io.ppatierno.formula1.config.KafkaCommonConfig;
 
 public class F1ConsumerAppConfig {
@@ -67,9 +65,7 @@ public class F1ConsumerAppConfig {
     }
 
     public static Properties getProperties(F1ConsumerAppConfig config) {
-        Properties props = KafkaCommonConfig.getProperties(config.common);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, config.getF1DriversGroupId());
-        return props;
+        return KafkaCommonConfig.getProperties(config.common);
     }
 
     public KafkaCommonConfig getCommon() {

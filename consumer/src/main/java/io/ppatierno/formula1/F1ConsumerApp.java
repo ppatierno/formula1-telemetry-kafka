@@ -65,21 +65,25 @@ public class F1ConsumerApp {
 
     private void setupConsumers() {
         Properties propsF1DriverConsumer = F1ConsumerAppConfig.getProperties(config);
+        propsF1DriverConsumer.put(ConsumerConfig.GROUP_ID_CONFIG, config.getF1DriversGroupId());
         propsF1DriverConsumer.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
         propsF1DriverConsumer.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "io.ppatierno.formula1.serializers.DriverDeserializer");
         this.f1DriverConsumer = new F1Consumer<>(propsF1DriverConsumer, Collections.singleton(config.getF1DriversTopic()));
 
         Properties propsF1EventConsumer = F1ConsumerAppConfig.getProperties(config);
+        propsF1EventConsumer.put(ConsumerConfig.GROUP_ID_CONFIG, config.getF1EventsGroupId());
         propsF1EventConsumer.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
         propsF1EventConsumer.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "io.ppatierno.formula1.serializers.EventDeserializer");
         this.f1EventConsumer = new F1Consumer<>(propsF1EventConsumer, Collections.singleton(config.getF1EventsTopic()));
 
         Properties propsF1DriverAvgSpeedConsumer = F1ConsumerAppConfig.getProperties(config);
+        propsF1DriverAvgSpeedConsumer.put(ConsumerConfig.GROUP_ID_CONFIG, config.getF1DriversAvgSpeedGroupId());
         propsF1DriverAvgSpeedConsumer.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
         propsF1DriverAvgSpeedConsumer.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.IntegerDeserializer");
         this.f1DriverAvgSpeedConsumer = new F1Consumer<>(propsF1DriverAvgSpeedConsumer, Collections.singleton(config.getF1DriversAvgSpeedTopic()));
 
         Properties propsF1BestOverallSectorConsumer = F1ConsumerAppConfig.getProperties(config);
+        propsF1BestOverallSectorConsumer.put(ConsumerConfig.GROUP_ID_CONFIG, config.getF1BestOverallSectorGroupId());
         propsF1BestOverallSectorConsumer.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.ShortDeserializer");
         propsF1BestOverallSectorConsumer.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "io.ppatierno.formula1.serializers.BestOverallSectorDeserializer");
         this.f1BestOverallSectorConsumer = new F1Consumer<>(propsF1BestOverallSectorConsumer, Collections.singleton(config.getF1BestOverallSectorTopic()));
