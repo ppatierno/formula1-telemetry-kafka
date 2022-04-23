@@ -4,8 +4,6 @@
  */
 package io.ppatierno.formula1.model;
 
-import io.ppatierno.formula1.model.Driver;
-
 /**
  * Represents telemetry data from a driver simplified for JSON serialization
  */

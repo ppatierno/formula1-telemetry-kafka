@@ -18,9 +18,7 @@ public class KafkaStreamsCommonConfig {
     public static final String F1_STREAMS_OUTPUT_TOPIC_ENV = "F1_STREAMS_OUTPUT_TOPIC";
 
     protected static final int DEFAULT_F1_STREAMS_INTERNAL_REPLICATION_FACTOR = 1;
-    private static final String DEFAULT_F1_STREAMS_INPUT_TOPIC = "f1-telemetry-input-topic";
-    private static final String DEFAULT_F1_STREAMS_OUTPUT_TOPIC = "f1-telemetry-output-topic";
-
+    
     protected final KafkaCommonConfig common;
     protected final int f1StreamsReplicationFactor;
     protected final String f1StreamsInputTopic;
