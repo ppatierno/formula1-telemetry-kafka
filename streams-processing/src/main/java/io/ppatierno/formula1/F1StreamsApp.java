@@ -47,7 +47,7 @@ public class F1StreamsApp {
         KStream<String, Telemetry> telemetryStream =
         streamsBuilder
                 .stream(config.getStreamsCommon().getF1StreamsInputTopic(), Consumed.with(Serdes.String(), driverSerdes))
-                .filter((driverId, driver) -> driver.hasValidTelemetry())
+                .filter((driverId, driver) -> driver.hasValidTelemetry() && driver.getLapData().getLapDistance() > 0)
                 .map((driverId, driver) -> new KeyValue<>(driver.getHashtag(), new Telemetry(driver)));
 
         telemetryStream
