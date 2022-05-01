@@ -46,4 +46,12 @@ public class Telemetry {
     public short getDrs() {
         return this.driver.getCarTelemetryData().getDrs();
     }
+
+    public short getLap() {
+        return this.driver.getLapData().getCurrentLapNum();
+    }
+
+    public float getDistance() {
+        return this.driver.getLapData().getLapDistance();
+    }
 }
