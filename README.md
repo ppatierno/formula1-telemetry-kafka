@@ -27,6 +27,7 @@ You can also find some material from conference presentations:
 
 * Let's code a motorsport telemetry processing pipeline - [slides](https://www.slideshare.net/paolopat/lets-code-a-motorsport-telemetry-processing-pipeline) [demo](https://github.com/ppatierno/formula1-telemetry-kafka) [video](https://www.youtube.com/watch?v=zFmON75w1kE)
 * Formula 1 telemetry processing using Kafka Streams - [slides](https://www.slideshare.net/paolopat/formula-1-telemetry-processing-using-kafka-streams) [demo](https://github.com/ppatierno/devconfcz-2021-formula1-kafka-streams) [video](https://www.youtube.com/watch?v=OkXlSb4vfDk)
+* Formula 1 telemetry processing using Quarkus and OpenShift Streams for Apache Kafka - [slides](https://www.slideshare.net/paolopat/formula-1-telemetry-processing-using-quarkus-and-openshift-streams-for-apache-kafka) [demo](https://github.com/ppatierno/formula1-telemetry-rhosak) [video](https://events.experiences.redhat.com/widget/redhat/sum22/SessionCatalog22/session/1641400967915001tsYD)
 
 ![Overview](./images/overview.png)
 
