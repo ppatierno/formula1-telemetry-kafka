@@ -27,9 +27,9 @@
       <junit.version>4.13</junit.version>
       <formula1-telemetry.version>1.0-SNAPSHOT</formula1-telemetry.version>
       <formula1-telemetry-common.version>1.0-SNAPSHOT</formula1-telemetry-common.version>
-      <camel.version>3.8.0</camel.version>
+      <camel.version>3.18.1</camel.version>
       <slf4j.version>1.7.25</slf4j.version>
-      <kafka.version>2.7.0</kafka.version>
+      <kafka.version>3.0.0</kafka.version>
       <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
       <maven-assembly-plugin.version>3.3.0</maven-assembly-plugin.version>
       <jib-maven-plugin.version>2.6.0</jib-maven-plugin.version>
