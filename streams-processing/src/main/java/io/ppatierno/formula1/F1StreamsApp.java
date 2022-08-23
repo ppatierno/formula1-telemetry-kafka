@@ -31,6 +31,7 @@ public class F1StreamsApp {
     private static Logger log = LoggerFactory.getLogger(F1StreamsApp.class);
 
     public static void main(String[] args) {
+        log.info("Season {}", PacketConfig.getSeason());
         F1StreamsAppConfig config = F1StreamsAppConfig.fromEnv();
 
         log.info("Config: {}", config);

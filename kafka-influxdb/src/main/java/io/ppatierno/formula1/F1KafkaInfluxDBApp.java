@@ -19,6 +19,7 @@ public class F1KafkaInfluxDBApp {
     private static Logger log = LoggerFactory.getLogger(F1KafkaInfluxDBApp.class);
 
     public static void main(String[] args) throws Exception {
+        log.info("Season {}", PacketConfig.getSeason());
         F1KafkaInfluxDBAppConfig config = F1KafkaInfluxDBAppConfig.fromEnv();
 
         log.info("Config: {}", config);

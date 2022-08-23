@@ -50,6 +50,7 @@ public class F1StreamsTopology {
 
     @Produces
     public Topology buildTopology() {
+        log.infof("Season %s", PacketConfig.getSeason());
         StreamsBuilder streamsBuilder = new StreamsBuilder();
         Serde<Driver> driverSerdes = Serdes.serdeFrom(new DriverSerializer(), new DriverDeserializer());
         Serde<SpeedCountAndSum> speedCountAndSumSerde = Serdes.serdeFrom(new SpeedCountAndSumSerializer(), new SpeedCountAndSumDeserializer());

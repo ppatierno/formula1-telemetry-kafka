@@ -13,6 +13,7 @@ public class F1WebUIApp {
     private static Logger log = LoggerFactory.getLogger(F1WebUIApp.class);
 
     public static void main(String[] args) {
+        log.info("Season {}", PacketConfig.getSeason());
         F1WebUIAppConfig config = F1WebUIAppConfig.fromEnv();
         log.info("Config: {}", config);
 

@@ -34,6 +34,7 @@ public class F1ConsumerApp {
     }
 
     public static void main(String[] args) throws Exception {
+        log.info("Season {}", PacketConfig.getSeason());
         F1ConsumerAppConfig config = F1ConsumerAppConfig.fromEnv();
         F1ConsumerApp f1ConsumerApp = new F1ConsumerApp(config);
 

@@ -17,6 +17,7 @@ public class F1UdpKafkaApp {
     private static Logger log = LoggerFactory.getLogger(F1UdpKafkaApp.class);
 
     public static void main(String[] args) throws Exception {
+        log.info("Season {}", PacketConfig.getSeason());
         F1UdpKafkaAppConfig config = F1UdpKafkaAppConfig.fromEnv();
         Session session = new Session();
         CamelContext camelContext = new DefaultCamelContext();
