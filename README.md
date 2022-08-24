@@ -3,7 +3,7 @@
 
 # Formula 1 - Telemetry with Apache Kafka
 
-This project aims to use Apache Kafka in order to ingest Formula 1 telemetry data from the F1 202x game (by CodeMasters) running on Microsoft Xbox.
+This project aims to use Apache Kafka in order to ingest Formula 1 telemetry data from the F1 202x game (by CodeMasters/EA Sports) running on Microsoft Xbox.
 It uses different products, projects and technologies:
 
 * **[F1 202x games (by CodeMasters)](https://www.codemasters.com/category/f1-games/)** for getting the telemetry data via UDP;
@@ -16,7 +16,10 @@ It uses different products, projects and technologies:
 
 ![Logo](./images/f1-telemetry-kafka-logo.png)
 
-> The formula 1 telemetry library, used to decode the UDP packets, works with the F1 2020 game format. It's possible to have the project working with F1 2021 game by selecting the "2020" UDP packet format in the Telemetry settings on the game.
+> The formula 1 telemetry library, used to decode the UDP packets, works with the F1 2020 game format. It's possible to have the project working with newer game editions by selecting the "2020" UDP packet format in the Telemetry settings on the game.
+
+It is possible to select the season for teams, drivers and tracks by setting the `F1_TELEMETRY_SEASON` environment variable when running the different applications.
+By default, it uses 2020 season data. For more information see [here](https://github.com/ppatierno/formula1-telemetry#season-selection).
 
 ## Overview
 
