@@ -1,0 +1,60 @@
+{
+    "tableName": "f1_telemetry_drivers_telemetry",
+    "schemaName": "default",
+    "topicName": "f1-telemetry-drivers-telemetry",
+    "message": {
+        "dataFormat": "json",
+        "fields": [
+            {
+                "name": "lap",
+                "mapping": "lap",
+                "type": "BIGINT"
+            },
+            {
+                "name": "speed",
+                "mapping": "speed",
+                "type": "BIGINT"
+            },
+            {
+                "name": "throttle",
+                "mapping": "throttle",
+                "type": "DOUBLE"
+            },
+            {
+                "name": "brake",
+                "mapping": "brake",
+                "type": "DOUBLE"
+            },
+            {
+                "name": "gear",
+                "mapping": "gear",
+                "type": "BIGINT"
+            },
+            {
+                "name": "drs",
+                "mapping": "drs",
+                "type": "BIGINT"
+            },
+            {
+                "name": "driverHashtag",
+                "mapping": "driverHashtag",
+                "type": "VARCHAR"
+            },
+            {
+                "name": "driverShortName",
+                "mapping": "driverShortName",
+                "type": "VARCHAR"
+            },
+            {
+                "name": "rpm",
+                "mapping": "rpm",
+                "type": "BIGINT"
+            },
+            {
+                "name": "distance",
+                "mapping": "distance",
+                "type": "DOUBLE"
+            }
+        ]
+    }
+}
