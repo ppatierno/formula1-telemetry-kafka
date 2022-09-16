@@ -1,6 +1,6 @@
 {
-    "tableName": "f1_telemetry_drivers_telemetry",
-    "schemaName": "default",
+    "tableName": "drivers_telemetry",
+    "schemaName": "formula1",
     "topicName": "f1-telemetry-drivers-telemetry",
     "message": {
         "dataFormat": "json",
