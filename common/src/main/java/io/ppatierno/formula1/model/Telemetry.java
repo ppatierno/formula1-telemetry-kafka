@@ -54,4 +54,8 @@ public class Telemetry {
     public float getDistance() {
         return this.driver.getLapData().getLapDistance();
     }
+
+    public float getTotalDistance() {
+        return this.driver.getLapData().getTotalDistance();
+    }
 }
