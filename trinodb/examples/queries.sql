@@ -26,3 +26,13 @@ FROM (
     FROM kafka.formula1.drivers_telemetry
     )
 GROUP BY drivershortname ORDER BY avgspeed DESC;
+
+-- drivers order (top 10) per lap processing the grouping per driver with the max distance
+-- also generate a new column as position based on the order of the maxdistance
+SELECT drivershortname, maxdistance, row_number() OVER (ORDER BY maxdistance DESC) AS position
+FROM (
+    SELECT drivershortname, max(distance) AS maxdistance
+    FROM kafka.formula1.drivers_telemetry WHERE lap = 1
+    GROUP BY drivershortname
+    )
+ORDER BY position ASC LIMIT 10;
