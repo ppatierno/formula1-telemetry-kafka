@@ -54,6 +54,11 @@
                 "name": "distance",
                 "mapping": "distance",
                 "type": "DOUBLE"
+            },
+            {
+                "name": "totalDistance",
+                "mapping": "totalDistance",
+                "type": "DOUBLE"
             }
         ]
     }

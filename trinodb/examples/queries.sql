@@ -4,10 +4,10 @@ SHOW CATALOGS;
 -- query schemas in "kafka" catalog, shows "formula1" schema
 SHOW SCHEMAS FROM kafka;
 
--- query tables from "kafka.formula1" schama, shows "drivers_telemetry" table
+-- query tables from "kafka.formula1" schema, shows "drivers_telemetry" table
 SHOW TABLES FROM kafka.formula1;
 
--- describe columg
+-- describe columns
 DESCRIBE kafka.formula1.drivers_telemetry;
 
 SELECT COUNT(*) FROM kafka.formula1.drivers_telemetry;
@@ -28,11 +28,21 @@ FROM (
 GROUP BY drivershortname ORDER BY avgspeed DESC;
 
 -- drivers order (top 10) per lap processing the grouping per driver with the max distance
--- also generate a new column as position based on the order of the maxdistance
+-- also generate a new column as position based on the order of the max distance
 SELECT drivershortname, maxdistance, row_number() OVER (ORDER BY maxdistance DESC) AS position
 FROM (
     SELECT drivershortname, max(distance) AS maxdistance
     FROM kafka.formula1.drivers_telemetry WHERE lap = 1
+    GROUP BY drivershortname
+    )
+ORDER BY position ASC LIMIT 10;
+
+-- drivers order (top 10) processing the grouping per driver with the max total distance
+-- also generate a new column as position based on the order of the max total distance
+SELECT drivershortname, maxtotaldistance, row_number() OVER (ORDER BY maxtotaldistance DESC) AS position
+FROM (
+    SELECT drivershortname, max(totaldistance) AS maxtotaldistance
+    FROM kafka.formula1.drivers_telemetry
     GROUP BY drivershortname
     )
 ORDER BY position ASC LIMIT 10;
