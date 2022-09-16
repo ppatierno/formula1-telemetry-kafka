@@ -8,12 +8,12 @@
             {
                 "name": "lap",
                 "mapping": "lap",
-                "type": "BIGINT"
+                "type": "TINYINT"
             },
             {
                 "name": "speed",
                 "mapping": "speed",
-                "type": "BIGINT"
+                "type": "SMALLINT"
             },
             {
                 "name": "throttle",
@@ -28,27 +28,27 @@
             {
                 "name": "gear",
                 "mapping": "gear",
-                "type": "BIGINT"
+                "type": "TINYINT"
             },
             {
                 "name": "drs",
                 "mapping": "drs",
-                "type": "BIGINT"
+                "type": "BOOLEAN"
             },
             {
                 "name": "driverHashtag",
                 "mapping": "driverHashtag",
-                "type": "VARCHAR"
+                "type": "VARCHAR(5)"
             },
             {
                 "name": "driverShortName",
                 "mapping": "driverShortName",
-                "type": "VARCHAR"
+                "type": "VARCHAR(3)"
             },
             {
                 "name": "rpm",
                 "mapping": "rpm",
-                "type": "BIGINT"
+                "type": "SMALLINT"
             },
             {
                 "name": "distance",
