@@ -8,57 +8,68 @@
             {
                 "name": "lap",
                 "mapping": "lap",
-                "type": "TINYINT"
+                "type": "TINYINT",
+                "comment": "Current lap"
             },
             {
                 "name": "speed",
                 "mapping": "speed",
-                "type": "SMALLINT"
+                "type": "SMALLINT",
+                "comment": "Current speed"
             },
             {
                 "name": "throttle",
                 "mapping": "throttle",
-                "type": "DOUBLE"
+                "type": "DOUBLE",
+                "comment": "Percentage of throttle"
             },
             {
                 "name": "brake",
                 "mapping": "brake",
-                "type": "DOUBLE"
+                "type": "DOUBLE",
+                "comment": "Percentage of brake"
             },
             {
                 "name": "gear",
                 "mapping": "gear",
-                "type": "TINYINT"
+                "type": "TINYINT",
+                "comment": "Current gear"
             },
             {
                 "name": "drs",
                 "mapping": "drs",
-                "type": "BOOLEAN"
+                "type": "BOOLEAN",
+                "comment": "DRS enabled"
             },
             {
                 "name": "driverHashtag",
                 "mapping": "driverHashtag",
-                "type": "VARCHAR(5)"
+                "type": "VARCHAR(5)",
+                "comment": "Driver hashtag"
             },
             {
                 "name": "driverShortName",
                 "mapping": "driverShortName",
-                "type": "VARCHAR(3)"
+                "type": "VARCHAR(3)",
+                "comment": "Driver short name"
             },
             {
                 "name": "rpm",
                 "mapping": "rpm",
-                "type": "SMALLINT"
+                "type": "SMALLINT",
+                "comment": "Current engine rpm"
             },
             {
                 "name": "distance",
                 "mapping": "distance",
-                "type": "DOUBLE"
+                "type": "DOUBLE",
+                "comment": "Distance in the current lap so far"
             },
             {
                 "name": "totalDistance",
                 "mapping": "totalDistance",
-                "type": "DOUBLE"
+                "type": "DOUBLE",
+                "comment": "Distance across the entire race so far"
             }
         ]
     }
