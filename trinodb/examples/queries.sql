@@ -32,6 +32,18 @@ SELECT drivershortname, round(max(speed),2) AS maxspeed
 FROM kafka.formula1.drivers_telemetry
 GROUP BY drivershortname ORDER BY maxspeed DESC;
 
+-- max speed with corresponding avg rpm
+SELECT avgrpmtable.drivershortname, speed, round(avg(rpm), 2) as avgrpm
+FROM kafka.formula1.drivers_telemetry AS avgrpmtable
+    JOIN (
+        SELECT drivershortname, round(max(speed),2) AS maxspeed
+        FROM kafka.formula1.drivers_telemetry
+        GROUP BY drivershortname
+        ) AS maxspeedtable
+    ON avgrpmtable.speed = maxspeedtable.maxspeed AND avgrpmtable.drivershortname = maxspeedtable.drivershortname
+GROUP BY avgrpmtable.drivershortname, speed
+ORDER BY speed DESC;
+
 -- drivers order (top 10) per lap processing the grouping per driver with the max distance
 -- also generate a new column as position based on the order of the max distance
 SELECT drivershortname, maxdistance, row_number() OVER (ORDER BY maxdistance DESC) AS position
