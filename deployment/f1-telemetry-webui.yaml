@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: f1-telemetry-webui
-          image: ppatierno/f1-telemetry-webui:1.0-SNAPSHOT
+          image: quay.io/ppatierno/f1-telemetry-webui:1.0-SNAPSHOT
           imagePullPolicy: IfNotPresent
           env:
             - name: KAFKA_BOOTSTRAP_SERVERS
