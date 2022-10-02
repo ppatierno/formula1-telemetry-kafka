@@ -64,7 +64,7 @@ kubectl -n f1-telemetry apply -f deployment/f1-telemetry-streams-avg-speed.yaml
 ## Run the F1 Telemetry UDP to Apache Kafka locally
 
 The UDP to Apache Kafka application has to run locally or anyway within the same network where the F1 2020 game is running (on your preferred console, i.e. Xbox).
-First of all, set the environment variables to configure the applications with the bootstrap servers address and the TLS truststore for accessing the Apache Kafka cluster via TLS.
+First, set the environment variables to configure the applications with the bootstrap servers address, and the TLS truststore for accessing the Apache Kafka cluster via TLS.
 
 ```shell
 export KAFKA_BOOTSTRAP_SERVERS=$(kubectl -n f1-telemetry get kafka my-cluster -o=jsonpath='{.status.listeners[?(@.type=="external")].bootstrapServers}{"\n"}')

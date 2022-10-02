@@ -6,7 +6,7 @@
 This project aims to use Apache Kafka in order to ingest Formula 1 telemetry data from the F1 202x game (by CodeMasters/EA Sports) running on Microsoft Xbox.
 It uses different products, projects and technologies:
 
-* **[F1 202x games (by CodeMasters)](https://www.codemasters.com/category/f1-games/)** for getting the telemetry data via UDP;
+* **[F1 202x games (by CodeMasters/EA Sports)](https://www.ea.com/en-gb/games/f1)** for getting the telemetry data via UDP;
 * **[Apache Camel](https://camel.apache.org/)** project for routing telemetry events from UDP to Apache Kafka and to InfluxDB;
 * **[Apache Kafka](https://kafka.apache.org/)** as the core project for ingesting the telemetry events on different topics;
 * **[Kubernetes](https://kubernetes.io/)** for deploying most of the components to run in the cloud;
@@ -38,7 +38,7 @@ You can also find some material from conference presentations:
 
 In order to ingest the telemetry events into Apache Kafka, the Apache Camel project is used with:
 
-* a route getting the raw UDP packets from the F1 202x game (by CodeMasters) on Microsoft Xbox and dispatching these events to three more routes;
+* a route getting the raw UDP packets from the F1 202x game (by CodeMasters/EA Sports) on Microsoft Xbox and dispatching these events to three more routes;
     * a route just forwarding the raw UDP packets to a corresponding Apache Kafka topic;
     * a route to filter only the `EVENT` type raw UDP packets and forwarding them to a corresponding Apache Kafka topic;
     * a route to aggregate the raw UDP packets data for producing drivers related data and forwarding them to a corresponding Apache Kafka topic;
@@ -70,7 +70,7 @@ In order to provide the telemetry data to Grafana dashboards, InfluxDB is used a
 
 ## Repository structure
 
-Contains different components for ingesting and handling Formula 1 202x game (by CodeMasters) telemetry data through Apache Kafka.
+Contains different components for ingesting and handling Formula 1 202x game (by CodeMasters/EA Sports) telemetry data through Apache Kafka.
 
 * **udp-kafka**: Apache Camel application bridging the telemetry packets got on UDP from the Formula 1 202x game to Apache Kafka to different topics:
     * _f1-telemetry-packets_ contains the raw `Packet`(s);
@@ -82,6 +82,7 @@ Contains different components for ingesting and handling Formula 1 202x game (by
 * **common**: common library providing model classes and related Apache Kafka serializer/deserializer;
 * **kafka-influxdb**: Apache Camel application writing driver/car's telemetry data  to InfluxDB as time series; 
 * **webui**: A sample Web application showing the race ranking in real time getting `Driver`(s) from Apache Kafka;
+* **streams-processing**: Apache Kafka Streams API based application getting raw `Driver`(s) and extracting some telemetry in JSON format;
 * **dashboard**: folder containing Grafana dashboard showing driver/car's telemetry data;
 * **deployment**: folder containing Kubernetes deployments for all the provided applications;
 * **documentation**: folder containing documentation about how to deploy the entire solution;
