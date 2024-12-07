@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 public class F1WebUIApp {
 
-    private static Logger log = LoggerFactory.getLogger(F1WebUIApp.class);
+    private static final Logger log = LoggerFactory.getLogger(F1WebUIApp.class);
 
     public static void main(String[] args) {
         log.info("Season {}", PacketConfig.getSeason());

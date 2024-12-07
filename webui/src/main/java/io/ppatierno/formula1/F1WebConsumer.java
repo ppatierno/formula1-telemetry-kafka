@@ -17,11 +17,11 @@ import java.util.Properties;
 
 public class F1WebConsumer {
 
-    private static Logger log = LoggerFactory.getLogger(F1WebConsumer.class);
+    private static final Logger log = LoggerFactory.getLogger(F1WebConsumer.class);
 
-    private Vertx vertx;
-    private KafkaConsumer<String, Driver> consumer;
-    private F1WebUIAppConfig config;
+    private final Vertx vertx;
+    private final KafkaConsumer<String, Driver> consumer;
+    private final F1WebUIAppConfig config;
 
     public F1WebConsumer(Vertx vertx, F1WebUIAppConfig config) {
         this.vertx = vertx;

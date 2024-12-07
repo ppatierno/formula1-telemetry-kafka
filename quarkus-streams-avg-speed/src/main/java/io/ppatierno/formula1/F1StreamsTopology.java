@@ -40,7 +40,7 @@ import org.jboss.logging.Logger;
 @ApplicationScoped
 public class F1StreamsTopology {
 
-    private static Logger log = Logger.getLogger(F1StreamsTopology.class.getName());
+    private static final Logger log = Logger.getLogger(F1StreamsTopology.class.getName());
 
     @ConfigProperty(name = "formula1.telemetry.input-topic")
     String inputTopic;

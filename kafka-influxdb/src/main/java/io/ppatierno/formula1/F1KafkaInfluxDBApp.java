@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 public class F1KafkaInfluxDBApp {
 
-    private static Logger log = LoggerFactory.getLogger(F1KafkaInfluxDBApp.class);
+    private static final Logger log = LoggerFactory.getLogger(F1KafkaInfluxDBApp.class);
 
     public static void main(String[] args) throws Exception {
         log.info("Season {}", PacketConfig.getSeason());

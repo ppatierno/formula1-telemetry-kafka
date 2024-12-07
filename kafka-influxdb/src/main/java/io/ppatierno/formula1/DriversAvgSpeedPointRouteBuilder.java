@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class DriversAvgSpeedPointRouteBuilder extends RouteBuilder {
 
     private final F1KafkaInfluxDBAppConfig config;
-    private KafkaEndpoint kafkaEndpoint;
+    private final KafkaEndpoint kafkaEndpoint;
 
     public DriversAvgSpeedPointRouteBuilder(F1KafkaInfluxDBAppConfig config) {
         this.config = config;

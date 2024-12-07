@@ -24,7 +24,7 @@ public class EventsRouteBuilder extends RouteBuilder  {
 
     private final F1UdpKafkaAppConfig config;
     private final Session session;
-    private KafkaEndpoint kafkaEndpoint;
+    private final KafkaEndpoint kafkaEndpoint;
 
     public EventsRouteBuilder(F1UdpKafkaAppConfig config, Session session) {
         this.config = config;

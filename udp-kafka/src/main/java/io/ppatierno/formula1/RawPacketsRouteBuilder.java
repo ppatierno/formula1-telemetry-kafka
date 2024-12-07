@@ -17,7 +17,7 @@ import io.ppatierno.formula1.camel.KafkaEndpoint.KafkaEndpointBuilder;
 public class RawPacketsRouteBuilder extends RouteBuilder {
 
     private final F1UdpKafkaAppConfig config;
-    private KafkaEndpoint kafkaEndpoint;
+    private final KafkaEndpoint kafkaEndpoint;
 
     public RawPacketsRouteBuilder(F1UdpKafkaAppConfig config) {
         this.config = config;

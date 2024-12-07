@@ -25,12 +25,12 @@ import java.util.List;
  */
 public class DriversRouteBuilder extends RouteBuilder {
 
-    private static Logger log = LoggerFactory.getLogger(DriversRouteBuilder.class);
+    private static final Logger log = LoggerFactory.getLogger(DriversRouteBuilder.class);
 
-    private static int AGGREGATION_COMPLETION_TIMEOUT = 10000;
+    private static final int AGGREGATION_COMPLETION_TIMEOUT = 10000;
 
     private final F1UdpKafkaAppConfig config;
-    private KafkaEndpoint kafkaEndpoint;
+    private final KafkaEndpoint kafkaEndpoint;
 
     public DriversRouteBuilder(F1UdpKafkaAppConfig config) {
         this.config = config;

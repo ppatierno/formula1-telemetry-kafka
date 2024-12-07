@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 public class DriversPointRouteBuilder extends RouteBuilder {
 
     private final F1KafkaInfluxDBAppConfig config;
-    private KafkaEndpoint kafkaEndpoint;
+    private final KafkaEndpoint kafkaEndpoint;
 
     public DriversPointRouteBuilder(F1KafkaInfluxDBAppConfig config) {
         this.config = config;

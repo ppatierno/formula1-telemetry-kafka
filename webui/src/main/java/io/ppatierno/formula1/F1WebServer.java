@@ -16,9 +16,9 @@ import org.slf4j.LoggerFactory;
 
 public class F1WebServer extends AbstractVerticle {
 
-    private static Logger log = LoggerFactory.getLogger(F1WebServer.class);
+    private static final Logger log = LoggerFactory.getLogger(F1WebServer.class);
 
-    private F1WebUIAppConfig config;
+    private final F1WebUIAppConfig config;
 
     public F1WebServer(F1WebUIAppConfig config) {
         this.config = config;
