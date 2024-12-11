@@ -58,4 +58,16 @@ public class Telemetry {
     public float getTotalDistance() {
         return this.driver.getLapData().getTotalDistance();
     }
+
+    public int getBestOverallSector1TimeInMS() {
+        return this.driver.getLapData().getBestOverallSector1TimeInMS();
+    }
+
+    public int getBestOverallSector2TimeInMS() {
+        return this.driver.getLapData().getBestOverallSector2TimeInMS();
+    }
+
+    public int getBestOverallSector3TimeInMS() {
+        return this.driver.getLapData().getBestOverallSector3TimeInMS();
+    }
 }
