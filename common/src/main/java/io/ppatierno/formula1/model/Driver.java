@@ -25,8 +25,8 @@ public class Driver {
     private CarStatusData carStatusData;
     private FinalClassificationData finalClassificationData;
 
-    private String hashtag;
-    private String shortName;
+    private final String hashtag;
+    private final String shortName;
 
     public Driver(ParticipantData participantData) {
         this.participantData = participantData;
