@@ -19,10 +19,10 @@ import java.util.concurrent.TimeUnit;
 
 public class F1ConsumerApp {
 
-    private static Logger log = LoggerFactory.getLogger(F1ConsumerApp.class);
+    private static final Logger log = LoggerFactory.getLogger(F1ConsumerApp.class);
 
     private ExecutorService executorService;
-    private F1ConsumerAppConfig config;
+    private final F1ConsumerAppConfig config;
 
     private F1Consumer<String, Driver> f1DriverConsumer;
     private F1Consumer<String, Event> f1EventConsumer;

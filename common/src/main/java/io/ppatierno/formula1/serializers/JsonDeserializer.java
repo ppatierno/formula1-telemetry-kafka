@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class JsonDeserializer<T> implements Deserializer<T> {
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
     private Class<T> type;
 
     public JsonDeserializer() {

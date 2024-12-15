@@ -17,9 +17,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class F1Consumer<K, V> implements Runnable {
 
-    private Logger log = LoggerFactory.getLogger(F1ConsumerApp.class);
+    private final Logger log = LoggerFactory.getLogger(F1Consumer.class);
 
-    private AtomicBoolean consuming = new AtomicBoolean(true);
+    private final AtomicBoolean consuming = new AtomicBoolean(true);
     private final Properties props;
     private final Collection<String> topics;
 
