@@ -34,8 +34,7 @@ public class EventDeserializer implements Deserializer<Event> {
         if (bytes.length > PacketEventData.SIZE) {
             participantData = new ParticipantData().fill(bb);
         }
-        Event event = new Event(participantData, (PacketEventData) new PacketEventData().fill(bb));
-        return event;
+        return new Event(participantData, (PacketEventData) new PacketEventData().fill(bb));
     }
 
     @Override
