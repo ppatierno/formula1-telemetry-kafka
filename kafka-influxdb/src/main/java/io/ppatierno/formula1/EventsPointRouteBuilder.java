@@ -56,7 +56,7 @@ public class EventsPointRouteBuilder extends RouteBuilder {
 
             Event event = (Event) exchange.getIn().getBody();
 
-            Point point = null;
+            Point point;
             switch (event.getEventData().getEventCode()) {
                 case FASTEST_LAP:
                     FastestLap fastestLap = event.getEventData().getEventDataDetails().getFastestLap();
